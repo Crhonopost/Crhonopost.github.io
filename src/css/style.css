@@ -1,0 +1,33 @@
+html{
+    height:100%;
+    background-color: #2b3b35;
+}
+nav{
+    height: 100%;
+    width: 150px;
+    position: fixed;
+    left: 0px;
+    top: 0px;
+    background-color: aliceblue;
+}
+
+nav *{
+    padding: 50px;
+}
+
+main{
+    padding-left: 150px;
+    width: 100%;
+}
+
+.bulle{
+    background-color: #EE5862;
+}
+
+.section{
+    min-height: 100vh;
+}
+
+#section1{
+    background-color: aqua;
+}
