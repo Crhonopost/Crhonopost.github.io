@@ -5,14 +5,10 @@ let sectionIdx = 0;
 
 let previousPosY = 0;
 let scrollForce = 0;
-let scrollDirection = 0;
 function scrollHandler(){
     manageScrollForce();
-    //console.log(scrollDirection);
-    
-    if(fullInView(listSections[sectionIdx]) || (scrollForce>0 && sectionIdx===listSections.length-1)){
-    }
-    else{
+
+    if(!fullInView(listSections[sectionIdx])){// && (sectionIdx!==listSections.length-1 && scrollForce<0)){
         adjustScoll();
     }
 }
@@ -26,13 +22,6 @@ function fullInView(element){
 
 function manageScrollForce(){
     scrollForce += (document.documentElement.scrollTop - previousPosY);
-
-    if(document.documentElement.scrollTop - previousPosY > 0){
-        scrollDirection = 1;
-    }
-    else{
-        scrollDirection = -1
-    }
 
     if(scrollForce > 200){
         scrollForce = 0;
@@ -50,7 +39,8 @@ function manageScrollForce(){
 }
 
 function adjustScoll(){
-    listSections[sectionIdx].scrollIntoView();
+    let smoothY = lerp(0, listSections[sectionIdx].getBoundingClientRect().top, 0.15);
+    scrollTo(0,document.documentElement.scrollTop + smoothY);
     previousPosY = document.documentElement.scrollTop;
 }
 
@@ -71,4 +61,11 @@ function playFalling(nb){
         let r = Math.random() * width;
         addFallingAnimation(r, 50 + height, height/10);
     }
+}
+function resetFalling(){
+    $$("topToDown").remove();
+}
+
+function lerp(a, b, x){
+    return a + (b-a) * x;
 }

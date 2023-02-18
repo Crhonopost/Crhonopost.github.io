@@ -9,7 +9,6 @@ nav{
     left: 0px;
     top: 0px;
     background-color: aliceblue;
-    visibility: hidden;
 }
 
 nav *{
@@ -25,10 +24,6 @@ main{
     min-height: 100vh;
 }
 
-#section1{
-    background-color: aqua;
-}
-
 #apropos{
     background-color: white;
     width: 650px;
@@ -37,10 +32,27 @@ main{
 
 #section2{
     height: 120vh;
+    background-color: aqua;
+    padding: 10px;
+    padding-top: 20%;
+}
+
+
+.between_section{
+    height: 100px;
+    width: 100%;
+}
+
+
+.projet_illustration{
+    position: static;
+    right: 10px;
+    width: 40%;
 }
 
 footer{
     background-color: black;
+    color: white;
     height: 50px;
 }
 
