@@ -1,76 +1,105 @@
 html{
-    height:100%;
-    background-color: #2b3b35;
+    --text: "black";
+    --text-variant:#424874;
+    --ongl:#022B3A;
+    --bg: #E1E5F2;
+    --bg-variant: #B4CFCC;
+
+    background-color: var(--bg);
+    font-family: 'Roboto', sans-serif;
 }
 nav{
+    position: fixed;
     height: 100%;
     width: 150px;
-    position: fixed;
     left: 0px;
     top: 0px;
-    background-color: aliceblue;
+    background-color: var(--ongl);
 }
 
-nav *{
-    padding: 50px;
+nav a{
+    text-decoration: none;
+    color: var(--text-variant);
+}
+
+nav a:hover{
+    color: var(--text);
 }
 
 main{
-    padding-left: 150px;
     width: 100%;
+}
+main > *{
+    padding-left: 150px;
 }
 
 .section{
     min-height: 100vh;
 }
 
+.between_section{
+    background-color: var(--bg-variant);
+    height: 100px;
+    width: 100%;
+}
+
 #apropos{
-    background-color: white;
+    display: flex;
+    justify-content: center;
+}
+
+#nom{
+    color: var(--text);
+    margin-top: 250px;
+    position: absolute;
+}
+
+#texte_presentation{
+    border: 1px solid;
+    position: absolute;
+    margin-top: 30%;
+    
+    border-radius: 0.5cm;
     width: 650px;
     text-align: center;
 }
 
 #section2{
     height: 120vh;
-    background-color: aqua;
-    padding: 10px;
     padding-top: 20%;
-}
-
-
-.between_section{
-    height: 100px;
-    width: 100%;
+    background-color: var(--bg-variant);
 }
 
 
 .projet_illustration{
-    position: static;
-    right: 10px;
     width: 40%;
 }
 
 footer{
-    background-color: black;
-    color: white;
+    background-color: var(--ongl);
+    color: var(--text-variant);
     height: 50px;
 }
 
 @keyframes falling {
-    from {
+    0% {
         top: -100px;
         visibility: visible;
     }
-    to {
-        top: 100px;
+    25%{
+        top: 60px;
+        opacity: 1;
+    }
+    50%{
         opacity: 0;
     }
 }
 
 .topToDown{
+    border-radius: 1cm;
     height: 100px;
     width: 20px;
-    background-color: aliceblue;
+    background-color: var(--text);
     position: fixed;
     animation-name: falling;
     animation-duration: 1s;

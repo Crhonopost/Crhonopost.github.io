@@ -1,6 +1,6 @@
 document.addEventListener('scroll', scrollHandler);
 
-let listSections = [document.getElementById("section1"), document.getElementById("section2")];
+let listSections = document.querySelectorAll(".section");// [document.getElementById("apropos"), document.getElementById("section2")];
 let sectionIdx = 0;
 
 let previousPosY = 0;
@@ -8,7 +8,10 @@ let scrollForce = 0;
 function scrollHandler(){
     manageScrollForce();
 
-    if(!fullInView(listSections[sectionIdx])){// && (sectionIdx!==listSections.length-1 && scrollForce<0)){
+    if(fullInView(listSections[sectionIdx])){// && (sectionIdx!==listSections.length-1 && scrollForce<0)){
+        scrollForce=0;
+    }
+    else{
         adjustScoll();
     }
 }

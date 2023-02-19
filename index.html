@@ -1,18 +1,23 @@
 <!DOCTYPE html>
-<html>
-    <meta charset="utf-8">
+<html lang="fr">
     <head>
+        <meta charset="utf-8">
         <title>PortoFolio</title>
+        <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="stylesheet" href="src/css/style.css">
     </head>
     <body>
+        <script defer src="src/js/scroll.js"></script>
         <nav>
             <p><a href="canvaTest.html">content</a></p>
         </nav>
 
         <main>
-            <div class="section" id="section1">
-                <div id="apropos">
+            <div class="section" id="accueil">
+                <h3 id="nom">Nathan Souvignet</h3>
+            </div>
+            <div class="section" id="apropos">
+                <div id="texte_presentation">
                     <h1>Salut!</h1>
                     <p>
                         Lorem ipsum dolor sit amet, consectetur adipiscing elit, 
@@ -35,14 +40,13 @@
 
             <div class="section" id="section2">
                 <div class="project">
-                    <img class="projet_illustration" id="illustration1" src="src/img/projets/RichVote_main.png">
+                    <img alt="illustration RichVote" class="projet_illustration" id="illustration1" src="src/img/projets/RichVote_main.png">
                 </div>
             </div>
-            <script src="src/js/scroll.js" type="text/javascript"></script>
         </main>
-    </body>
 
-    <footer>
-        <p>haha je suis le pied</p>
-    </footer>
+        <footer>
+            <p>haha je suis le pied</p>
+        </footer>
+    </body>
 </html>
