@@ -1,7 +1,13 @@
 document.addEventListener('scroll', scrollHandler);
 
-let listSections = document.querySelectorAll(".section");// [document.getElementById("apropos"), document.getElementById("section2")];
 let sectionIdx = 0;
+let listSections = document.querySelectorAll(".section");
+const raccourciSections = document.querySelectorAll("nav > a");
+for(let i=0; i<listSections.length; i++){
+    raccourciSections[i].addEventListener("click", function(event){
+        sectionIdx=i;
+    });
+}
 
 let previousPosY = 0;
 let scrollForce = 0;
@@ -42,7 +48,7 @@ function manageScrollForce(){
 }
 
 function adjustScoll(){
-    let smoothY = lerp(0, listSections[sectionIdx].getBoundingClientRect().top, 0.15);
+    let smoothY = lerp(0, listSections[sectionIdx].getBoundingClientRect().top, 0.05);
     scrollTo(0,document.documentElement.scrollTop + smoothY);
     previousPosY = document.documentElement.scrollTop;
 }
