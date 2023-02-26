@@ -10,12 +10,13 @@ html{
 }
 nav{
     position: fixed;
-    height: 100%;
+    background-color: red;
     width: 150px;
     left: 0px;
     top: 0px;
     display: flex;
     flex-direction: column;
+    z-index: 1;
 }
 
 nav a{
@@ -30,18 +31,12 @@ nav a:hover{
 main{
     width: 100%;
 }
-main > *{
-    padding-left: 150px;
-}
 
 .section{
     min-height: 100vh;
     width: 100%;
     clip-path: inset(0px 0px);
     position: relative;
-}
-
-#accueil{
 }
 
 #nom{
