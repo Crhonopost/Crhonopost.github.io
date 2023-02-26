@@ -1,4 +1,4 @@
-//document.addEventListener('scroll', scrollHandler);
+document.addEventListener('scroll', scrollHandler);
 
 let sectionIdx = 0;
 const listSections = document.querySelectorAll(".section");
@@ -98,7 +98,7 @@ class CameraHandler{
         let currentTime = performance.now();
         console.log(this.animationType);
         if(this.animationType !== "direct" && currentTime-this.startTime < this.timeout){
-            let smoothY = lerp(this.previousPosY, this.targetY, 0.25);
+            let smoothY = lerp(this.previousPosY, this.targetY, 0.5);
             scrollTo(0, smoothY);
             this.previousPosY = smoothY;
             console.log(this.startTime);

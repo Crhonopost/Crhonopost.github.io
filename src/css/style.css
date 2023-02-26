@@ -36,33 +36,27 @@ main > *{
 
 .section{
     min-height: 100vh;
-}
-
-.between_section{
-    background-color: var(--bg-variant);
-    height: 100px;
     width: 100%;
+    clip-path: inset(0px 0px);
+    position: relative;
 }
 
-#apropos{
-    display: flex;
-    justify-content: center;
+#accueil{
 }
 
 #nom{
     color: var(--text);
     margin-top: 250px;
-    position: absolute;
+    position: fixed;
+}
+
+#apropos{
+    background-color: blue;
 }
 
 #texte_presentation{
-    border: 1px solid;
-    position: absolute;
-    margin-top: 30%;
-    
-    border-radius: 0.5cm;
-    width: 650px;
-    text-align: center;
+    transform: translateY(-100vh);    
+    position: fixed;
 }
 
 #projets{
