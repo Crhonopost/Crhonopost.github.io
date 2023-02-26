@@ -1,37 +1,30 @@
-document.addEventListener('scroll', scrollHandler);
+document.addEventListener('wheel', scrollHandler);
 
 let sectionIdx = 0;
 const listSections = document.querySelectorAll(".section");
 const raccourciSections = document.querySelectorAll("nav > a");
 for(let i=0; i<listSections.length; i++){
     raccourciSections[i].addEventListener("click", function(event){
-        console.log(i);
         changeCurrentSection(i);
     });
 }
 
 let previousPosY = 0;
 let scrollForce = 0;
-function scrollHandler(){
-    manageScrollForce();
+function scrollHandler(eventWheel){
+    manageScrollForce(eventWheel.deltaY);
 
-    if(fullInView(listSections[sectionIdx])){// && (sectionIdx!==listSections.length-1 && scrollForce<0)){
+    if(Utils.fullInView(listSections[sectionIdx])){// || (sectionIdx===2 && scrollForce>0)){
         scrollForce=0;
+        Camera.stopAdjust();
     }
     else{
-        adjustScoll();
+        Camera.startAdjust();
     }
 }
 
-
-function fullInView(element){
-    const rect = element.getBoundingClientRect();
-
-    return rect.top<0 && rect.bottom>(window.innerHeight);
-}
-
-function manageScrollForce(){
-    scrollForce += (document.documentElement.scrollTop - previousPosY);
+function manageScrollForce(scrollAmount){
+    scrollForce += scrollAmount;
 
     if(scrollForce > 200){
         scrollForce = 0;
@@ -51,86 +44,33 @@ function changeCurrentSection(newIndex){
     raccourciSections[sectionIdx].style.backgroundColor = "";
     raccourciSections[newIndex].style.backgroundColor = "blue";
     sectionIdx = newIndex;
+    Camera.setTargetY(listSections[sectionIdx].getBoundingClientRect().top + window.scrollY);
 }
 
-function adjustScoll(){
-    let smoothY = lerp(0, listSections[sectionIdx].getBoundingClientRect().top, 0.05);
-    scrollTo(0,document.documentElement.scrollTop + smoothY);
-    previousPosY = document.documentElement.scrollTop;
-}
+class Camera{
+    // use methods to move the camera in a static context
+    static cameraId = null;
+    static targetY = 0;
 
-function adjustPosition(targetY, type, duration){
-    if(type === 'decrease'){
-        adjustDecrease(document.documentElement.scrollTop, targetY, performance.now(), duration*1000);
-    }
-}
 
-function adjustDecrease(previousPosY, targetY, startTime, timeout){
-    let smoothY = lerp(previousPosY, targetY, 0.25);
-    console.log(smoothY);
-    scrollTo(0, smoothY);
-    console.log(startTime)
-    if(performance.now() - startTime < timeout){
-        console.log("alo");
-        setTimeout(function(){adjustDecrease(smoothY, targetY, startTime, timeout)}, 10);
-    }
-}
-
-class CameraHandler{
-    constructor(){
-        this.animationType = "direct";
-        this.targetY = 0;
-        this.previousPosY = 0;
-        this.startTime = performance.now();
-        this.timeout = 0;
-    }
-
-    startAnimate(animationType, from, to, duration){
-        this.animationType = animationType;
-        this.previousPosY = from;
-        this.targetY = to;
-        this.startTime = performance.now();
-        this.timeout = duration * 1000;
-        this.id = setInterval(this.animate, 10);
-    }
-
-    animate(){
-        let currentTime = performance.now();
-        console.log(this.animationType);
-        if(this.animationType !== "direct" && currentTime-this.startTime < this.timeout){
-            let smoothY = lerp(this.previousPosY, this.targetY, 0.5);
-            scrollTo(0, smoothY);
-            this.previousPosY = smoothY;
-            console.log(this.startTime);
-        }
-        else{
-            clearInterval(this.id);
+    static startAdjust(){
+        if(Camera.cameraId === null){
+            Camera.adjust();
         }
     }
-}
+    static adjust(){
+        let smoothY = Utils.lerp(document.documentElement.scrollTop, Camera.targetY, 0.05);
 
-
-function addFallingAnimation(x, height, speed){
-    let element = document.createElement("div");
-    element.className = "topToDown";
-    element.style.left = x + "px";
-    element.style.animationDuration = speed + "s";
-    element.style.height = height + "px";
-    document.body.appendChild(element);
-}
-
-function playFalling(nb){
-    let width = document.documentElement.clientWidth;
-    for(let i=0; i<nb; i++){
-        let height = 10 + Math.random() * 30;
-        let r = Math.random() * width;
-        addFallingAnimation(r, 50 + height, height/10);
+        scrollTo(0, smoothY);
+        Camera.cameraId = requestAnimationFrame(Camera.adjust);
     }
-}
-function resetFalling(){
-    $$("topToDown").remove();
-}
 
-function lerp(a, b, x){
-    return a + (b-a) * x;
+    static stopAdjust(){
+        cancelAnimationFrame(Camera.cameraId);
+        Camera.cameraId = null;
+    }
+
+    static setTargetY(newTargetY){
+        Camera.targetY = newTargetY;
+    }
 }
