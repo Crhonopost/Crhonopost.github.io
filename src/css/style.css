@@ -9,6 +9,7 @@ html{
     font-family: 'Roboto', sans-serif;
 }
 nav{
+    visibility: hidden;
     position: fixed;
     background-color: red;
     width: 150px;
@@ -60,6 +61,13 @@ main{
     background-color: var(--bg-variant);
 }
 
+
+.project:hover .project_hovered{
+    visibility: visible;
+}
+.project_hovered{
+    visibility: hidden;
+}
 
 .projet_illustration{
     width: 40%;
