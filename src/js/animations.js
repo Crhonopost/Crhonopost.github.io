@@ -1,6 +1,19 @@
 let animations = [["#RichVote", "fromLeft"]];
 
+for(let i=0; i<animations.length; i++){
+    animations[i][0] = document.querySelector(animations[i][0]);
+}
 
+function manageAnimations(){
+    animations.forEach(animation => {
+        if(Utils.inView(animation[0])){
+            animation[0].classList.add(animation[1]);
+            console.log("add");
+        }
+    });
+}
+
+document.addEventListener("scroll", manageAnimations);
 
 
 
