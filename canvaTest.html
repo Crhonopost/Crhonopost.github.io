@@ -3,19 +3,34 @@
     <meta charset="utf-8">
     <head>
         <title>PortoFolio</title>
+        <script src="https://pixijs.download/v6.x/pixi.js"></script>
+
+        <script id="mainFragmentShader" type="shader">
+            uniform sampler2D iChannel;
+            varying vec2 vTextureCoord;
+
+            void main(){
+                gl_FragColor = texture2D(iChannel, vTextureCoord);
+            }
+        </script>
+        <script id="diffusionShader" type="shader">
+            uniform sampler2D iChannel;
+            varying vec2 vTextureCoord;
+
+            void main(){
+                vec4 color = texture2D(iChannel, vTextureCoord);
+                color.r += 0.01;
+                gl_FragColor = color;
+            }
+        </script>
     </head>
     <body>
         <nav>
         </nav>
 
         <main>
-            <canvas width="400" height="400" style="background-color: black;">
-                ca ne marche po
-            </canvas>
-            <p id="fps">fps</p>
-
         </main>
     </body>
 </html>
 
-<script type="text/javascript" src="src/js/fluid/fluid.js"></script>
+<script defer type="text/javascript" src="src/js/fluid/FluidRenderer.js"></script>

@@ -23,6 +23,7 @@ function scrollHandler(eventWheel){
     }
 }
 
+// manage the scroll force to change the current section
 function manageScrollForce(scrollAmount){
     scrollForce += scrollAmount;
 
