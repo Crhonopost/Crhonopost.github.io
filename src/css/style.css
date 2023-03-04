@@ -79,12 +79,26 @@ main{
 }
 
 #apropos{
-    background-color: blue;
+    background-color: #FF86FF;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 #texte_presentation{
-    transform: translateY(-100vh);    
     position: fixed;
+    top: 0px;
+    height: 80%;
+    text-align: center;
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+#texte_presentation p{
+    width: 700px;
 }
 
 
