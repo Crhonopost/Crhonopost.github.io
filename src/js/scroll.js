@@ -2,7 +2,7 @@ document.addEventListener('wheel', scrollHandler);
 
 let sectionIdx = 0;
 const listSections = document.querySelectorAll(".section");
-const raccourciSections = document.querySelectorAll("nav > a");
+const raccourciSections = document.querySelectorAll("nav a");
 for(let i=0; i<listSections.length; i++){
     raccourciSections[i].addEventListener("click", function(event){
         changeCurrentSection(i);
@@ -42,10 +42,18 @@ function manageScrollForce(scrollAmount){
 }
 
 function changeCurrentSection(newIndex){
-    raccourciSections[sectionIdx].style.backgroundColor = "";
-    raccourciSections[newIndex].style.backgroundColor = "blue";
+    select(raccourciSections[newIndex]);
+    deselect(raccourciSections[sectionIdx]);
     sectionIdx = newIndex;
     Camera.setTargetY(listSections[sectionIdx].getBoundingClientRect().top + window.scrollY);
+}
+function select(element){
+    element.classList.remove("unselected");
+    element.classList.add("selected");
+}
+function deselect(element){
+    element.classList.remove("selected");
+    element.classList.add("unselected")
 }
 
 class Camera{
