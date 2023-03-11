@@ -8,7 +8,6 @@ function manageAnimations(){
     animations.forEach(animation => {
         if(Utils.inView(animation[0])){
             animation[0].classList.add(animation[1]);
-            console.log("add");
         }
     });
 }

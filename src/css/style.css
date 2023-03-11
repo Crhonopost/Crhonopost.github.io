@@ -72,9 +72,14 @@ main{
     border: white solid 1px;
 }
 
+#accueil{
+    display: flex;
+    justify-content: center;
+}
+
 #nom{
     color: var(--text);
-    margin-top: 250px;
+    /* margin-top: 250px; */
     position: fixed;
 }
 
@@ -114,7 +119,7 @@ main{
 }
 
 .project{
-    box-shadow: 0px 0px 26px #A96BDA;
+    box-shadow: 0px 0px 36px #aa6bdaab;
     transition: box-shadow 0.5s;
     width: 550px;
     height: 300px;
@@ -139,7 +144,7 @@ main{
     transition: transform 0.75s;
 }
 .project:hover{
-    box-shadow: 0px 0px 10px #A96BDA;
+    box-shadow: 0px 0px 36px #A96BDA;
 }
 .project:hover .project_panel{
     visibility: visible;

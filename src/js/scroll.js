@@ -11,29 +11,22 @@ for(let i=0; i<listSections.length; i++){
 
 let previousPosY = 0;
 let scrollForce = 0;
+let reached = true;
 function scrollHandler(eventWheel){
     manageScrollForce(eventWheel.deltaY);
-
-    if(Utils.fullInView(listSections[sectionIdx])){// || (sectionIdx===2 && scrollForce>0)){
-        scrollForce=0;
-        Camera.stopAdjust();
-    }
-    else{
-        Camera.startAdjust();
-    }
 }
 
 // manage the scroll force to change the current section
 function manageScrollForce(scrollAmount){
     scrollForce += scrollAmount;
-
-    if(scrollForce > 200){
+    
+    if(scrollForce > 0 && !Utils.fullInView(listSections[sectionIdx])){
         scrollForce = 0;
         if(sectionIdx<listSections.length-1){
             changeCurrentSection(sectionIdx+1);
         }
     }
-    else if(scrollForce < -200){
+    else if(scrollForce < 0 && !Utils.fullInView(listSections[sectionIdx]) && listSections[sectionIdx].getBoundingClientRect().top > 0){
         scrollForce = 0;
         if(sectionIdx>=1){
             changeCurrentSection(sectionIdx-1);
@@ -46,6 +39,7 @@ function changeCurrentSection(newIndex){
     deselect(raccourciSections[sectionIdx]);
     sectionIdx = newIndex;
     Camera.setTargetY(listSections[sectionIdx].getBoundingClientRect().top + window.scrollY);
+    Camera.startAdjust();
 }
 function select(element){
     element.classList.remove("unselected");
@@ -71,7 +65,13 @@ class Camera{
         let smoothY = Utils.lerp(document.documentElement.scrollTop, Camera.targetY, 0.05);
 
         scrollTo(0, smoothY);
-        Camera.cameraId = requestAnimationFrame(Camera.adjust);
+        if(Math.abs(document.documentElement.scrollTop - Camera.targetY) < 5){
+            scrollTo(0, Camera.targetY);
+            Camera.stopAdjust();
+        }
+        else{
+            Camera.cameraId = requestAnimationFrame(Camera.adjust);
+        }
     }
 
     static stopAdjust(){
