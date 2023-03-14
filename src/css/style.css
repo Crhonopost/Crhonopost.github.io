@@ -47,6 +47,28 @@ main{
     width: 100%;
 }
 
+/* #background{
+    filter: contrast(20);
+    position: absolute;
+    background-color: #5DFF00;
+    padding: 30px;
+}
+
+.dot{
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background-color: #a200ff;
+    filter: blur(15px);
+}
+
+#background :first-child{
+    animation-name: from_bottom;
+    animation-duration: 1s;
+    animation-iteration-count: infinite;
+    animation-direction: alternate;
+} */
+
 .section{
     margin-bottom: 20px;
     min-height: 100vh;
@@ -85,9 +107,13 @@ main{
 
 #apropos{
     background-color: #160D1C;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+}
+
+.sous_section{
+    padding: 20px;
+    background-color: var(--bg-variant);
+    border-radius: 10px;
+    box-shadow: #A96BDA 0px 0px 26px;
 }
 
 #texte_presentation{

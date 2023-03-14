@@ -83,3 +83,50 @@ class Camera{
         Camera.targetY = newTargetY;
     }
 }
+
+let canvas = document.getElementById("canvas");
+canvas.width = window.innerWidth;
+canvas.height = window.innerHeight;
+let ctx = canvas.getContext("2d");
+
+ctx.filter = "blur(15px) contrast(20)";
+
+
+class Circle{
+    constructor(x, y, radius, color){
+        this.x = x;
+        this.y = y;
+
+        this.direction = [0.25,0.25];
+
+        this.radius = radius;
+        this.color = color;
+    }
+
+    update(){
+        this.x += this.direction[0];
+        this.y += this.direction[1];
+    }
+
+    draw(){
+        ctx.beginPath();
+        ctx.arc(this.x, this.y, this.radius, 0, Math.PI*2);
+        ctx.fillStyle = this.color;
+        
+        ctx.fill();
+    }
+}
+
+let circle = new Circle(20, 0, 30, "white");
+let circle2 = new Circle(0, 0, 30, "white");
+
+function animate(){
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    ctx.fillStyle = "black";
+    ctx.fillRect(0, 0, canvas.width, canvas.height);
+    circle.update();
+    circle2.update();
+    circle.draw();
+    circle2.draw();
+    requestAnimationFrame(animate);
+}
