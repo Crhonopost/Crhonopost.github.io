@@ -2,15 +2,57 @@ html{
     --text: #EEF0E8;
     --text-variant:#EEF0E8;
     --ongl:#022B3A;
-    --bg: #0c070f;
+    --bg: #0F051D;
     --bg-variant: #140D1B;
 
-    background: linear-gradient(#0c070f, #140D1B);
+
+    /* background: linear-gradient(#0c070f, #140D1B); */
     font-family: 'Roboto', sans-serif;
+
+    background-color: #0F051D;
+    /* background-image: linear-gradient(to left top, #1b062e, #210a37, #280b40, #2f0c4a, #370c53); */
+
+    /* background-image: linear-gradient(to left top, #1b062e, #1f0935, #240b3c, #290b43, #2f0c4a, #320f52, #35125a, #381563, #371b6f, #33227c, #2c2989, #1e3096)*/
 }
 html p,h1{
     color: var(--text);
 }
+
+#background{
+    position: absolute;
+    background-color: #0F051D;
+    width: 100%;
+    height: 100%;
+}
+
+.spot{
+    position: absolute;
+    width: 150px;
+    height: 150px;
+    border-radius: 50%;
+    background-color: #8738C0;
+    filter: blur(150px);
+}
+
+.spot:first-child{
+    left: 30%;
+    top: 15%;
+}
+.spot:nth-child(2){
+    right: 20%;
+    top: 45%;
+}
+.spot:last-child{
+    filter: blur(250px);
+    left: 10%;
+    bottom: 0%;
+}
+
+/*
+#1B062E
+#370C53
+#617CFB
+*/
 
 nav{
     /* visibility: hidden; */
@@ -36,7 +78,7 @@ nav > div{
 
 nav a{
     text-decoration: none;
-    color: var(--text-variant);
+    color: white;
 }
 
 nav a:hover{
@@ -46,28 +88,6 @@ nav a:hover{
 main{
     width: 100%;
 }
-
-/* #background{
-    filter: contrast(20);
-    position: absolute;
-    background-color: #5DFF00;
-    padding: 30px;
-}
-
-.dot{
-    width: 50px;
-    height: 50px;
-    border-radius: 50%;
-    background-color: #a200ff;
-    filter: blur(15px);
-}
-
-#background :first-child{
-    animation-name: from_bottom;
-    animation-duration: 1s;
-    animation-iteration-count: infinite;
-    animation-direction: alternate;
-} */
 
 .section{
     margin-bottom: 20px;
@@ -97,6 +117,7 @@ main{
 #accueil{
     display: flex;
     justify-content: center;
+    clip-path: inset(0px 0px 0px 0px);
 }
 
 #nom{
@@ -105,12 +126,10 @@ main{
     position: fixed;
 }
 
-#apropos{
-    background-color: #160D1C;
-}
 
 .sous_section{
-    padding: 20px;
+    width: 200px;
+    height: 200px;
     background-color: var(--bg-variant);
     border-radius: 10px;
     box-shadow: #A96BDA 0px 0px 26px;
@@ -126,9 +145,9 @@ main{
     align-items: center;
     justify-content: center;
 
-    background-color: var(--bg-variant);
+    background-color: #0F051D;
     border-radius: 10px;
-    box-shadow: #A96BDA 0px 0px 26px;
+    /* box-shadow: #A96BDA 0px 0px 26px; */
 }
 
 #texte_presentation p{
@@ -137,14 +156,28 @@ main{
 
 
 #projets{
-    min-height: 120vh;
+    min-height: 160vh;
     /* background-color: var(--bg-variant); */
     padding-top: 200px;
     padding-left: 40px;
     padding-right: 40px;
 }
 
+.scroll_section{
+    position: fixed;
+    display: inline;
+    top: 40px;
+    width: 100%;
+    align-content: center;
+}
+
+.scroll_section .project:first-child{
+    right: 0px;
+}
+
 .project{
+    margin-left: 20%;
+    margin-bottom: 50px;
     box-shadow: 0px 0px 36px #aa6bdaab;
     transition: box-shadow 0.5s;
     width: 550px;
