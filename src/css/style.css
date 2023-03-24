@@ -48,6 +48,30 @@ html p,h1{
     bottom: 0%;
 }
 
+#nom{
+    color: #8738C0;
+    position: fixed;
+}
+
+.title::before{
+    color: rgba(0,0,0,0);
+
+    -webkit-text-stroke:1px white;
+    -webkit-text-fill-color:transparent;
+
+    font-size: 200%;
+    paint-order: stroke fill;
+
+    transform: translateY(-50%);
+    content: attr(data-text);
+    width: auto;
+    position: absolute;
+}
+
+.title::after{
+    background:linear-gradient(white 150px, transparent) ;
+}
+
 /*
 #1B062E
 #370C53
@@ -118,12 +142,6 @@ main{
     display: flex;
     justify-content: center;
     clip-path: inset(0px 0px 0px 0px);
-}
-
-#nom{
-    color: var(--text);
-    /* margin-top: 250px; */
-    position: fixed;
 }
 
 
