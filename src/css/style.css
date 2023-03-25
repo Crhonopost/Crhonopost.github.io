@@ -9,6 +9,8 @@ html{
     /* background: linear-gradient(#0c070f, #140D1B); */
     font-family: 'Roboto', sans-serif;
 
+    color: white;
+
     background-color: #0F051D;
     /* background-image: linear-gradient(to left top, #1b062e, #210a37, #280b40, #2f0c4a, #370c53); */
 
@@ -37,10 +39,12 @@ html p,h1{
 .spot:first-child{
     left: 30%;
     top: 15%;
+    animation: 10s linear 1s infinite alternate from_left;
 }
 .spot:nth-child(2){
     right: 20%;
     top: 45%;
+    animation: 8s linear 1s infinite alternate from_left;
 }
 .spot:last-child{
     filter: blur(250px);
@@ -49,27 +53,29 @@ html p,h1{
 }
 
 #nom{
-    color: #8738C0;
+    color: white;
     position: fixed;
+    border-bottom: solid white 0.5px;
+    width: 100%;
+    top: 100px;
+    left: 10px;
 }
 
 .title::before{
-    color: rgba(0,0,0,0);
+    z-index: -1;
+    width: max-content;
 
-    -webkit-text-stroke:1px white;
+    /* color: rgba(0,0,0,0); */
+
+    -webkit-text-stroke:0.5px white;
     -webkit-text-fill-color:transparent;
 
+    transform: translateY(-80%);
     font-size: 200%;
     paint-order: stroke fill;
 
-    transform: translateY(-50%);
     content: attr(data-text);
-    width: auto;
     position: absolute;
-}
-
-.title::after{
-    background:linear-gradient(white 150px, transparent) ;
 }
 
 /*
@@ -116,9 +122,15 @@ main{
 .section{
     margin-bottom: 20px;
     min-height: 100vh;
-    width: 100%;
     clip-path: inset(0px 0px);
     position: relative;
+}
+
+
+#apropos .title{
+    position: fixed;
+    top: 20px;
+    left: 20px;
 }
 
 .selected{
@@ -155,17 +167,23 @@ main{
 
 #texte_presentation{
     position: fixed;
-    top: 30%;
-    text-align: center;
+
+    top: 35%;
+
+    font-size: larger;
 
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
 
-    background-color: #0F051D;
-    border-radius: 10px;
+    /* background-color: #0F051D; */
+    /* border-radius: 10px; */
     /* box-shadow: #A96BDA 0px 0px 26px; */
+}
+
+#texte_presentation>h1{
+    padding-bottom: 5px;
+    border-bottom: solid white 0.5px;
 }
 
 #texte_presentation p{
@@ -179,6 +197,13 @@ main{
     padding-top: 200px;
     padding-left: 40px;
     padding-right: 40px;
+}
+
+#projets>a{
+    color:white;
+}
+#projets>a:visited{
+    color: white;
 }
 
 .scroll_section{
