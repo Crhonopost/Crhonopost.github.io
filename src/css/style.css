@@ -22,6 +22,7 @@ html p,h1{
 
 #background{
     position: fixed;
+    z-index: -1;
     top: 0;
     left: 0;
     background-color: #0F051D;
@@ -156,15 +157,6 @@ main{
     clip-path: inset(0px 0px 0px 0px);
 }
 
-
-.sous_section{
-    width: 200px;
-    height: 200px;
-    background-color: var(--bg-variant);
-    border-radius: 10px;
-    box-shadow: #A96BDA 0px 0px 26px;
-}
-
 #texte_presentation{
     position: fixed;
 
@@ -189,6 +181,50 @@ main{
 #texte_presentation p{
     width: 700px;
 }
+
+.onglets_apropos{
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+
+    height: 400px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+}
+
+.sous_section{
+    flex: 1 1 80px;
+    margin: 30px;
+    padding: 10px;
+}
+
+.sous_section:first-child{
+    border-top: solid white 0.5px;
+    border-left: solid white 0.5px;
+}
+
+.sous_section:nth-child(2){
+    border-bottom: solid white 0.5px;
+    border-left: solid white 0.5px;
+}
+
+.sous_section:nth-child(3){
+    border-top: solid white 0.5px;
+    border-bottom: solid white 0.5px;
+    border-right: solid white 0.5px;
+    width: min-content;
+}
+
+
+/* .sous_section{
+    width: 200px;
+    height: 200px;
+    background-color: var(--bg-variant);
+    border-radius: 10px;
+    box-shadow: #A96BDA 0px 0px 26px;
+} */
 
 
 #projets{
@@ -231,6 +267,20 @@ main{
     padding-bottom: 5px;
 }
 
+.tags{
+    display: flex;
+    flex-direction: row;
+    padding-top: 5px;
+    padding-bottom: 5px;
+}
+
+.tags>p{
+    padding: 5px;
+    margin: 5px;
+    background-color: #A96BDA;
+    color: #000;
+    border-radius: 10px;
+}
 
 #RichVote{
     background-color: black;

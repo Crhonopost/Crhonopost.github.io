@@ -1,4 +1,4 @@
-let animations = [["#RichVote", "fromLeft"]];
+let animations = [];// [["#RichVote", "fromLeft"]];
 
 for(let i=0; i<animations.length; i++){
     animations[i][0] = document.querySelector(animations[i][0]);
