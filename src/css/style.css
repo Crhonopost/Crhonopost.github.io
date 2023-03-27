@@ -431,3 +431,44 @@ footer{
         opacity: 25%;
     }
 }
+
+
+
+
+
+
+/* //////////////////// --PROJETS-- //////////////////////////////////// */
+
+.page_projet .title::before{
+    z-index: -1;
+    clip-path: inset(0 0 0 0);
+    background-color: #0F051D;
+    border-radius: 5px;
+}
+
+.page_projet{
+    margin-left: 200px;
+    padding-top: 300px;
+}
+
+.page_projet .backsquare{
+    max-width: 600px;
+}
+
+.galerie{
+    max-width: 90%;
+    overflow-x: auto;
+    display: flex;
+}
+
+.galerie > *{
+    padding: 20px;
+}
+
+.galerie video{
+    max-height: 700px;
+}
+
+.galerie img{
+    max-height: 700px;
+}
