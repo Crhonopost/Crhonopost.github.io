@@ -11,7 +11,7 @@ html{
 
     color: white;
 
-    background-color: #0F051D;
+    /* background-color: #0F051D; */
     /* background-image: linear-gradient(to left top, #1b062e, #210a37, #280b40, #2f0c4a, #370c53); */
 
     /* background-image: linear-gradient(to left top, #1b062e, #1f0935, #240b3c, #290b43, #2f0c4a, #320f52, #35125a, #381563, #371b6f, #33227c, #2c2989, #1e3096)*/
@@ -21,7 +21,9 @@ html p,h1{
 }
 
 #background{
-    position: absolute;
+    position: fixed;
+    top: 0;
+    left: 0;
     background-color: #0F051D;
     width: 100%;
     height: 100%;
@@ -131,10 +133,6 @@ main{
 }
 
 
-#apropos .title{
-    
-}
-
 .selected{
     border-radius: 50%;
     width: 20px;
@@ -228,54 +226,61 @@ main{
     width: 550px;
     height: 300px;
     border-radius: 10px;
+
+    padding-top: 5px;
+    padding-bottom: 5px;
 }
 
-.project_interior{
-    clip-path: inset(0px 0px round 10px);
-    display: flex;
-    justify-content: center;
-    height: 100%;
-}
 
 #RichVote{
     background-color: black;
 }
 
+#illu_RV{
+    display: block;
+    margin-left: auto;
 
-.project_panel{
-    /*background-color: white;*/
-    transform: translateY(200px);
-    transition: transform 0.75s;
+    margin-right: auto;
 }
-.project:hover{
-    box-shadow: 0px 0px 36px #A96BDA;
-}
+
+
 .project:hover .project_panel{
     visibility: visible;
+    
+    transform: translate(550px, -300px);
+    border-right: solid white 0.5px;
+}
 
-    transform: translateY(0px);
+.project_panel img{
+    position: absolute;
+    bottom: 0px;
+    max-height: 50px;
 }
 
 .project p{
     max-width: 100%;
 }
 .project_panel{
+    height: 300px;
+
+    z-index: -1;
     position:absolute;
 
-    margin-top: 150px;
-    width: 550px;
+    transform: translate(0px, -300px);
+    transition: transform 0.75s;
+
+    width: 500px;
+    padding-left: 50px;
 }
 
 .projet_illustration{
-    z-index: -1;
     max-height: 100%;
-    transition: transform 0.75s, opacity 0.75s;
 }
 
-.project:hover .projet_illustration{
+/* .project:hover .projet_illustration{
     transform: scale(1.5);
     opacity: 25%;
-}
+} */
 
 
 footer{
