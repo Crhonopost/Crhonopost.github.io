@@ -22,7 +22,7 @@ function manageScrollForce(scrollAmount){
     
     if(scrollForce > 0 && !Utils.fullInView(listSections[sectionIdx])){
         scrollForce = 0;
-        if(sectionIdx<listSections.length-1){
+        if(sectionIdx<listSections.length-1 && listSections[sectionIdx].getBoundingClientRect().bottom < window.innerHeight){
             changeCurrentSection(sectionIdx+1);
         }
     }
@@ -58,7 +58,7 @@ class Camera{
 
     static startAdjust(){
         if(Camera.cameraId === null){
-            Camera.adjust();
+            //Camera.adjust();
         }
     }
     static adjust(){
