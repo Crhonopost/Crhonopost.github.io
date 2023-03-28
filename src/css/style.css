@@ -1,7 +1,7 @@
 #home{
     width: 50px;
     height: 50px;
-    background-color: red;
+    background-color: black;
     z-index: 1;
     position: fixed;
     top: 10px;
@@ -9,9 +9,12 @@
 }
 
 .cursor{
+    visibility: hidden;
     position: absolute;
     z-index: 1;
     pointer-events: none;
+    opacity: 0.35;
+    fill: #A96BDA;
 }
 
 .hover-this:hover .cursor{
@@ -139,7 +142,7 @@ nav > div{
     height: 200px;
 }
 
-nav > a{
+nav>a{
     text-decoration: none;
     color: white;
 }
@@ -221,6 +224,9 @@ main{
 }
 
 .sous_section{
+    width: 100%;
+    padding: 10px;
+    margin: 10px;
     transition: opacity 0.5s;
 }
 
@@ -301,26 +307,8 @@ main{
     border-radius: 10px;
 }
 
-#RichVote{
+.project{
     background-color: black;
-}
-
-#illu_RV{
-    display: block;
-    margin-left: auto;
-
-    margin-right: auto;
-}
-
-#Fluide{
-    background-color: black;
-}
-
-#illu_Fluide{
-    display: block;
-    margin-left: auto;
-
-    margin-right: auto;
 }
 
 .project:hover{
@@ -361,6 +349,14 @@ main{
 
 .projet_illustration{
     max-height: 100%;
+    display: block;
+    margin-left: auto;
+
+    margin-right: auto;
+}
+
+#illu_Portfolio{
+    width: 100%;
 }
 
 form{
@@ -522,4 +518,9 @@ footer{
 .page_projet .backsquare{
     padding: 30px;
     margin: 20px;
+}
+
+#galerie_P{
+    background: #A96BDA;
+    border-radius: 5px;
 }
