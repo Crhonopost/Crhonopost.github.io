@@ -13,9 +13,10 @@
         <script defer src="src/js/scroll.js"></script>
         <script defer src="src/js/animations.js"></script>
         <script defer src="src/js/tools/Utils.js"></script>
+        <script defer src="src/js/cursor.js"></script>
         <nav>
             <div>
-                <a href="#accueil" class="selected"></a>
+                <a href="#accueil" class="selected hover-this" link-text="salut"></a>
                 <a href="#apropos" class="unselected"></a>
                 <a href="#projets" class="unselected"></a>
                 <a href="#annexe" class="unselected"></a>
@@ -23,6 +24,11 @@
         </nav>
 
         <main>
+            <div class="cursor">
+                <svg height="100" width="100">
+                    <circle cx="50" cy="50" r="40" fill="red" />
+                  </svg>
+            </div>
             <div id="background">
                 <div class="spot"></div>
                 <div class="spot"></div>

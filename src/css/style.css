@@ -1,3 +1,13 @@
+.cursor{
+    position: absolute;
+    z-index: 1;
+    pointer-events: none;
+}
+
+.hover-this:hover .cursor{
+    content: attr(link-text)
+}
+
 html{
     --text: #EEF0E8;
     --text-variant:#EEF0E8;
@@ -201,25 +211,15 @@ main{
 }
 
 .sous_section{
-    flex: 1 1 80px;
-    width: 80px;
-    margin: 30px;
-    padding: 10px;
+    transition: opacity 0.5s;
 }
 
-.sous_section p{
-    display: none;
+.onglets_apropos:hover > *{
+    opacity: 0.5;
 }
 
-.sous_section:hover p{
-    display: block;
-    left: 0;
-    top: 0;
-    position: absolute;
-}
-
-.sous_section:hover h1{
-    visibility: hidden;
+.sous_section:hover{
+    opacity: 1;
 }
 
 /* .sous_section:nth-child(3){
