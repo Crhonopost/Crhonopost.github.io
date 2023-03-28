@@ -58,7 +58,7 @@ class Camera{
 
     static startAdjust(){
         if(Camera.cameraId === null){
-            //Camera.adjust();
+            Camera.adjust();
         }
     }
     static adjust(){
