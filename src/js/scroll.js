@@ -2,7 +2,7 @@ document.addEventListener('wheel', scrollHandler);
 
 let sectionIdx = 0;
 const listSections = document.querySelectorAll(".section");
-const raccourciSections = document.querySelectorAll("nav a");
+const raccourciSections = document.querySelectorAll("nav>div>a");
 for(let i=0; i<listSections.length; i++){
     raccourciSections[i].addEventListener("click", function(event){
         changeCurrentSection(i);

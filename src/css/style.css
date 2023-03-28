@@ -1,3 +1,13 @@
+#home{
+    width: 50px;
+    height: 50px;
+    background-color: red;
+    z-index: 1;
+    position: fixed;
+    top: 10px;
+    left: 10px;
+}
+
 .cursor{
     position: absolute;
     z-index: 1;
@@ -129,12 +139,12 @@ nav > div{
     height: 200px;
 }
 
-nav a{
+nav > a{
     text-decoration: none;
     color: white;
 }
 
-nav a:hover{
+nav>a:hover{
     color: var(--text);
 }
 
@@ -302,6 +312,17 @@ main{
     margin-right: auto;
 }
 
+#Fluide{
+    background-color: black;
+}
+
+#illu_Fluide{
+    display: block;
+    margin-left: auto;
+
+    margin-right: auto;
+}
+
 .project:hover{
     visibility: hidden;
 }
@@ -455,6 +476,10 @@ footer{
 
 /* //////////////////// --PROJETS-- //////////////////////////////////// */
 
+.page_projet .title{
+    z-index: -1;
+}
+
 .page_projet .title::before{
     /* background-color: #0F051D; */
     border-radius: 5px;
@@ -466,20 +491,20 @@ footer{
 }
 
 .page_projet main{
-    transform: translateX(60%);
+    transform: translateX(30%);
+    width: 70%;
 }
 
 .page_projet .backsquare{
-    max-width: 600px;
+    min-width: 400px;
 }
 
+
 .galerie{
-    /* clip-path: inset(0px 0px); */
+    margin-left: 10%;
     width: 700px;
     overflow-x: auto;
     display: flex;
-    display: none;
-    background-color: red;
 }
 
 .galerie > *{
@@ -492,4 +517,9 @@ footer{
 
 .galerie img{
     max-height: 700px;
+}
+
+.page_projet .backsquare{
+    padding: 30px;
+    margin: 20px;
 }
