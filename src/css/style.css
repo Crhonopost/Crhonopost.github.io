@@ -8,13 +8,46 @@
     left: 10px;
 }
 
-.cursor{
-    visibility: hidden;
-    position: absolute;
-    z-index: 1;
+* {
+    cursor: none;
+}
+
+.contour{
+    height: 50px;
+    width: 50px;
+    top: 0;
+    left: 0;
+    border: white solid 1px;
+    border-radius: 100%;
+    transition: all 200ms ease-out;
+    z-index: 3;
     pointer-events: none;
-    opacity: 0.35;
-    fill: #A96BDA;
+    position: fixed;
+}
+
+.contour.hover{
+    width: 30px;
+    height: 30px;
+    border-width: 3px;
+}
+
+.point{
+    height: 15px;
+    width: 15px;
+    top: 0;
+    left: 0;
+    border-radius: 100%;
+    position: absolute;
+    background-color: #1e3096;
+    z-index: 3;
+    pointer-events: none;
+    position: fixed;
+}
+
+.point.hover{
+    width: 25px;
+    height: 25px;
+    opacity: 0.75;
 }
 
 .hover-this:hover .cursor{
@@ -318,6 +351,18 @@ main{
 
 .project:hover{
     visibility: hidden;
+}
+
+#Fluide{
+    background-color: rgba(164, 90, 199, 0.664);
+}
+
+#Portfolio{
+    background-color: #1f0935;
+}
+
+#Behavior{
+    background-color: rgb(70, 70, 70);
 }
 
 
