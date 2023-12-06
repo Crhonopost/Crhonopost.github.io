@@ -4,5 +4,10 @@
 </template>
 
 <script setup lang="ts">
-    defineProps(['title', 'content'])
+import {useI18n} from "vue-i18n"
+
+const {t} = useI18n();
+
+const title = t('article1.title')
+const content = t('article1.content')
 </script>

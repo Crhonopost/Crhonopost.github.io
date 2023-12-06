@@ -1,9 +1,6 @@
 <template>
+  <header-component></header-component>
   <router-view />
-  <main-view
-  :title="title"
-  :content="$t('article1.content')">
-  </main-view>
 </template>
 
 <style>
@@ -30,10 +27,5 @@ nav a.router-link-exact-active {
 </style>
 
 <script setup lang="ts">
-import MainView from './views/MainView.vue';
-import {useI18n} from "vue-i18n"
-
-const {t} = useI18n();
-
-const title = t('article1.title')
+import HeaderComponent from './components/HeaderComponent.vue';
 </script>
