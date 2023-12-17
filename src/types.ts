@@ -1,4 +1,11 @@
-export interface Article{
+export interface Project {
+    imageUrl: string,
     title: string,
-    content: string
+    shortDescription: string,
+    context: string,
+    description: string,
+    difficulties: string,
+    experience: string,
+    tags: string[],
+    caroussel: string[]
 }

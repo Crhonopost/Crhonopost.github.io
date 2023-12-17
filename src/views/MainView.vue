@@ -1,13 +1,20 @@
 <template>
-    <h1>{{ title }}</h1>
-    <p>{{ content }}</p>
+    <div id="presentation">
+        <PresentationPanel />
+    </div>
+    <div>
+        <ProjectList />
+    </div>
 </template>
 
 <script setup lang="ts">
-import {useI18n} from "vue-i18n"
-
-const {t} = useI18n();
-
-const title = t('article1.title')
-const content = t('article1.content')
+import PresentationPanel from "@/components/PresentationPanel.vue"
+import ProjectList from "@/components/ProjectList.vue"
 </script>
+
+<style scoped>
+#presentation {
+    margin-left: 200px;
+    width: 100%;
+}
+</style>
