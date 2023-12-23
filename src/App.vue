@@ -1,5 +1,5 @@
 <template>
-  <div class="backColor">
+  <div class="backColor mainFrame">
     <nav>
       <Navigation />
     </nav>
@@ -13,6 +13,7 @@
 body {
   margin: 0%;
   padding: 0%;
+  overflow: hidden;
 }
 
 #app {
@@ -22,7 +23,17 @@ body {
   text-align: center;
   color: #2c3e50;
   background-color: #0f172a;
-  min-height: 100vh;
+}
+
+nav {
+  flex: 1;
+}
+
+nav>* {
+  position: relative;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
 }
 
 nav a {
@@ -35,7 +46,7 @@ nav a.router-link-exact-active {
 }
 
 .mainContent {
-  margin-left: 110px;
+  flex: 2;
 }
 
 .whiteText {
@@ -52,6 +63,13 @@ nav a.router-link-exact-active {
 
 .frontColor {
   background-color: rgb(148, 163, 184);
+}
+
+.mainFrame {
+  display: flex;
+  flex-direction: row;
+  width: 100%;
+  min-height: 100vh;
 }
 </style>
 

@@ -1,6 +1,5 @@
 <template>
     <div id="grid">
-        <h1 class="whiteText">Presentation</h1>
         <Presentation title="Presentation" :content="presentation.resume"></Presentation>
         <Presentation title="Biographie" :content="presentation.biography"></Presentation>
         <Presentation title="Intérets" :content="presentation.interests"></Presentation>
@@ -18,8 +17,4 @@ const presentation = {resume: t(`presentation.resume`), biography: t('presentati
 
 
 <style scoped>
-#grid {
-    max-width: 1000px;
-    border: solid red 1px;
-}
 </style>
