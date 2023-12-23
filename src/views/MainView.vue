@@ -1,8 +1,8 @@
 <template>
-    <div id="presentation">
+    <div id="presentation" class="section">
         <PresentationPanel />
     </div>
-    <div>
+    <div id="projets" class="section">
         <ProjectList />
     </div>
 </template>
