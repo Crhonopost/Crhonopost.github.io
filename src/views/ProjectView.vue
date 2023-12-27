@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="whiteText">
         <div>
             <h1>Résumé</h1>
             <p>{{ project.shortDescription }}</p>

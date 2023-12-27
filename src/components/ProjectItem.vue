@@ -2,6 +2,9 @@
     <div @click="navigateToProject" class="frontHover project">
         <h1 class="whiteText">{{ project.title }}</h1>
         <p>{{ project.shortDescription }}</p>
+        <div class="tags">
+            <TagComponent v-for="tag in project.tags" :title="tag" />
+        </div>
     </div>
 </template>
 
@@ -9,6 +12,7 @@
 import {Project} from "@/types"
 import { useRouter } from 'vue-router'
 import projectStore from "@/store/projectStore"
+import TagComponent from "@/components/TagComponent.vue"
 
 
 const props = defineProps<{
@@ -34,9 +38,13 @@ function navigateToProject() {
   box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
   backdrop-filter: blur(6.3px);
   -webkit-backdrop-filter: blur(6.3px);
-  border: 1px solid rgba(255, 255, 255, 0.19);  
+  border: 1px solid rgba(255, 255, 255, 0.19);
+  padding: 0px;
+}
 
-
+.frontHover{
+    padding:1px;
+    margin: 11px;
 }
 
 .project {
@@ -45,5 +53,11 @@ function navigateToProject() {
 
 .project p {
     color: #84a3a8;
+}
+
+.tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 5px;
 }
 </style>

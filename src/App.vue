@@ -1,5 +1,5 @@
 <template>
-  <div class="backColor mainFrame">
+  <div class="backGradient mainFrame">
     <nav>
       <Navigation />
     </nav>
@@ -13,7 +13,15 @@
 body {
   margin: 0%;
   padding: 0%;
-  overflow: hidden;
+  
+  /* Hide scrollbar for IE, Edge and Firefox */
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+/* Hide scrollbar for Chrome, Safari and Opera */
+body::-webkit-scrollbar {
+  display: none;
 }
 
 #app {
@@ -55,6 +63,10 @@ nav a.router-link-exact-active {
 
 .greyText {
   color: #94a3b8;
+}
+
+.backGradient {
+  background: linear-gradient(180deg, #0f172a 0%, #1a3b66 100%);
 }
 
 .backColor {
