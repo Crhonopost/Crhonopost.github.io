@@ -1,11 +1,11 @@
 import { i18n } from "@/i18n/translations";
 import { Project } from "@/types";
-import { createStore } from "vuex";
+import { defineStore } from "pinia";
 
 const {t} = i18n.global;
 
-export default createStore({
-  state: {
+export default defineStore("projectStore",{
+  state:() => ({
     selectedProject: {} as Project,
     projects: [
       {
@@ -37,8 +37,13 @@ export default createStore({
       }
     ] as Project[]
 
-  },
-  getters: {},
-  mutations: {},
-  modules: {},
+  }),
+  actions: {
+    openProject(project: Project) {
+      this.selectedProject = project;
+    },
+    closeProject(){
+      this.selectedProject = {} as Project;
+    }
+  }
 });

@@ -4,9 +4,12 @@
             <RouterLink to="/">Home</RouterLink>
             <RouterLink to="contact">Contact</RouterLink>
         </div>
-        <div id="shortcuts">
-            <a v-for="section in state.raccourciSections" :href="section.href" @click="changeCurrentSection(section.idx)" :class="sectionIdx == section.idx ? 'selected' : 'unselected'">{{ section.idx }}</a>   
-        </div>
+        <ul id="shortcuts">
+            <li v-for="(href, index) in sections">
+                <!-- <a :href="section.href" @click="changeCurrentSection(section.idx)" :class="sectionIdx == section.idx ? 'selected' : 'unselected'">{{ section.idx }}</a>    -->
+                {{ index }} - {{ href }}
+            </li> 
+        </ul>
         <div id="extraLinks">            
             <a href="https://github.com/Crhonopost" class="lien_perso">
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 16 16" fill="currentColor" class="logo" aria-hidden="true">
@@ -28,7 +31,7 @@
 </template>
 
 <script setup lang="ts">
-import { reactive, ref } from 'vue';
+import { onMounted, reactive, ref } from 'vue';
 
 interface Raccourci { 
     href: string, 
@@ -39,15 +42,13 @@ let sectionIdx = 0;
 const listSections = document.querySelectorAll(".section");
 
 
-let raccourciSections: Raccourci[] = []
-const state = reactive({raccourciSections})
+const sections = ref([] as string[])
 
-
-for(let i=0; i<listSections.length; i++){
-    const element = { idx: i, href: listSections[i].id } as Raccourci
-
-    state.raccourciSections.push(element)
-}
+onMounted(() => {
+    for(let i=0; i<listSections.length; i++){
+        sections.value.push(listSections[i].id)
+    }
+})
 
 function changeCurrentSection(newIndex: number){
     sectionIdx = newIndex;

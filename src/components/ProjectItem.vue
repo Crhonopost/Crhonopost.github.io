@@ -23,10 +23,7 @@ const router = useRouter()
 
 
 function navigateToProject() {
-    projectStore.state.selectedProject = props.project
-    router.push({
-        path: `/project/${props.project.title}`,
-    })
+    projectStore().$state.selectedProject = props.project
 }
 </script>
 

@@ -8,7 +8,7 @@
 import ProjectItem from '@/components/ProjectItem.vue'
 import projectStore from "@/store/projectStore"
 
-const {projects} = projectStore.state;
+const {projects} = projectStore().$state;
 
 // TODO: traduction
 </script>

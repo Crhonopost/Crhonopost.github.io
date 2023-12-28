@@ -35,6 +35,7 @@ body::-webkit-scrollbar {
 
 nav {
   flex: 1;
+  height: 100vh;
 }
 
 nav>* {
@@ -81,7 +82,6 @@ nav a.router-link-exact-active {
   display: flex;
   flex-direction: row;
   width: 100%;
-  min-height: 100vh;
 }
 </style>
 
