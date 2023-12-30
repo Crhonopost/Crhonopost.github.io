@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "pinia": "^2.1.7",
+    "regl": "^2.1.0",
     "vue": "^3.2.13",
     "vue-class-component": "^8.0.0-0",
     "vue-i18n": "^9.4.1",

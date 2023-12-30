@@ -1,13 +1,14 @@
 <template>
-    <div id="presentation" class="section">
+    <!-- <div id="presentation" class="section">
         <PresentationPanel />
     </div>
     <div id="projets" class="section">
         <ProjectList />
-    </div>
+    </div> -->
+
+    <TestsComponent />
     
     <ModalComponent>
-        <h1>SALUT</h1>
     </ModalComponent>
 </template>
 
@@ -15,6 +16,7 @@
 import PresentationPanel from "@/components/PresentationPanel.vue"
 import ProjectList from "@/components/ProjectList.vue"
 import ModalComponent from "@/components/ModalComponent.vue";
+import TestsComponent from "@/components/TestsComponent.vue";
 </script>
 
 <style scoped>
