@@ -1,12 +1,23 @@
 <template>
-    <canvas ref="canva" width="800" height="800"></canvas>
+    <canvas ref="canva" width="1000" height="1000" style="position: fixed; left: 0px;"></canvas>
 </template>
 
 <script setup lang="ts">
 import { ref, onMounted } from 'vue';
 
+const width = 1000
+const height = 1000
+
 
 const canva = ref(null)
+
+let currentMouseLocation = {x: 0, y:0};
+let lastMouseLocation = {x:0, y:0};
+
+addEventListener("mousemove", (event) => {
+    lastMouseLocation = currentMouseLocation
+    currentMouseLocation = {x: event.clientX / width, y: event.clientY / height}
+});
 
 onMounted(() => {
     const regl = require('regl')({
@@ -79,7 +90,7 @@ onMounted(() => {
             vec2 pixelDiff = 1./resolution;
             vec2 vector = vec2(0.);
 
-            if(uv == addVectorLocation){
+            if(length(uv - addVectorLocation) < 0.05){
                 vector = addVectorForce;
             }
             else {
@@ -96,8 +107,10 @@ onMounted(() => {
             gl_FragColor = vec4(vector, 0., 0.);
         }`,
         uniforms: {
-            addVectorLocation: [0.5, 0.5],
-            addVectorForce: [10.5, 10.5]
+            addVectorLocation: () => [currentMouseLocation.x, 
+                                1 - currentMouseLocation.y],
+            addVectorForce: () => [(currentMouseLocation.x - lastMouseLocation.x) * 20,
+                                    (lastMouseLocation.y - currentMouseLocation.y) * 20]
         }
         ,
         framebuffer: ({tick}: {tick: number}) => vectors[(tick + 1) % 2],
@@ -183,7 +196,7 @@ onMounted(() => {
             return time - tempPrevTime;
         },
         resolution: [800, 800],
-        viscosity: 1.5
+        viscosity: .5
     },
 
     depth: { enable: false },
