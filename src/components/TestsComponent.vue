@@ -13,11 +13,23 @@ const canva = ref(null)
 
 let currentMouseLocation = {x: 0, y:0};
 let lastMouseLocation = {x:0, y:0};
+let leftClickPressed = false;
 
 addEventListener("mousemove", (event) => {
     lastMouseLocation = currentMouseLocation
     currentMouseLocation = {x: event.clientX / width, y: event.clientY / height}
 });
+
+addEventListener("mousedown", (event) => {
+    if(event.button == 0){
+        leftClickPressed = true
+    }
+})
+addEventListener("mouseup", (event) => {
+    if(event.button == 0){
+        leftClickPressed = false
+    }
+})
 
 onMounted(() => {
     const regl = require('regl')({
@@ -65,6 +77,7 @@ onMounted(() => {
         uniform float viscosity;
         uniform vec2 addVectorLocation;
         uniform vec2 addVectorForce;
+        uniform int leftClick;
         varying vec2 uv;
 
         vec2 diffuseVector(vec2 pixelDiff, vec2 currentVector){
@@ -77,7 +90,7 @@ onMounted(() => {
 
             float k = delta * viscosity;
 
-            return (currentVector + k * average) / (1. + k);
+            return (average + currentVector * k) / (1. + k);
         }
 
         vec2 advection() {
@@ -90,19 +103,14 @@ onMounted(() => {
             vec2 pixelDiff = 1./resolution;
             vec2 vector = vec2(0.);
 
-            if(length(uv - addVectorLocation) < 0.05){
+            if(length(uv - addVectorLocation) < 0.05
+            && leftClick > 0){
                 vector = addVectorForce;
             }
             else {
                 vec2 currentVector = advection();
                 vector = diffuseVector(pixelDiff, currentVector);
             }
-
-            if(uv.x > 0.45 && uv.x < 0.55 && 
-            uv.y > 0.49 && uv.y < 0.51){
-                vector = vec2(.5, 0.);
-            }
-
             
             gl_FragColor = vec4(vector, 0., 0.);
         }`,
@@ -110,7 +118,8 @@ onMounted(() => {
             addVectorLocation: () => [currentMouseLocation.x, 
                                 1 - currentMouseLocation.y],
             addVectorForce: () => [(currentMouseLocation.x - lastMouseLocation.x) * 20,
-                                    (lastMouseLocation.y - currentMouseLocation.y) * 20]
+                                    (lastMouseLocation.y - currentMouseLocation.y) * 20],
+            leftClick: () => leftClickPressed ? 1 : 0
         }
         ,
         framebuffer: ({tick}: {tick: number}) => vectors[(tick + 1) % 2],
