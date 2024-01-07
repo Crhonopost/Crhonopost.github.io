@@ -54,6 +54,16 @@ onMounted(() => {
         depthStencil: false
     }))
 
+    const jacobiVectors = (Array(2)).fill(0).map(() =>
+    regl.framebuffer({
+        color: regl.texture({
+            radius: RADIUS,
+            data: (Array(RADIUS * RADIUS * 4)).fill(0),
+            wrap: 'repeat'
+            }),
+        depthStencil: false
+    }))
+
     const vecData = (Array(RADIUS * RADIUS * 4)).fill(0);
 
     const vectors = (Array(2)).fill(0).map(() =>
@@ -93,10 +103,24 @@ onMounted(() => {
             return (average + currentVector * k) / (1. + k);
         }
 
-        vec2 advection() {
-            vec2 vector = texture2D(prevVector, uv).xy * delta;
+        vec4 texBilInterp(sampler2D tex, vec2 pos){
+            vec2 pixelDiff = 1./resolution;
 
-            return texture2D(prevVector, uv - vector).xy;
+            vec4 x1 = texture2D(tex, vec2(uv.x, uv.y));
+            vec4 x2 = texture2D(tex, vec2(uv.x + pixelDiff.x, uv.y));
+            vec4 y1 = texture2D(tex, vec2(uv.x, uv.y + pixelDiff.y));
+            vec4 y2 = texture2D(tex, vec2(uv.x + pixelDiff.x, uv.y + pixelDiff.y));
+
+            vec4 x = mix(x1, x2, pos.x);
+            vec4 y = mix(y1, y2, pos.x);
+
+            return mix(x, y, pos.y);
+        }
+
+        vec2 advection() {
+            vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
+
+            return texBilInterp(prevVector, uv - vector).xy;
         }
 
         void main(){
@@ -107,12 +131,12 @@ onMounted(() => {
             && leftClick > 0){
                 vector = addVectorForce;
             }
-            else {
-                vec2 currentVector = advection();
-                vector = diffuseVector(pixelDiff, currentVector);
-            }
+            // else {
+            //     vec2 currentVector = advection();
+            //     vector = diffuseVector(pixelDiff, currentVector);
+            // }
             
-            gl_FragColor = vec4(vector, 0., 0.);
+            gl_FragColor = vec4(1.,1., 0., 0.);
         }`,
         uniforms: {
             addVectorLocation: () => [currentMouseLocation.x, 
@@ -139,10 +163,27 @@ onMounted(() => {
         return from + (to - from) * delta;
     }
 
-    vec4 advection() {
-        vec2 vector = texture2D(prevVector, uv).xy * delta;
+    vec4 texBilInterp(sampler2D tex, vec2 pos){
+        vec2 pixelDiff = 1./resolution;
 
-        return texture2D(prevPressure, uv - vector);
+        vec2 newUV = pos - pixelDiff * 0.5;
+        vec2 blend = fract(newUV * resolution);
+
+        vec4 x1 = texture2D(tex, vec2(newUV.x, newUV.y));
+        vec4 x2 = texture2D(tex, vec2(newUV.x + pixelDiff.x, newUV.y));
+        vec4 y1 = texture2D(tex, vec2(newUV.x, newUV.y + pixelDiff.y));
+        vec4 y2 = texture2D(tex, vec2(newUV.x + pixelDiff.x, newUV.y + pixelDiff.y));
+
+        vec4 x = mix(x1, x2, blend.x);
+        vec4 y = mix(y1, y2, blend.x);
+
+        return mix(x, y, blend.y);
+    }
+
+    vec4 advection() {
+        vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
+
+        return texBilInterp(prevPressure, uv - vector);
     }
     
     vec4 diffusion(vec2 pixelDiff, vec4 currentPressure) {
@@ -162,15 +203,62 @@ onMounted(() => {
         vec2 pixelDiff = 1. / resolution;
 
         vec4 newPressure = advection();
-        // vec4 newPressure = texture2D(prevPressure, uv);
 
-        gl_FragColor = diffusion(pixelDiff, newPressure);
+        // gl_FragColor = diffusion(pixelDiff, newPressure);
+        gl_FragColor = newPressure;
     }`,
 
     framebuffer: ({tick}: {tick: number}) => pressure[(tick + 1) % 2]
     })
 
+    const viciousVectorsDiffusion = regl({
+        frag: `
+    precision highp float;
+    uniform sampler2D prevVector;
+    uniform sampler2D iterationVector;
+    uniform vec2 resolution;
+    uniform float delta;
+    uniform float viscosity;
+    varying vec2 uv;
+    
+    vec4 jacobi(vec2 pixelDiff, float alpha, float rBeta) {
+        vec4 up = texture2D(iterationVector, vec2(uv.x, uv.y - pixelDiff.y));
+        vec4 down = texture2D(iterationVector, vec2(uv.x, uv.y + pixelDiff.y));
+        vec4 left = texture2D(iterationVector, vec2(uv.x - pixelDiff.x, uv.y));
+        vec4 right = texture2D(iterationVector, vec2(uv.x + pixelDiff.x, uv.y));
+
+        vec4 bC = texture2D(prevVector, uv);
+
+        return (up + down + left + right + alpha * bC) * rBeta;
+    }
+    
+    void main() {
+        vec2 pixelDiff = 1. / resolution;
+        float x = pixelDiff.x;
+
+        float alpha = (x * x) / delta;
+        float rBeta = 1. / (4. + (x * x) / delta);
+
+
+        gl_FragColor = jacobi(pixelDiff, alpha, rBeta);
+    }`,
+
+    framebuffer: ({tick}: {tick: number}) => jacobiVectors[tick % 2],
+    uniforms: {
+        iterationVector: ({tick}: {tick: number}) => jacobiVectors[(tick + 1) % 2]
+    }
+    })
+
     const setupQuad = regl({
+    vert: `
+    precision mediump float;
+    attribute vec2 position;
+    varying vec2 uv;
+    void main() {
+        uv = 0.5 * (position + 1.);
+        gl_Position = vec4(position, 0, 1);
+    }`,
+
     frag: `
     precision mediump float;
     uniform sampler2D prevPressure;
@@ -179,18 +267,10 @@ onMounted(() => {
     uniform float delta;
     varying vec2 uv;
     void main() {
-        float state = texture2D(prevPressure, uv).r;
-        gl_FragColor = vec4(vec3(state), 1);
+        vec3 state = texture2D(prevPressure, uv).rgb;
+        gl_FragColor = vec4(vec3(state.r), 1);
     }`,
 
-    vert: `
-    precision mediump float;
-    attribute vec2 position;
-    varying vec2 uv;
-    void main() {
-        uv = 0.5 * (position + 1.0);
-        gl_Position = vec4(position, 0, 1);
-    }`,
 
     attributes: {
         position: [ -4, -4, 4, -4, 0, 4 ]
@@ -218,6 +298,7 @@ onMounted(() => {
             regl.draw()
             updatePressure()
             updateVectorField()
+            // viciousVectorsDiffusion()
         })
     })
 })
