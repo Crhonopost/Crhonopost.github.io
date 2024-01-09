@@ -32,6 +32,9 @@ addEventListener("mouseup", (event) => {
 })
 
 onMounted(() => {
+    let jacobiIterationCount = 0
+    let maxJacobiCount = 50;
+
     const regl = require('regl')({
         extensions: ['OES_texture_float', 'WEBGL_color_buffer_float'],
         canvas: canva.value
@@ -55,6 +58,16 @@ onMounted(() => {
     }))
 
     const jacobiVectors = (Array(2)).fill(0).map(() =>
+    regl.framebuffer({
+        color: regl.texture({
+            radius: RADIUS,
+            data: (Array(RADIUS * RADIUS * 4)).fill(0),
+            wrap: 'repeat'
+            }),
+        depthStencil: false
+    }))
+
+    const jacobiPressure = (Array(2)).fill(0).map(() =>
     regl.framebuffer({
         color: regl.texture({
             radius: RADIUS,
@@ -216,36 +229,138 @@ onMounted(() => {
     precision highp float;
     uniform sampler2D prevVector;
     uniform sampler2D iterationVector;
+
     uniform vec2 resolution;
     uniform float delta;
     uniform float viscosity;
     varying vec2 uv;
     
-    vec4 jacobi(vec2 pixelDiff, float alpha, float rBeta) {
-        vec4 up = texture2D(iterationVector, vec2(uv.x, uv.y - pixelDiff.y));
-        vec4 down = texture2D(iterationVector, vec2(uv.x, uv.y + pixelDiff.y));
-        vec4 left = texture2D(iterationVector, vec2(uv.x - pixelDiff.x, uv.y));
-        vec4 right = texture2D(iterationVector, vec2(uv.x + pixelDiff.x, uv.y));
+    vec4 jacobi(
+        vec2 pixelDiff, 
+        float alpha, 
+        float rBeta, 
+        sampler2D x, 
+        sampler2D b
+        ) {
+        vec4 up = texture2D(x, uv - vec2(0., pixelDiff.y));
+        vec4 down = texture2D(x, uv + vec2(0., pixelDiff.y));
+        vec4 left = texture2D(x, uv - vec2(pixelDiff.x, 0.));
+        vec4 right = texture2D(x, uv + vec2(pixelDiff.x, 0.));
 
-        vec4 bC = texture2D(prevVector, uv);
+        vec4 bC = texture2D(b, uv);
 
         return (up + down + left + right + alpha * bC) * rBeta;
     }
+    // void jacobi(half2 coords   : WPOS,   // grid coordinates
+    //      out    half4 xNew : COLOR,  // result     
+    //      uniform    half alpha,             
+    //      uniform    half rBeta,      // reciprocal beta     
+    //      uniform samplerRECT x,   // x vector (Ax = b)     
+    //      uniform samplerRECT b)   // b vector (Ax = b) 
+         
+    //      {   // left, right, bottom, and top x samples    
+    //         half4 xL = h4texRECT(x, coords - half2(1, 0));   
+    //         half4 xR = h4texRECT(x, coords + half2(1, 0));   
+    //         half4 xB = h4texRECT(x, coords - half2(0, 1));   
+    //         half4 xT = h4texRECT(x, coords + half2(0, 1)); // b sample, from center     
+    //         half4 bC = h4texRECT(b, coords);    // evaluate Jacobi iteration   
+    //         xNew = (xL + xR + xB + xT + alpha * bC) * rBeta; 
+    //     }
     
     void main() {
         vec2 pixelDiff = 1. / resolution;
-        float x = pixelDiff.x;
+        float x = 0.1;
 
         float alpha = (x * x) / delta;
         float rBeta = 1. / (4. + (x * x) / delta);
 
 
-        gl_FragColor = jacobi(pixelDiff, alpha, rBeta);
+        gl_FragColor = jacobi(pixelDiff, alpha, rBeta, iterationVector, prevVector);
     }`,
 
-    framebuffer: ({tick}: {tick: number}) => jacobiVectors[tick % 2],
+    framebuffer: ({tick}: {tick: number}) => {
+        if(jacobiIterationCount === maxJacobiCount){
+            return vectors[tick + 1 % 2]
+        }
+        else {
+            return jacobiVectors[jacobiIterationCount % 2]
+        }
+    },
     uniforms: {
-        iterationVector: ({tick}: {tick: number}) => jacobiVectors[(tick + 1) % 2]
+        iterationVector: ({tick}: {tick: number}) => {
+            return jacobiVectors[(jacobiIterationCount + 1) % 2]
+        }
+    }
+    })
+
+    const viciousPressureDiffusion = regl({
+        frag: `
+    precision highp float;
+    uniform sampler2D prevPressure;
+    uniform sampler2D iterationPressure;
+
+    uniform vec2 resolution;
+    uniform float delta;
+    uniform float viscosity;
+    varying vec2 uv;
+    
+    vec4 jacobi(
+        vec2 pixelDiff, 
+        float alpha, 
+        float rBeta, 
+        sampler2D x, 
+        sampler2D b
+        ) {
+        vec4 up = texture2D(x, uv - vec2(0., pixelDiff.y));
+        vec4 down = texture2D(x, uv + vec2(0., pixelDiff.y));
+        vec4 left = texture2D(x, uv - vec2(pixelDiff.x, 0.));
+        vec4 right = texture2D(x, uv + vec2(pixelDiff.x, 0.));
+
+        vec4 bC = texture2D(b, uv);
+
+        return (up + down + left + right + alpha * bC) * rBeta;
+    }
+    // void jacobi(half2 coords   : WPOS,   // grid coordinates
+    //      out    half4 xNew : COLOR,  // result     
+    //      uniform    half alpha,             
+    //      uniform    half rBeta,      // reciprocal beta     
+    //      uniform samplerRECT x,   // x vector (Ax = b)     
+    //      uniform samplerRECT b)   // b vector (Ax = b) 
+         
+    //      {   // left, right, bottom, and top x samples    
+    //         half4 xL = h4texRECT(x, coords - half2(1, 0));   
+    //         half4 xR = h4texRECT(x, coords + half2(1, 0));   
+    //         half4 xB = h4texRECT(x, coords - half2(0, 1));   
+    //         half4 xT = h4texRECT(x, coords + half2(0, 1)); // b sample, from center     
+    //         half4 bC = h4texRECT(b, coords);    // evaluate Jacobi iteration   
+    //         xNew = (xL + xR + xB + xT + alpha * bC) * rBeta; 
+    //     }
+    
+    void main() {
+        vec2 pixelDiff = 1. / resolution;
+        float x = 0.5;
+
+        float alpha = (x * x) / delta;
+        float rBeta = 1. / (4. + (x * x) / delta);
+
+
+        gl_FragColor = jacobi(pixelDiff, alpha, rBeta, iterationPressure, prevPressure);
+    }`,
+
+    framebuffer: ({tick}: {tick: number}) => {
+        if(jacobiIterationCount === maxJacobiCount){
+            debugger
+            return pressure[(tick + 1) % 2]
+        }
+        else {
+            debugger
+            return jacobiPressure[jacobiIterationCount % 2]
+        }
+    },
+    uniforms: {
+        iterationPressure: ({tick}: {tick: number}) => {
+            return jacobiPressure[(jacobiIterationCount + 1) % 2]
+        }
     }
     })
 
@@ -267,6 +382,8 @@ onMounted(() => {
     uniform float delta;
     varying vec2 uv;
     void main() {
+        // vec3 state = texture2D(prevVector, uv).rgb;
+        // gl_FragColor = vec4(state.xy, 0., 1.);
         vec3 state = texture2D(prevPressure, uv).rgb;
         gl_FragColor = vec4(vec3(state.r), 1);
     }`,
@@ -278,7 +395,9 @@ onMounted(() => {
 
     uniforms: {
         prevPressure: ({tick}: {tick: number}) => pressure[tick % 2],
-        prevVector: ({tick}: {tick: number}) => vectors[tick % 2],
+        prevVector: ({tick}: {tick: number}) => {
+            return vectors[tick % 2]
+        },
         delta: ({time}: {time: number}) => {
             let tempPrevTime = prevTime;
             prevTime = time;
@@ -297,8 +416,14 @@ onMounted(() => {
         setupQuad(() => {
             regl.draw()
             updatePressure()
-            updateVectorField()
-            // viciousVectorsDiffusion()
+            // updateVectorField()
+            while(jacobiIterationCount <= maxJacobiCount){
+                // viciousVectorsDiffusion()
+                viciousPressureDiffusion()
+                jacobiIterationCount ++
+            }
+            debugger
+            jacobiIterationCount = 0
         })
     })
 })
