@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div id="list">
         <ProjectItem v-for="project in projects" :project="project"></ProjectItem>
     </div>
 </template>
@@ -12,3 +12,13 @@ const {projects} = projectStore().$state;
 
 // TODO: traduction
 </script>
+
+<style scoped>
+#list > *{
+    margin-bottom: 40px;
+}
+
+#list > *:nth-child(2n){
+    margin-left: 200px;
+}
+</style>

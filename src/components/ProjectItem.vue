@@ -1,11 +1,13 @@
 <template>
-    <div @click="navigateToProject" class="frontHover project">
-        <h1 class="whiteText">{{ project.title }}</h1>
-        <p>{{ project.shortDescription }}</p>
-        <div class="tags">
-            <TagComponent v-for="tag in project.tags" :title="tag" />
+    <GlassComponent :is-hoverable="false">
+        <div @click="navigateToProject" class="project">
+            <h1 class="whiteText">{{ project.title }}</h1>
+            <p>{{ project.shortDescription }}</p>
+            <div class="tags">
+                <TagComponent v-for="tag in project.tags" :title="tag" />
+            </div>
         </div>
-    </div>
+    </GlassComponent>
 </template>
 
 <script setup lang="ts">
@@ -13,6 +15,7 @@ import {Project} from "@/types"
 import { useRouter } from 'vue-router'
 import projectStore from "@/store/projectStore"
 import TagComponent from "@/components/TagComponent.vue"
+import GlassComponent from "./GlassComponent.vue";
 
 
 const props = defineProps<{
@@ -28,24 +31,10 @@ function navigateToProject() {
 </script>
 
 <style scoped>
-.frontHover:hover {
-  /* From https://css.glass */
-  background: rgba(255, 255, 255, 0.16);
-  border-radius: 16px;
-  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-  backdrop-filter: blur(6.3px);
-  -webkit-backdrop-filter: blur(6.3px);
-  border: 1px solid rgba(255, 255, 255, 0.19);
-  padding: 0px;
-}
-
-.frontHover{
-    padding:1px;
-    margin: 11px;
-}
 
 .project {
-    max-width: 800px;
+    width: 400px;
+    padding: 10px;
 }
 
 .project p {

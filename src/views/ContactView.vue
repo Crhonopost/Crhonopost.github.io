@@ -117,6 +117,7 @@ textarea {
     cursor: pointer;
     font-size: 16px;
     padding: 10px 15px;
+    margin-top: 5px;
     width: 100px;
 }
 </style>
