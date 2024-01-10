@@ -31,6 +31,56 @@ addEventListener("mouseup", (event) => {
     }
 })
 
+const jacobiFunc = `
+vec4 jacobi(
+        vec2 pixelDiff, 
+        float alpha, 
+        float rBeta, 
+        sampler2D x, 
+        sampler2D b
+        ) {
+        vec4 up = texture2D(x, uv - vec2(0., pixelDiff.y));
+        vec4 down = texture2D(x, uv + vec2(0., pixelDiff.y));
+        vec4 left = texture2D(x, uv - vec2(pixelDiff.x, 0.));
+        vec4 right = texture2D(x, uv + vec2(pixelDiff.x, 0.));
+
+        vec4 bC = texture2D(b, uv);
+
+        return (up + down + left + right + alpha * bC) * rBeta;
+    }`
+
+const texBilInterp = `
+vec4 texBilInterp(sampler2D tex, vec2 pos){
+        vec2 pixelDiff = 1./resolution;
+
+        vec2 blend = fract(pos * resolution);
+
+        vec2 upperLeft = pos - (pixelDiff * 0.5); // upper left coord if pos is center of square
+
+
+        vec4 x1 = texture2D(tex, upperLeft + vec2(0., 0.));
+        vec4 x2 = texture2D(tex, upperLeft + vec2(pixelDiff.x, 0.));
+        vec4 y1 = texture2D(tex, upperLeft + vec2(0., pixelDiff.y));
+        vec4 y2 = texture2D(tex, upperLeft + vec2(pixelDiff.x, pixelDiff.y));
+
+        vec4 x = mix(x1, x2, blend.x);
+        vec4 y = mix(y1, y2, blend.x);
+
+        return mix(x, y, blend.y);
+    }`
+
+const textNice = `
+vec4 textureNice( sampler2D sam, vec2 uv )
+{
+    float textureResolution = resolution.x;
+    uv = uv*textureResolution + 0.5;
+    vec2 iuv = floor( uv );
+    vec2 fuv = fract( uv );
+    uv = iuv + fuv*fuv*(3.0-2.0*fuv);
+    uv = (uv - 0.5)/textureResolution;
+    return texture2D( sam, uv );
+}`
+
 onMounted(() => {
     let jacobiIterationCount = 0
     let maxJacobiCount = 50;
@@ -47,7 +97,7 @@ onMounted(() => {
     const INITIAL_CONDITIONS = (Array(RADIUS * RADIUS * 4)).fill(0).map(
     () => Math.random() > 0.9 ? 255 : 0)
 
-    const pressure = (Array(2)).fill(0).map(() =>
+    const pressure = (Array(3)).fill(0).map(() =>
     regl.framebuffer({
         color: regl.texture({
             radius: RADIUS,
@@ -79,7 +129,7 @@ onMounted(() => {
 
     const vecData = (Array(RADIUS * RADIUS * 4)).fill(0);
 
-    const vectors = (Array(2)).fill(0).map(() =>
+    const vectors = (Array(3)).fill(0).map(() =>
     regl.framebuffer({
         color: regl.texture({
             radius: RADIUS,
@@ -103,37 +153,12 @@ onMounted(() => {
         uniform int leftClick;
         varying vec2 uv;
 
-        vec2 diffuseVector(vec2 pixelDiff, vec2 currentVector){
-            vec2 up = texture2D(prevVector, vec2(uv.x, uv.y - pixelDiff.y)).xy;
-            vec2 down = texture2D(prevVector, vec2(uv.x, uv.y + pixelDiff.y)).xy;
-            vec2 left = texture2D(prevVector, vec2(uv.x - pixelDiff.x, uv.y)).xy;
-            vec2 right = texture2D(prevVector, vec2(uv.x + pixelDiff.x, uv.y)).xy;
-        
-            vec2 average = (up + down + left + right) / 4.;
+        ${textNice}
 
-            float k = delta * viscosity;
-
-            return (average + currentVector * k) / (1. + k);
-        }
-
-        vec4 texBilInterp(sampler2D tex, vec2 pos){
-            vec2 pixelDiff = 1./resolution;
-
-            vec4 x1 = texture2D(tex, vec2(uv.x, uv.y));
-            vec4 x2 = texture2D(tex, vec2(uv.x + pixelDiff.x, uv.y));
-            vec4 y1 = texture2D(tex, vec2(uv.x, uv.y + pixelDiff.y));
-            vec4 y2 = texture2D(tex, vec2(uv.x + pixelDiff.x, uv.y + pixelDiff.y));
-
-            vec4 x = mix(x1, x2, pos.x);
-            vec4 y = mix(y1, y2, pos.x);
-
-            return mix(x, y, pos.y);
-        }
-
-        vec2 advection() {
+        vec4 advection() {
             vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
 
-            return texBilInterp(prevVector, uv - vector).xy;
+            return textureNice(prevVector, uv - vector);
         }
 
         void main(){
@@ -143,13 +168,11 @@ onMounted(() => {
             if(length(uv - addVectorLocation) < 0.05
             && leftClick > 0){
                 vector = addVectorForce;
+            }else {
+                vector = advection().xy;
             }
-            // else {
-            //     vec2 currentVector = advection();
-            //     vector = diffuseVector(pixelDiff, currentVector);
-            // }
             
-            gl_FragColor = vec4(1.,1., 0., 0.);
+            gl_FragColor = vec4(vector, 0., 0.);
         }`,
         uniforms: {
             addVectorLocation: () => [currentMouseLocation.x, 
@@ -159,7 +182,7 @@ onMounted(() => {
             leftClick: () => leftClickPressed ? 1 : 0
         }
         ,
-        framebuffer: ({tick}: {tick: number}) => vectors[(tick + 1) % 2],
+        framebuffer: ({tick}: {tick: number}) => vectors[2],
     })
 
     const updatePressure = regl({
@@ -172,44 +195,12 @@ onMounted(() => {
     uniform float viscosity;
     varying vec2 uv;
 
-    vec4 lerp(vec4 from, vec4 to, float delta){
-        return from + (to - from) * delta;
-    }
-
-    vec4 texBilInterp(sampler2D tex, vec2 pos){
-        vec2 pixelDiff = 1./resolution;
-
-        vec2 newUV = pos - pixelDiff * 0.5;
-        vec2 blend = fract(newUV * resolution);
-
-        vec4 x1 = texture2D(tex, vec2(newUV.x, newUV.y));
-        vec4 x2 = texture2D(tex, vec2(newUV.x + pixelDiff.x, newUV.y));
-        vec4 y1 = texture2D(tex, vec2(newUV.x, newUV.y + pixelDiff.y));
-        vec4 y2 = texture2D(tex, vec2(newUV.x + pixelDiff.x, newUV.y + pixelDiff.y));
-
-        vec4 x = mix(x1, x2, blend.x);
-        vec4 y = mix(y1, y2, blend.x);
-
-        return mix(x, y, blend.y);
-    }
+    ${textNice}
 
     vec4 advection() {
         vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
 
-        return texBilInterp(prevPressure, uv - vector);
-    }
-    
-    vec4 diffusion(vec2 pixelDiff, vec4 currentPressure) {
-        vec4 up = texture2D(prevPressure, vec2(uv.x, uv.y - pixelDiff.y));
-        vec4 down = texture2D(prevPressure, vec2(uv.x, uv.y + pixelDiff.y));
-        vec4 left = texture2D(prevPressure, vec2(uv.x - pixelDiff.x, uv.y));
-        vec4 right = texture2D(prevPressure, vec2(uv.x + pixelDiff.x, uv.y));
-
-        vec4 average = (up + down + left + right) / 4.;
-
-        float k = delta * viscosity;
-
-        return (currentPressure + k * average) / (1. + k);
+        return textureNice(prevPressure, uv - vector);
     }
     
     void main() {
@@ -217,11 +208,10 @@ onMounted(() => {
 
         vec4 newPressure = advection();
 
-        // gl_FragColor = diffusion(pixelDiff, newPressure);
         gl_FragColor = newPressure;
     }`,
 
-    framebuffer: ({tick}: {tick: number}) => pressure[(tick + 1) % 2]
+    framebuffer: ({tick}: {tick: number}) => pressure[2]
     })
 
     const viciousVectorsDiffusion = regl({
@@ -235,52 +225,23 @@ onMounted(() => {
     uniform float viscosity;
     varying vec2 uv;
     
-    vec4 jacobi(
-        vec2 pixelDiff, 
-        float alpha, 
-        float rBeta, 
-        sampler2D x, 
-        sampler2D b
-        ) {
-        vec4 up = texture2D(x, uv - vec2(0., pixelDiff.y));
-        vec4 down = texture2D(x, uv + vec2(0., pixelDiff.y));
-        vec4 left = texture2D(x, uv - vec2(pixelDiff.x, 0.));
-        vec4 right = texture2D(x, uv + vec2(pixelDiff.x, 0.));
-
-        vec4 bC = texture2D(b, uv);
-
-        return (up + down + left + right + alpha * bC) * rBeta;
-    }
-    // void jacobi(half2 coords   : WPOS,   // grid coordinates
-    //      out    half4 xNew : COLOR,  // result     
-    //      uniform    half alpha,             
-    //      uniform    half rBeta,      // reciprocal beta     
-    //      uniform samplerRECT x,   // x vector (Ax = b)     
-    //      uniform samplerRECT b)   // b vector (Ax = b) 
-         
-    //      {   // left, right, bottom, and top x samples    
-    //         half4 xL = h4texRECT(x, coords - half2(1, 0));   
-    //         half4 xR = h4texRECT(x, coords + half2(1, 0));   
-    //         half4 xB = h4texRECT(x, coords - half2(0, 1));   
-    //         half4 xT = h4texRECT(x, coords + half2(0, 1)); // b sample, from center     
-    //         half4 bC = h4texRECT(b, coords);    // evaluate Jacobi iteration   
-    //         xNew = (xL + xR + xB + xT + alpha * bC) * rBeta; 
-    //     }
+    ${jacobiFunc}
     
     void main() {
         vec2 pixelDiff = 1. / resolution;
-        float x = 0.1;
+        float x = .5;
 
         float alpha = (x * x) / delta;
         float rBeta = 1. / (4. + (x * x) / delta);
 
 
-        gl_FragColor = jacobi(pixelDiff, alpha, rBeta, iterationVector, prevVector);
+        vec2 vector = jacobi(pixelDiff, alpha, rBeta, iterationVector, prevVector).xy;
+        gl_FragColor = vec4(vector, 0., 0.);
     }`,
 
     framebuffer: ({tick}: {tick: number}) => {
         if(jacobiIterationCount === maxJacobiCount){
-            return vectors[tick + 1 % 2]
+            return vectors[(tick + 1) % 2]
         }
         else {
             return jacobiVectors[jacobiIterationCount % 2]
@@ -289,7 +250,8 @@ onMounted(() => {
     uniforms: {
         iterationVector: ({tick}: {tick: number}) => {
             return jacobiVectors[(jacobiIterationCount + 1) % 2]
-        }
+        },
+        prevVector: () => vectors[2]
     }
     })
 
@@ -304,37 +266,7 @@ onMounted(() => {
     uniform float viscosity;
     varying vec2 uv;
     
-    vec4 jacobi(
-        vec2 pixelDiff, 
-        float alpha, 
-        float rBeta, 
-        sampler2D x, 
-        sampler2D b
-        ) {
-        vec4 up = texture2D(x, uv - vec2(0., pixelDiff.y));
-        vec4 down = texture2D(x, uv + vec2(0., pixelDiff.y));
-        vec4 left = texture2D(x, uv - vec2(pixelDiff.x, 0.));
-        vec4 right = texture2D(x, uv + vec2(pixelDiff.x, 0.));
-
-        vec4 bC = texture2D(b, uv);
-
-        return (up + down + left + right + alpha * bC) * rBeta;
-    }
-    // void jacobi(half2 coords   : WPOS,   // grid coordinates
-    //      out    half4 xNew : COLOR,  // result     
-    //      uniform    half alpha,             
-    //      uniform    half rBeta,      // reciprocal beta     
-    //      uniform samplerRECT x,   // x vector (Ax = b)     
-    //      uniform samplerRECT b)   // b vector (Ax = b) 
-         
-    //      {   // left, right, bottom, and top x samples    
-    //         half4 xL = h4texRECT(x, coords - half2(1, 0));   
-    //         half4 xR = h4texRECT(x, coords + half2(1, 0));   
-    //         half4 xB = h4texRECT(x, coords - half2(0, 1));   
-    //         half4 xT = h4texRECT(x, coords + half2(0, 1)); // b sample, from center     
-    //         half4 bC = h4texRECT(b, coords);    // evaluate Jacobi iteration   
-    //         xNew = (xL + xR + xB + xT + alpha * bC) * rBeta; 
-    //     }
+    ${jacobiFunc}
     
     void main() {
         vec2 pixelDiff = 1. / resolution;
@@ -349,18 +281,17 @@ onMounted(() => {
 
     framebuffer: ({tick}: {tick: number}) => {
         if(jacobiIterationCount === maxJacobiCount){
-            debugger
             return pressure[(tick + 1) % 2]
         }
         else {
-            debugger
             return jacobiPressure[jacobiIterationCount % 2]
         }
     },
     uniforms: {
         iterationPressure: ({tick}: {tick: number}) => {
             return jacobiPressure[(jacobiIterationCount + 1) % 2]
-        }
+        },
+        prevPressure: () => pressure[2]
     }
     })
 
@@ -382,10 +313,10 @@ onMounted(() => {
     uniform float delta;
     varying vec2 uv;
     void main() {
-        // vec3 state = texture2D(prevVector, uv).rgb;
-        // gl_FragColor = vec4(state.xy, 0., 1.);
-        vec3 state = texture2D(prevPressure, uv).rgb;
-        gl_FragColor = vec4(vec3(state.r), 1);
+        vec3 state = texture2D(prevVector, uv).rgb;
+        gl_FragColor = vec4(state.xy, 1. - (state.x + state.y) * 0.5, 1.);
+        // vec3 state = texture2D(prevPressure, uv).rgb;
+        // gl_FragColor = vec4(vec3(state.r), 1);
     }`,
 
 
@@ -395,9 +326,7 @@ onMounted(() => {
 
     uniforms: {
         prevPressure: ({tick}: {tick: number}) => pressure[tick % 2],
-        prevVector: ({tick}: {tick: number}) => {
-            return vectors[tick % 2]
-        },
+        prevVector: ({tick}: {tick: number}) => vectors[tick % 2],
         delta: ({time}: {time: number}) => {
             let tempPrevTime = prevTime;
             prevTime = time;
@@ -416,13 +345,12 @@ onMounted(() => {
         setupQuad(() => {
             regl.draw()
             updatePressure()
-            // updateVectorField()
+            updateVectorField()
             while(jacobiIterationCount <= maxJacobiCount){
-                // viciousVectorsDiffusion()
+                viciousVectorsDiffusion()
                 viciousPressureDiffusion()
                 jacobiIterationCount ++
             }
-            debugger
             jacobiIterationCount = 0
         })
     })
