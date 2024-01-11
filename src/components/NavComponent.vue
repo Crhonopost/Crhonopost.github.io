@@ -1,16 +1,29 @@
 <template>
     <div id="nav">
+        <Switch :choices="[
+            {
+                content: 'Français',
+                method() {
+                    i18n.locale.value = 'fr'
+                    },
+            },
+            {
+                content: 'English', 
+                method() {
+                    i18n.locale.value = 'en'
+                    },
+            }]" :chosen="0"></Switch>
         <GlassComponent>
             <div id="siteLinks">            
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="contact">Contact</RouterLink>
             </div>
-            <ul id="shortcuts">
+            <!-- <ul id="shortcuts">
                 <li v-for="(href, index) in sections">
-                    <!-- <a :href="section.href" @click="changeCurrentSection(section.idx)" :class="sectionIdx == section.idx ? 'selected' : 'unselected'">{{ section.idx }}</a>    -->
+                <a :href="section.href" @click="changeCurrentSection(section.idx)" :class="sectionIdx == section.idx ? 'selected' : 'unselected'">{{ section.idx }}</a>
                     {{ index }} - {{ href }}
                 </li> 
-            </ul>
+            </ul> -->
         </GlassComponent>
         <GlassComponent>
             <div id="extraLinks">            
@@ -24,7 +37,7 @@
                         <path d="M20.5 2h-17A1.5 1.5 0 002 3.5v17A1.5 1.5 0 003.5 22h17a1.5 1.5 0 001.5-1.5v-17A1.5 1.5 0 0020.5 2zM8 19H5v-9h3zM6.5 8.25A1.75 1.75 0 118.3 6.5a1.78 1.78 0 01-1.8 1.75zM19 19h-3v-4.74c0-1.42-.6-1.93-1.38-1.93A1.74 1.74 0 0013 14.19a.66.66 0 000 .14V19h-3v-9h2.9v1.3a3.11 3.11 0 012.7-1.4c1.55 0 3.36.86 3.36 3.66z"></path>
                     </svg>
                 </a>
-                <a href="./CV.pdf">
+                <a href="./assets/CV.pdf">
                     <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 16" fill="none" class="logo" aria-hidden="true">
                         <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.656 12.115a3 3 0 0 1 5.682-.015M13 5h3m-3 3h3m-3 3h3M2 1h16a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1Zm6.5 4.5a2 2 0 1 1-4 0 2 2 0 0 1 4 0Z"/>
                     </svg>
@@ -37,6 +50,8 @@
 <script setup lang="ts">
 import { onMounted, reactive, ref } from 'vue';
 import GlassComponent from './GlassComponent.vue';
+import Switch from './Switch.vue';
+import { i18n } from '@/i18n/translations';
 
 interface Raccourci { 
     href: string, 

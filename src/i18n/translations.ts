@@ -2,6 +2,12 @@ import { createI18n } from "vue-i18n";
 
 export const lang = {
     en:{
+        presentation:{
+            resume: "hi",
+            biography: "Diplômé d’un bac général option mathématique et NSI en 2021, j’ai continué ma formation en suivant un BUT informatique parcours “réalisation d’application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année et compte à terme poursuivre ma formation en suivant une formation par apprentissage en école d’ingénieur.",
+            interests: "Passionné de jeu vidéo, je m’intéresse également beaucoup au dessin."
+        
+        }
     },
     fr:{
         presentation:{
@@ -53,4 +59,8 @@ export const lang = {
     }
 }
 
-export const i18n = createI18n({locale: 'fr', fallbackLocale: 'en', messages: lang, legacy:false})
+const instance = createI18n({locale: 'fr', fallbackLocale: ['en', 'fr'], messages: lang, legacy:false, globalInjection: true })
+
+export default instance
+
+export const i18n = instance.global

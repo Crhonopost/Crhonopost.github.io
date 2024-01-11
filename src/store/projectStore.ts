@@ -1,8 +1,10 @@
 import { i18n } from "@/i18n/translations";
 import { Project } from "@/types";
 import { defineStore } from "pinia";
+import { useI18n } from "vue-i18n";
 
-const {t} = i18n.global;
+
+const { t } = i18n
 
 export default defineStore("projectStore",{
   state:() => ({
