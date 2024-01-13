@@ -8,8 +8,8 @@
 
 <script setup lang="ts">
 import Presentation from "@/components/PresentationItem.vue"
-import { i18n } from "@/i18n/translations";
-import { computed } from "vue";
+import { i18n } from "@/i18n/translations"
+import { computed } from "vue"
 
 const {t} = i18n
 

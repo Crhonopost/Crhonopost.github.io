@@ -1,18 +1,5 @@
 <template>
     <div id="nav">
-        <Switch :choices="[
-            {
-                content: 'Français',
-                method() {
-                    i18n.locale.value = 'fr'
-                    },
-            },
-            {
-                content: 'English', 
-                method() {
-                    i18n.locale.value = 'en'
-                    },
-            }]" :chosen="0"></Switch>
         <GlassComponent>
             <div id="siteLinks">            
                 <RouterLink to="/">Home</RouterLink>
@@ -44,6 +31,19 @@
                 </a>
             </div>
         </GlassComponent>
+        <Switch :choices="[
+            {
+                content: 'Français',
+                method() {
+                    i18n.locale.value = 'fr'
+                    },
+            },
+            {
+                content: 'English', 
+                method() {
+                    i18n.locale.value = 'en'
+                    },
+            }]" :chosen="0" />
     </div>
 </template>
 
@@ -81,6 +81,10 @@ function changeCurrentSection(newIndex: number){
   display: flex;
   flex-direction: column;
   height: 100%;
+
+  position: fixed;
+  left: 200px;
+  top: 50%;
 }
 
 #nav>*{

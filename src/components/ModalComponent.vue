@@ -1,7 +1,9 @@
 <template>
-    <div class="modal" v-if="store.selectedProject.title" @click="store.closeProject">
-        <ProjectView :project="store.selectedProject" />
-    </div>
+    <Transition>
+        <div class="modal" v-if="store.selectedProject.title" @click="store.closeProject">
+            <ProjectView :project="store.selectedProject" />
+        </div>
+    </Transition>
 </template>
 
 <script setup lang="ts">
@@ -13,6 +15,18 @@ const store = projectStore();
 </script>
 
 <style scoped lang="css">
+.v-enter-active,
+.v-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.v-enter-from {
+  transform: translateX(100%);
+}
+.v-leave-to {
+    transform: translateY(100%);
+}
+
 .modal {
     position: fixed;
     top: 0;

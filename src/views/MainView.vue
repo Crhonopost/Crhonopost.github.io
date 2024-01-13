@@ -21,6 +21,11 @@ import PresentationPanel from "@/components/PresentationPanel.vue"
 import ProjectList from "@/components/ProjectList.vue"
 import ModalComponent from "@/components/ModalComponent.vue";
 import GlassComponent from "@/components/GlassComponent.vue";
+import { computed } from "vue";
+
+
+let _showModal = false
+const showModal = computed(() => _showModal)
 </script>
 
 <style scoped>
