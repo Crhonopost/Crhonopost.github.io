@@ -1,12 +1,12 @@
 <template>
-  <div class="anime" :style="`top: ${center.top}; left: ${center.left}`">
+  <div class="anime" :id="`anime${uid}`" :style="`top: ${center.top}; left: ${center.left}`">
     <slot></slot>
   </div>
 </template>
 
 <script setup lang="ts">
 import anime from 'animejs';
-import { onMounted } from 'vue';
+import {  getCurrentInstance, onMounted, ref } from 'vue';
 
 const props = defineProps<{
   from: {x: number, y:number },
@@ -14,9 +14,17 @@ const props = defineProps<{
   center: {top: string, left: string}
 }>()
 
+const uid = ref(0)
+
 onMounted(() => {
+  const currentInstance = getCurrentInstance()
+  if(currentInstance)
+  {
+    uid.value = currentInstance.uid
+  }
+
   const divAnimation = anime({
-    targets: '.anime',
+    targets: `#anime${uid.value}`,
     easing: 'linear',
     translateY: [props.from.y, props.to.y],
     autoplay: false,

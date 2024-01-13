@@ -1,6 +1,10 @@
 <template>
     <div id="list">
-        <ProjectItem v-for="project in projects" :project="project"></ProjectItem>
+        <div v-for="(project, index) in store.projects">
+            <Transition :name="`projectItem${index % 2}`" appear>
+                <ProjectItem v-if="!store.projectOpened" :project="project"></ProjectItem>
+            </Transition>
+        </div>
     </div>
 </template>
 
@@ -8,9 +12,8 @@
 import ProjectItem from '@/components/ProjectItem.vue'
 import projectStore from "@/store/projectStore"
 
-const {projects} = projectStore().$state;
+const store = projectStore()
 
-// TODO: traduction
 </script>
 
 <style scoped>
@@ -21,4 +24,27 @@ const {projects} = projectStore().$state;
 #list > *:nth-child(2n){
     margin-left: 200px;
 }
+
+
+.projectItem0-enter-active,
+.projectItem0-leave-active,
+.projectItem1-enter-active,
+.projectItem1-leave-active {
+  transition: transform 0.5s ease;
+}
+
+.projectItem0-enter-from {
+  transform: translateX(1000px);
+}
+.projectItem1-enter-from {
+  transform: translateX(-1000px);
+}
+
+.projectItem0-leave-to,
+.projectItem1-leave-to {
+    transform: translateX(-1500px);
+}
+
+
+
 </style>

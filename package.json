@@ -9,6 +9,7 @@
     "build:publish": "pnpm build && git add dist && git commit -m 'build' && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
+    "@lucien144/vue3-parallaxy": "^0.1.1",
     "@types/animejs": "^3.1.12",
     "animejs": "^3.2.2",
     "pinia": "^2.1.7",

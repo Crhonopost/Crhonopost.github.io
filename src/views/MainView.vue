@@ -1,11 +1,13 @@
 <template>
     <div id="align">
-        <GlassComponent>
-            <div id="presentation" class="section">
-                <PresentationPanel />
-            </div>
-        </GlassComponent>
-        
+        <div class="section" id="presentationSection">
+            <PresentationPanel />
+        </div>
+
+        <div class="title">
+            <h1>Projets</h1>
+        </div>
+
         <div id="projets" class="section">
             <ProjectList />
         </div>
@@ -20,26 +22,31 @@
 import PresentationPanel from "@/components/PresentationPanel.vue"
 import ProjectList from "@/components/ProjectList.vue"
 import ModalComponent from "@/components/ModalComponent.vue";
-import GlassComponent from "@/components/GlassComponent.vue";
-import { computed } from "vue";
 
-
-let _showModal = false
-const showModal = computed(() => _showModal)
 </script>
 
 <style scoped>
-#presentation {
-    color: white;
+#presentationSection {
+    padding-top: 20%;
 }
-
+.title {
+    margin-top: 80px;
+    margin-bottom: 20px;
+    text-align: left;
+    width: fit-content;
+}
 #align{
     max-width: 800px;
     display: flex;
     flex-direction: column;
 }
 
+#presentation {
+    margin-top: 30%;
+    margin-bottom: 50%;
+}
+
 #projets {
-    margin-top: 60px;
+    margin-top: 20px;
 }
 </style>

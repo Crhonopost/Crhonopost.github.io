@@ -1,7 +1,9 @@
 <template>
     <Transition>
-        <div class="modal" v-if="store.selectedProject.title" @click="store.closeProject">
-            <ProjectView :project="store.selectedProject" />
+        <div class="modal" v-if="store.projectOpened" @click="store.closeProject">
+            <GlassComponent>
+                <ProjectView :project="store.selectedProject" />
+            </GlassComponent>
         </div>
     </Transition>
 </template>
@@ -9,6 +11,7 @@
 <script setup lang="ts">
 import projectStore from '@/store/projectStore';
 import ProjectView from '@/views/ProjectView.vue';
+import GlassComponent from './GlassComponent.vue';
 
 
 const store = projectStore();
@@ -17,14 +20,14 @@ const store = projectStore();
 <style scoped lang="css">
 .v-enter-active,
 .v-leave-active {
-  transition: transform 0.5s ease;
+  transition: transform 0.4s ease;
 }
 
 .v-enter-from {
-  transform: translateX(100%);
+  transform: translateX(1000px);
 }
 .v-leave-to {
-    transform: translateY(100%);
+    transform: translateY(1200px);
 }
 
 .modal {

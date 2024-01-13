@@ -5,6 +5,9 @@ settings:
   excludeLinksFromLockfile: false
 
 dependencies:
+  '@lucien144/vue3-parallaxy':
+    specifier: ^0.1.1
+    version: 0.1.1(typescript@4.5.5)
   '@types/animejs':
     specifier: ^3.1.12
     version: 3.1.12
@@ -325,6 +328,14 @@ packages:
   /@leichtgewicht/ip-codec@2.0.4:
     resolution: {integrity: sha512-Hcv+nVC0kZnQ3tD9GVu5xSMR4VVYOteQIr/hwFPVEvPdlXqgGEuRjiheChHgdM+JyqdgNcmzZOX/tnl0JOiI7A==}
     dev: true
+
+  /@lucien144/vue3-parallaxy@0.1.1(typescript@4.5.5):
+    resolution: {integrity: sha512-MLG0Osepw7dkOzPX6eOmFAF2WvGdZrJ5iq8K3rWsVzyAElx3TET6stiAaOw2DAt+VUkfW0irv0cHJmbqF8w2AA==}
+    dependencies:
+      vue: 3.3.9(typescript@4.5.5)
+    transitivePeerDependencies:
+      - typescript
+    dev: false
 
   /@node-ipc/js-queue@2.0.3:
     resolution: {integrity: sha512-fL1wpr8hhD5gT2dA1qifeVaoDFlQR5es8tFuKqjHX+kdOtdNHnxkVZbtIrR2rxnMFvehkjaZRNV2H/gPXlb0hw==}

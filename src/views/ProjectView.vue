@@ -20,6 +20,9 @@
             <h1>Expérience gagnée</h1>
             <p>{{ project.experience }}</p>
         </div>
+        <div class="carroussel">
+            <img class="projectImg" v-for="imgPath in project.caroussel" :src="imgPath" />
+        </div>
     </div>
 </template>
 
@@ -34,16 +37,16 @@ const props = defineProps<{
 
 <style scoped>
 .projectView {
-    background: rgba(255, 255, 255, 0.16);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6.3px);
-    -webkit-backdrop-filter: blur(6.3px);
-    border: 1px solid rgba(255, 255, 255, 0.19);
-    padding: 0px;
-
     width: 70%;
-    min-width: 400px;
     max-width: 1000px;
+    margin: auto;
+}
+
+.carroussel {
+    margin-top: 70px;
+}
+
+.projectImg {
+    max-width: 600px;
 }
 </style>

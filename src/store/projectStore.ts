@@ -1,13 +1,12 @@
 import { i18n } from "@/i18n/translations";
 import { Project } from "@/types";
 import { defineStore } from "pinia";
-import { useI18n } from "vue-i18n";
-
 
 const { t } = i18n
 
 export default defineStore("projectStore",{
   state:() => ({
+    projectOpened: false,
     selectedProject: {} as Project,
     projects: [
       {
@@ -17,7 +16,8 @@ export default defineStore("projectStore",{
         context:t('projects.richVote.context'),
         description:t('projects.richVote.description'),
         difficulties:t('projects.richVote.difficulties'),
-        experience:t('projects.richVote.experience')
+        experience:t('projects.richVote.experience'),
+        caroussel: ['assets/RichVote/RichVote_liste.png']
       },
       {
         title: t('projects.fluid.title'),
@@ -42,9 +42,11 @@ export default defineStore("projectStore",{
   }),
   actions: {
     openProject(project: Project) {
+      this.projectOpened = true;
       this.selectedProject = project;
     },
     closeProject(){
+      this.projectOpened = false;
       this.selectedProject = {} as Project;
     }
   }

@@ -5,8 +5,6 @@ import { createPinia } from "pinia";
 import { useI18n } from "vue-i18n";
 import instance from "./i18n/translations";
 
-const pinia = createPinia()
-
 const app = createApp(App)
 
 app.mixin({
@@ -15,6 +13,8 @@ app.mixin({
         return {t}
     }
 })
+
+const pinia = createPinia()
 
 
 

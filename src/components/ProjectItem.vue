@@ -22,11 +22,9 @@ const props = defineProps<{
     project: Project
 }>()
 
-const router = useRouter()
-
 
 function navigateToProject() {
-    projectStore().$state.selectedProject = props.project
+    projectStore().openProject(props.project)
 }
 </script>
 

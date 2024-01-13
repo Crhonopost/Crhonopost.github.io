@@ -81,6 +81,7 @@ function changeCurrentSection(newIndex: number){
   display: flex;
   flex-direction: column;
   height: 100%;
+  z-index: 10;
 
   position: fixed;
   left: 200px;
