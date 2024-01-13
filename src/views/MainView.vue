@@ -4,7 +4,7 @@
             <PresentationPanel />
         </div>
 
-        <div class="title">
+        <div class="title" v-if="!projectS.projectOpened">
             <h1>Projets</h1>
         </div>
 
@@ -22,6 +22,9 @@
 import PresentationPanel from "@/components/PresentationPanel.vue"
 import ProjectList from "@/components/ProjectList.vue"
 import ModalComponent from "@/components/ModalComponent.vue";
+import projectStore from "@/store/projectStore";
+
+const projectS = projectStore()
 
 </script>
 

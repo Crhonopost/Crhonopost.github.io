@@ -1,7 +1,7 @@
 <template>
     <Transition>
         <div class="modal" v-if="store.projectOpened" @click="store.closeProject">
-            <GlassComponent>
+            <GlassComponent @click.stop>
                 <ProjectView :project="store.selectedProject" />
             </GlassComponent>
         </div>
