@@ -17,6 +17,9 @@ const store = projectStore()
 </script>
 
 <style scoped>
+#list {
+    overflow: hidden;
+}
 #list > *{
     margin-bottom: 40px;
 }

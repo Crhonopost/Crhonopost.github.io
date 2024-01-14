@@ -51,4 +51,9 @@ const store = projectStore();
     display: flex;
     justify-content: center;
 }
+
+.modal > * {
+    height: fit-content;
+    margin-top: 40px;
+}
 </style>

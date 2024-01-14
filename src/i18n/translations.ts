@@ -2,11 +2,13 @@ import { createI18n } from "vue-i18n";
 
 export const lang = {
     en:{
+        introduction: 'Hi !',
         presentation:{
             resume: "hi"
         }
     },
     fr:{
+        introduction: 'Salut !',
         presentation:{
             resume: "Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en troisième année de BUT Informatique à l'IUT Montpellier Sète. \
             Je suis passionné par l'informatique et la programmation depuis mon plus jeune âge, et je suis toujours à la recherche de nouveaux projets à réaliser.",

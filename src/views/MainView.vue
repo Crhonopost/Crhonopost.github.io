@@ -4,9 +4,11 @@
             <PresentationPanel />
         </div>
 
-        <div class="title" v-if="!projectS.projectOpened">
-            <h1>Expériences majeures</h1>
-        </div>
+        <Transition name="proj">
+            <div class="title" v-if="!projectS.projectOpened">
+                <h1>Expériences majeures</h1>
+            </div>
+        </Transition>
 
         <div id="projets" class="section">
             <ProjectList />
@@ -52,4 +54,18 @@ const projectS = projectStore()
 #projets {
     margin-top: 20px;
 }
+
+
+
+
+.proj-enter-active,
+.proj-leave-active{
+  transition: opacity 0.5s ease;
+}
+
+.proj-leave-to,
+.proj-enter-from {
+    opacity: 0%;
+}
+
 </style>
