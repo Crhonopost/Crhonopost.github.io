@@ -5,13 +5,22 @@
                 <RouterLink to="/">Home</RouterLink>
                 <RouterLink to="contact">Contact</RouterLink>
             </div>
-            <!-- <ul id="shortcuts">
-                <li v-for="(href, index) in sections">
-                <a :href="section.href" @click="changeCurrentSection(section.idx)" :class="sectionIdx == section.idx ? 'selected' : 'unselected'">{{ section.idx }}</a>
-                    {{ index }} - {{ href }}
-                </li> 
-            </ul> -->
         </GlassComponent>
+
+        <Switch :choices="[
+            {
+                content: 'Français',
+                method() {
+                    i18n.locale.value = 'fr'
+                    },
+            },
+            {
+                content: 'English', 
+                method() {
+                    i18n.locale.value = 'en'
+                    },
+            }]" :chosen="0" />
+        
         <GlassComponent>
             <div id="extraLinks">            
                 <a href="https://github.com/Crhonopost">
@@ -31,19 +40,10 @@
                 </a>
             </div>
         </GlassComponent>
-        <Switch :choices="[
-            {
-                content: 'Français',
-                method() {
-                    i18n.locale.value = 'fr'
-                    },
-            },
-            {
-                content: 'English', 
-                method() {
-                    i18n.locale.value = 'en'
-                    },
-            }]" :chosen="0" />
+
+        <GlassComponent>
+            <a href="assets/apprentissages.pdf" style="margin: 10px; color: white;">PPP</a>
+        </GlassComponent>
     </div>
 </template>
 
