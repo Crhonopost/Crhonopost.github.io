@@ -1,5 +1,5 @@
 <template>
-    <Transition>
+    <Transition name="modal">
         <div class="modal" v-if="store.projectOpened" @click="store.closeProject">
             <GlassComponent @click.stop>
                 <div class="clickable" id="back" @click="store.closeProject">
@@ -28,16 +28,15 @@ const store = projectStore();
     z-index: 11;
     left: 0;
 }
-.v-enter-active,
-.v-leave-active {
-  transition: transform 0.4s ease;
+.modal-enter-active,
+.modal-leave-active {
+  transition: all 0.4s ease;
 }
 
-.v-enter-from {
-  transform: translateY(1200px);
-}
-.v-leave-to {
+.modal-enter-from,
+.modal-leave-to {
     transform: translateY(1200px);
+    opacity: 0%;
 }
 
 .modal {

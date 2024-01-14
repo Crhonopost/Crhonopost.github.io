@@ -10,10 +10,10 @@ export const lang = {
     fr:{
         introduction: 'Salut !',
         presentation:{
-            resume: "Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en troisième année de BUT Informatique à l'IUT Montpellier Sète. \
-            Je suis passionné par l'informatique et la programmation depuis mon plus jeune âge, et je suis toujours à la recherche de nouveaux projets à réaliser.",
-            biography: "Diplômé d’un bac général option mathématique et NSI en 2021, j’ai continué ma formation en suivant un BUT informatique parcours “réalisation d’application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année",
-            interests: "Passionné de jeu vidéo, je m’intéresse également beaucoup au dessin."
+            resume: `Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en troisième année de BUT Informatique à l'IUT Montpellier Sète. 
+            Je suis passionné par l'informatique et la programmation depuis mon plus jeune âge, et je suis toujours à la recherche de nouveaux projets à réaliser.`,
+            biography: "Diplômé d'un bac général option mathématique et NSI en 2021, j'ai continué ma formation en suivant un BUT informatique parcours “réalisation d'application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année",
+            interests: "Passionné de jeu vidéo, je m'intéresse également beaucoup au dessin."
         
         },
         projects: {

@@ -52,7 +52,7 @@ function isMP4(path: string) {
     padding: 10px;
 }
 .cImage > * {
-    border-radius: 5px;
+    border-radius: 16px;
     max-width: 400px;
 }
 </style>

@@ -1,10 +1,13 @@
 <template>
     <div id="align">
+        <Transition name="fade">
+            <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
+        </Transition>
         <div class="section" id="presentationSection">
             <PresentationPanel />
         </div>
 
-        <Transition name="proj">
+        <Transition name="fade">
             <div class="title" v-if="!projectS.projectOpened">
                 <h1>Expériences majeures</h1>
             </div>
@@ -25,8 +28,14 @@ import PresentationPanel from "@/components/PresentationPanel.vue"
 import ProjectList from "@/components/ProjectList.vue"
 import ModalComponent from "@/components/ModalComponent.vue";
 import projectStore from "@/store/projectStore";
+import { computed } from "vue";
+import { i18n } from "@/i18n/translations";
 
 const projectS = projectStore()
+
+const {t} = i18n
+
+const introduction = computed(() => t('introduction'))
 
 </script>
 
@@ -58,13 +67,13 @@ const projectS = projectStore()
 
 
 
-.proj-enter-active,
-.proj-leave-active{
-  transition: opacity 0.5s ease;
+.fade-enter-active,
+.fade-leave-active{
+  transition: opacity 0.3s ease;
 }
 
-.proj-leave-to,
-.proj-enter-from {
+.fade-leave-to,
+.fade-enter-from {
     opacity: 0%;
 }
 
