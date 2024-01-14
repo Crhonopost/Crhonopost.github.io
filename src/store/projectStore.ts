@@ -22,7 +22,8 @@ export default defineStore("projectStore",{
     projects: [
       {
         ...getProjectFromTranslate('kapix'),
-        tags: ["VueJS", "NestJS", "TypeScript", "GraphQL"]
+        tags: ["VueJS", "NestJS", "TypeScript", "GraphQL"],
+        caroussel: ['assets/Kapix/Kapix-postgis-test.png', 'assets/Kapix/Kapix-postgis-data.png', 'assets/Kapix/Kapix-npm-collab.png']
       },
       {
         ...getProjectFromTranslate('richVote'),
@@ -31,7 +32,8 @@ export default defineStore("projectStore",{
       },
       {
         ...getProjectFromTranslate('fluid'),
-        tags: ["C#", "Javascript", "webGl", "Godot"],          
+        tags: ["C#", "Javascript", "webGl", "Godot"],
+        caroussel:["assets/Fluid/illustration.png", "assets/Fluid/fluid.mp4"]
       },
       {
         ...getProjectFromTranslate('behaviour'),
