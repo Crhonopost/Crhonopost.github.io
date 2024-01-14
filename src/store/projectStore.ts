@@ -4,38 +4,38 @@ import { defineStore } from "pinia";
 
 const { t } = i18n
 
+function getProjectFromTranslate(projectName: string): Partial<Project>{
+  return {
+    title: t(`projects.${projectName}.title`),
+    shortDescription: t(`projects.${projectName}.shortDescription`),
+    context:t(`projects.${projectName}.context`),
+    description:t(`projects.${projectName}.description`),
+    difficulties:t(`projects.${projectName}.difficulties`),
+    experience:t(`projects.${projectName}.experience`)
+  }
+}
+
 export default defineStore("projectStore",{
   state:() => ({
     projectOpened: false,
     selectedProject: {} as Project,
     projects: [
       {
-        title: t('projects.richVote.title'),
-        shortDescription: t('projects.richVote.shortDescription'),
+        ...getProjectFromTranslate('kapix'),
+        tags: ["VueJS", "NestJS", "TypeScript", "GraphQL"]
+      },
+      {
+        ...getProjectFromTranslate('richVote'),
         tags: ["HTML", "CSS", "PHP", "MySQL"],
-        context:t('projects.richVote.context'),
-        description:t('projects.richVote.description'),
-        difficulties:t('projects.richVote.difficulties'),
-        experience:t('projects.richVote.experience'),
         caroussel: ['assets/RichVote/RichVote_liste.png']
       },
       {
-        title: t('projects.fluid.title'),
-        shortDescription: t('projects.fluid.shortDescription'),
+        ...getProjectFromTranslate('fluid'),
         tags: ["C#", "Javascript", "webGl", "Godot"],          
-        context:t('projects.richVote.context'),
-        description:t('projects.fluid.description'),
-        difficulties:t('projects.fluid.difficulties'),
-        experience:t('projects.fluid.experience')
       },
       {
-        title: t('projects.behaviour.title'),
-        shortDescription: t('projects.behaviour.shortDescription'),
+        ...getProjectFromTranslate('behaviour'),
         tags: ["C#", "Godot"],
-        context:t('projects.behaviour.context'),
-        description:t('projects.behaviour.description'),
-        difficulties:t('projects.behaviour.difficulties'),
-        experience:t('projects.behaviour.experience')
       }
     ] as Project[]
 

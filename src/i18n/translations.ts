@@ -3,21 +3,29 @@ import { createI18n } from "vue-i18n";
 export const lang = {
     en:{
         presentation:{
-            resume: "hi",
-            biography: "Diplômé d’un bac général option mathématique et NSI en 2021, j’ai continué ma formation en suivant un BUT informatique parcours “réalisation d’application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année et compte à terme poursuivre ma formation en suivant une formation par apprentissage en école d’ingénieur.",
-            interests: "Passionné de jeu vidéo, je m’intéresse également beaucoup au dessin."
-        
+            resume: "hi"
         }
     },
     fr:{
         presentation:{
-            resume: "Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en 2ème année de BUT Informatique à l'IUT Montpellier Sète. \
+            resume: "Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en troisième année de BUT Informatique à l'IUT Montpellier Sète. \
             Je suis passionné par l'informatique et la programmation depuis mon plus jeune âge, et je suis toujours à la recherche de nouveaux projets à réaliser.",
-            biography: "Diplômé d’un bac général option mathématique et NSI en 2021, j’ai continué ma formation en suivant un BUT informatique parcours “réalisation d’application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année et compte à terme poursuivre ma formation en suivant une formation par apprentissage en école d’ingénieur.",
+            biography: "Diplômé d’un bac général option mathématique et NSI en 2021, j’ai continué ma formation en suivant un BUT informatique parcours “réalisation d’application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année",
             interests: "Passionné de jeu vidéo, je m’intéresse également beaucoup au dessin."
         
         },
         projects: {
+            kapix: {
+                title: "Kapix",
+                shortDescription: "Stage et alternance chez Kapix depuis avril 2023, j'ai travaillé sur divers projets client et le développement de l'outil interne de l'entreprise ainsi que sur des librairies.",
+                context: "Kapix est une startup proposant deux services, le premier est un outil qui permet de générer un site web (frontend et backend) en codant le moins possible. Le second service consiste à concevoir les sites web en fonction des besoins des clients",
+                description: `
+                Pendant mes missions, j'ai travaillé sur le backend et le frontend de plusieurs sites. Bien que je ne sois pas un développeur fullstack, je suis capable d'utiliser des frameworks tel que VueJS ou NestJS. 
+                Mes missions m'ont amené à travailler également avec des librairies npm mais aussi à développer ces mêmes librairies afin d'étoffer leurs fonctionalités.
+                Parmis ces librairies, il y a par exemple la librairie Kapix-component-vue3 qui contient des composants vueJS. Mais aussi Kapix-typegraphQL-prisma qui améliore la génération de code issue d'un schéma prisma.`,
+                difficulties: "Un des principaux défis a été de s'imprégner rapidement de projets déjà existants, la plupart existant déjà je n'ai commencé que très peu de projets",
+                experience: "Mon implication dans ces projets m'a permis de travailler en équipe sur diverses missions et de me former à de nouveaux outils. J'ai également eu l'opportunité d'élargir mes compétences techniques et de découvrir le fonctionnement interne d'une entreprise."
+            },
             richVote: {
                 title: "RichVote",
                 shortDescription: "Site web de vote en ligne, qui permet de créer des sondages et de voter pour ceux des autres.",

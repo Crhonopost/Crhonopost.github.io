@@ -24,7 +24,7 @@ const store = projectStore();
 }
 
 .v-enter-from {
-  transform: translateX(1000px);
+  transform: translateY(1200px);
 }
 .v-leave-to {
     transform: translateY(1200px);

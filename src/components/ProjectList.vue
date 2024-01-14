@@ -40,7 +40,9 @@ const store = projectStore()
   transform: translateX(-1000px);
 }
 
-.projectItem0-leave-to,
+.projectItem0-leave-to{
+    transform: translateX(1500px);
+}
 .projectItem1-leave-to {
     transform: translateX(-1500px);
 }

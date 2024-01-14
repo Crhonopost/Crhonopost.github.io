@@ -5,7 +5,7 @@
         </div>
 
         <div class="title" v-if="!projectS.projectOpened">
-            <h1>Projets</h1>
+            <h1>Expériences majeures</h1>
         </div>
 
         <div id="projets" class="section">
