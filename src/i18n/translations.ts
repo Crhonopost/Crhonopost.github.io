@@ -3,18 +3,86 @@ import { createI18n } from "vue-i18n";
 export const lang = {
     en:{
         introduction: 'Hi !',
+        experiences: 'Major experiences',
         presentation:{
-            resume: "hi"
+            resume: `My name is Nathan Souvignet, I'm 20 years old and I'm currently in my third year of a Computer Science degree at the IUT Montpellier Sète. 
+            I've been passionate about computers and programming since I was very young, and I'm always looking for new projects to work on.`,
+            biography: "After graduating with a general baccalaureate in mathematics and NSI in 2021, I continued my training by taking a computer science degree in \"application development: design, development, validation\". I'm currently validating my third year.",
+            interests: "I'm passionate about video games and drawing. I'm inquisitive by nature, and like to take an interest in the workings of everything around me."
+        },
+        projectSections:{
+            resume: 'Resume',
+            context: 'Context',
+            description: 'Description',
+            difficulties: 'Difficulties',
+            experience: 'Experience gaigned'
+        },
+        projects: {
+            kapix: {
+                title: "Kapix",
+                shortDescription: "Internship and work-study at Kapix since April 2023, I've worked on various customer projects and the development of the company's internal tool as well as libraries.",
+                context: "Kapix is a startup offering two services: the first is a tool that generates a website (frontend and backend) with as little coding as possible. The second service consists of designing websites according to customers' needs.",
+                description: `
+                During my missions, I worked on the backend and frontend of several sites. Although I'm not a fullstack developer, I'm able to use frameworks such as VueJS or NestJS. 
+                My missions have also led me to work with npm libraries, but also to develop these same libraries in order to enhance their functionalities.
+                These include the Kapix-component-vue3 library, which contains vueJS components. But also Kapix-typegraphQL-prisma, which improves code generation from a prisma schema.`,
+                difficulties: "One of the main challenges was to quickly get to grips with existing projects, most of which already existed - I only started a few.",
+                experience: "My involvement in these projects enabled me to work as part of a team on a variety of assignments and to learn about new tools. I also had the opportunity to broaden my technical skills and discover the inner workings of a company."
+            },
+            richVote: {
+                title: "RichVote",
+                shortDescription: "Online voting website, allowing you to create polls and vote for those of others.",
+                context:"The project involved creating a complete dynamic website, which required collaboration with three other people and was spread over six months, from September 2022 to February 2023.",
+                description:`We used collaborative work tools such as Trello for planning and Git for code sharing, and coded the site using PHPstorm while managing the database with DBeaver.
+                The project was segmented into sprints, in line with SCRUM agile methods, and we worked closely with the customer to meet their needs. 
+                The end result was a fully functional, dynamic website that allowed users to write questions, receive proposals and vote for the best idea.`,
+                difficulties:`The main difficulty we encountered was database management, as we had to create procedures/functions, triggers and materialized views to automate certain behaviors.
+                We also had problems with security, having to ensure that it was not possible to degrade the site's display or access sensitive data.`,
+                experience:`For my part, I mainly worked on the database and its connection to the website via PHP, respecting the MVC structure.
+                This project enabled me to discover agile project management methods and the segmentation of work into sprints, as well as the advantages of working in a team.
+                I was also able to experiment with securing and automating database behaviors using procedures/functions, triggers and materialized views.`
+            },
+            fluid: {
+                title: "Fluid simulation",
+                shortDescription: "Real-time fluid simulation.",
+                context: "Real-time physics simulations have always fascinated me. So I decided to create a real-time fluid simulation as a first approach to this field.",
+                description:`I started by creating a basic version of the simulation, using the CPU for calculation and rendering, using the Godot game engine. 
+                Then I started work on a second version, which uses the graphics processor to optimize the simulation's computation. 
+                This second part was initially undertaken on Godot, but I'm currently trying to run the simulation using the PixiJS library. However, the project is not yet finalized.`,
+                difficulties: `GPU programming is quite complex, and it took a long time to figure out how to make it work.
+                Having no prior knowledge of physics, I also had to learn the basics of fluid physics.`,
+                experience: "This project has enabled me to deepen my knowledge of physics and discover new ways of using a graphics processor, outside the realm of graphics rendering. I intend to finish this fluid simulation on the GPU and explore compute shaders further to master this tool."
+            },
+            behaviour: {
+                title: "Behavior tree",
+                shortDescription: "Plugin for Godot 3.5 to build modular AIs using the behavior tree.",
+                context:"The project was carried out between July and August 2022. The first step was to study behavior tree theory and its use in the video game industry. Next, the implementation was carried out using the C# language and tools provided by Godot.",
+                description: `The aim of this project was to create a functional plugin for Godot that would enable the creation of modular AIs using the behavior tree. 
+                The aim was also to develop programming skills in C# and gain a better understanding of AI design in the context of video games.
+                The Visual Studio Code editor was used for C# programming. 
+                Git was used for version management. Finally, the Godot game engine was used to set up the implementation.`,
+                difficulties: `Setting up the implementation was the most difficult part of the project. We had to understand behavior tree theory in detail and figure out how to implement it efficiently using C# and the tools provided by Godot.
+                However, after overcoming these difficulties, the plugin was successfully implemented.`,
+                experience: `Completing this project enabled me to develop my C# programming skills, gain a better understanding of AI design in the context of video games, and continue to learn how to work with the Godot game engine and create plugins for it.
+                This learning will serve me well in the long term, as I plan to make my own video game.`
+            }
         }
     },
     fr:{
         introduction: 'Salut !',
+        experiences: 'Expériences majeures',
         presentation:{
             resume: `Je m'appelle Nathan Souvignet, j'ai 20 ans et je suis actuellement en troisième année de BUT Informatique à l'IUT Montpellier Sète. 
             Je suis passionné par l'informatique et la programmation depuis mon plus jeune âge, et je suis toujours à la recherche de nouveaux projets à réaliser.`,
             biography: "Diplômé d'un bac général option mathématique et NSI en 2021, j'ai continué ma formation en suivant un BUT informatique parcours “réalisation d'application: conception, développement, validation”. Je suis en actuellement en train de valider ma troisième année",
-            interests: "Passionné de jeu vidéo, je m'intéresse également beaucoup au dessin."
-        
+            interests: "De nature curieuse, j'aime m'intéresser au fonctionnement de tout ce qui m'entoure."
+        },
+        projectSections:{
+            resume: 'Résumé',
+            context: 'Contexte',
+            description: 'Description',
+            difficulties: 'Difficultés',
+            experience: 'Expérience gagnée'
         },
         projects: {
             kapix: {

@@ -9,7 +9,7 @@
 
         <Transition name="fade">
             <div class="title" v-if="!projectS.projectOpened">
-                <h1>Expériences majeures</h1>
+                <h1>{{ projectsTitle }}</h1>
             </div>
         </Transition>
 
@@ -36,6 +36,7 @@ const projectS = projectStore()
 const {t} = i18n
 
 const introduction = computed(() => t('introduction'))
+const projectsTitle = computed(() => t('experiences'))
 
 </script>
 

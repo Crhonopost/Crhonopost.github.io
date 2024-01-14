@@ -1,10 +1,10 @@
 <template>
     <GlassComponent :is-hoverable="false">
         <div @click="navigateToProject" class="project clickable">
-            <h1 class="whiteText">{{ project.title }}</h1>
-            <p>{{ project.shortDescription }}</p>
+            <h1 class="whiteText">{{ project.value.title }}</h1>
+            <p>{{ project.value.shortDescription }}</p>
             <div class="tags">
-                <TagComponent v-for="tag in project.tags" :title="tag" />
+                <TagComponent v-for="tag in project.value.tags" :title="tag" />
             </div>
         </div>
     </GlassComponent>
@@ -12,19 +12,19 @@
 
 <script setup lang="ts">
 import {Project} from "@/types"
-import { useRouter } from 'vue-router'
 import projectStore from "@/store/projectStore"
 import TagComponent from "@/components/TagComponent.vue"
 import GlassComponent from "./GlassComponent.vue";
+import { ComputedRef} from "vue";
 
 
 const props = defineProps<{
-    project: Project
+    project: ComputedRef<Project>
 }>()
 
 
 function navigateToProject() {
-    projectStore().openProject(props.project)
+    projectStore().openProject(props.project.value)
 }
 </script>
 

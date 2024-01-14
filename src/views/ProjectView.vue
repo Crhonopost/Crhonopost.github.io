@@ -11,23 +11,23 @@
             <Caroussel @close-caroussel="carousselVisible = false" :images="project.caroussel" :visible="carousselVisible" id="caroussel"></Caroussel>
         </div>
         <div>
-            <h1>Résumé</h1>
+            <h1>{{ resume }}</h1>
             <p>{{ project.shortDescription }}</p>
         </div>
         <div>
-            <h1>Contexte</h1>
+            <h1>{{context}}</h1>
             <p>{{ project.context }}</p>
         </div>
         <div>
-            <h1>Description</h1>
+            <h1>{{description}}</h1>
             <p>{{ project.description }}</p>
         </div>
         <div>
-            <h1>Difficultés</h1>
+            <h1>{{difficulties}}</h1>
             <p>{{ project.difficulties }}</p>
         </div>
         <div>
-            <h1>Expérience gagnée</h1>
+            <h1>{{ experience }}</h1>
             <p>{{ project.experience }}</p>
         </div>
     </div>
@@ -37,6 +37,7 @@
 import Caroussel from "@/components/Caroussel.vue";
 import ClickableComponent from "@/components/ClickableComponent.vue";
 import GlassComponent from "@/components/GlassComponent.vue";
+import { i18n } from "@/i18n/translations";
 import { Project } from "@/types";
 import { ref } from "vue";
 
@@ -45,6 +46,14 @@ const props = defineProps<{
 }>()
 
 let carousselVisible = ref<boolean>(false)
+
+const {t} = i18n
+
+const resume = t('projectSections.resume')
+const context = t('projectSections.context')
+const description = t('projectSections.description')
+const difficulties = t('projectSections.difficulties')
+const experience = t('projectSections.experience')
 
 </script>
 

@@ -1,5 +1,4 @@
 export interface Project {
-    imageUrl: string,
     title: string,
     shortDescription: string,
     context: string,
