@@ -1,6 +1,6 @@
 <template>
     <GlassComponent :is-hoverable="false">
-        <div @click="navigateToProject" class="project">
+        <div @click="navigateToProject" class="project clickable">
             <h1 class="whiteText">{{ project.title }}</h1>
             <p>{{ project.shortDescription }}</p>
             <div class="tags">

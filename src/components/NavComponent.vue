@@ -80,12 +80,11 @@ function changeCurrentSection(newIndex: number){
 #nav {
   display: flex;
   flex-direction: column;
-  height: 100%;
   z-index: 10;
 
   position: fixed;
-  left: 200px;
-  top: 50%;
+  left: 150px;
+  top: 15%;
 }
 
 #nav>*{
@@ -94,9 +93,18 @@ function changeCurrentSection(newIndex: number){
 
 #siteLinks {
     height: 80%;
-    padding: 30px;
+    padding: 20px;
+    padding-bottom: 0px;
     display: flex;
     flex-direction: column;
+}
+
+#siteLinks > * {
+    margin-bottom: 20px;
+}
+
+a {
+    text-decoration: none;
 }
 
 #extraLinks {

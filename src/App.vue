@@ -118,6 +118,10 @@ nav a.router-link-exact-active {
   transform: translate(100%, -20%);
 }
 
+.clickable {
+    cursor: pointer;
+}
+
 
 </style>
 

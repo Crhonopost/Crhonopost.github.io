@@ -1,6 +1,6 @@
 <template>
     <GlassComponent>
-        <div @click="switchOption" id="switch">
+        <div @click="switchOption" id="switch" class="clickable">
             <p :hidden="chosen!==0">{{ choices[0].content }}</p>
             <p :hidden="chosen!==1">{{ choices[1].content }}</p>
         </div>
