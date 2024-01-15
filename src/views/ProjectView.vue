@@ -30,6 +30,10 @@
             <h1>{{ experience }}</h1>
             <p>{{ project.experience }}</p>
         </div>
+        <div style="width: fit-content; padding: 20px;">
+            <h1>{{ links }}</h1>    
+            <LinkVisualizer v-for="link in project.links" :link="link"></LinkVisualizer>
+        </div>
     </div>
 </template>
 
@@ -37,6 +41,7 @@
 import Caroussel from "@/components/Caroussel.vue";
 import ClickableComponent from "@/components/ClickableComponent.vue";
 import GlassComponent from "@/components/GlassComponent.vue";
+import LinkVisualizer from "@/components/LinkVisualizer.vue";
 import { i18n } from "@/i18n/translations";
 import { Project } from "@/types";
 import { ref } from "vue";
@@ -54,6 +59,7 @@ const context = t('projectSections.context')
 const description = t('projectSections.description')
 const difficulties = t('projectSections.difficulties')
 const experience = t('projectSections.experience')
+const links = t('projectSections.links')
 
 </script>
 

@@ -15,7 +15,8 @@ export const lang = {
             context: 'Context',
             description: 'Description',
             difficulties: 'Difficulties',
-            experience: 'Experience gaigned'
+            experience: 'Experience gaigned',
+            links: 'Links'
         },
         projects: {
             kapix: {
@@ -82,7 +83,8 @@ export const lang = {
             context: 'Contexte',
             description: 'Description',
             difficulties: 'Difficultés',
-            experience: 'Expérience gagnée'
+            experience: 'Expérience gagnée',
+            links: 'Liens'
         },
         projects: {
             kapix: {

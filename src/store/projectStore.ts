@@ -14,7 +14,8 @@ function getProjectFromTranslate(projectName: string): Project{
     difficulties:t(`projects.${projectName}.difficulties`),
     experience:t(`projects.${projectName}.experience`),
     caroussel: [],
-    tags: []
+    tags: [],
+    links: []
   }
 }
 
@@ -25,29 +26,34 @@ export default defineStore("projectStore",{
     projects: [
       computed<Project>(() => {
         return{
-        ...getProjectFromTranslate('kapix'),
-        tags: ["VueJS", "NestJS", "TypeScript", "GraphQL"],
-        caroussel: ['assets/Kapix/Kapix-postgis-test.png', 'assets/Kapix/Kapix-postgis-data.png', 'assets/Kapix/Kapix-npm-collab.png']
+          ...getProjectFromTranslate('kapix'),
+          tags: ["VueJS", "NestJS", "TypeScript", "GraphQL"],
+          caroussel: ['assets/Kapix/Kapix-postgis-test.PNG', 'assets/Kapix/Kapix-postgis-data.PNG', 'assets/Kapix/Kapix-npm-collab.PNG'],
+          links: [{name: 'Kapix', url: 'https://www.kapix.fr/'}]
       }
     }),
     computed<Project>(() => {
       return{
         ...getProjectFromTranslate('richVote'),
         tags: ["HTML", "CSS", "PHP", "MySQL"],
-        caroussel: ['assets/RichVote/RichVote_liste.png']
-      }}),
-      computed<Project>(() => {
-        return{
+        caroussel: ['assets/RichVote/RichVote_liste.png'],
+        links: [{name: 'RichVote', url: 'https://github.com/Crhonopost/Rich-Vote', iconPath: 'assets/links/github-white.svg'}]
+      }
+    }),
+    computed<Project>(() => {
+      return{
         ...getProjectFromTranslate('fluid'),
         tags: ["C#", "Javascript", "webGl", "Godot"],
         caroussel:["assets/Fluid/illustration.png", "assets/Fluid/fluid.mp4"]
-      }}),
-      computed<Project>(() => {
-        return{
+      }
+    }),
+    computed<Project>(() => {
+      return{
         ...getProjectFromTranslate('behaviour'),
         tags: ["C#", "Godot"],
-      }})
-    ]
+        links: [{url: 'https://github.com/Crhonopost/behavior-tree', name: 'Github repository', iconPath: 'assets/links/github-white.svg'}]
+      }
+    })]
 
   }),
   actions: {

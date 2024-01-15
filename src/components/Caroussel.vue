@@ -24,7 +24,7 @@ const props = defineProps<{
 
 const emits = defineEmits(['closeCaroussel'])
 
-const imagesExtensions = ['png', 'jpeg']
+const imagesExtensions = ['png', 'PNG', 'jpeg']
 function isImage(path: string) {
     const extension = path.split('.').pop();
     return imagesExtensions.some((value) => value === extension)

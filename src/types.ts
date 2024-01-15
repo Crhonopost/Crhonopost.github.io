@@ -6,5 +6,13 @@ export interface Project {
     difficulties: string,
     experience: string,
     tags: string[],
-    caroussel: string[]
+    caroussel: string[],
+    links: Link[]
+}
+
+
+export interface Link {
+    url: string,
+    name?: string,
+    iconPath?: string
 }
