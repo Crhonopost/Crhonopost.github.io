@@ -63,6 +63,7 @@ const projectsTitle = computed(() => t('experiences'))
 
 #projets {
     margin-top: 20px;
+    margin-left: 20px;
 }
 
 

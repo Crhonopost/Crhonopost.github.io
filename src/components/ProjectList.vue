@@ -22,10 +22,12 @@ const store = projectStore()
 }
 #list > *{
     margin-bottom: 40px;
+    margin-left: 20px;
 }
-
-#list > *:nth-child(2n){
-    margin-left: 200px;
+@media screen and (min-width: 650px){
+    #list > *:nth-child(2n){
+        margin-left: 200px;
+    }
 }
 
 
