@@ -3,7 +3,7 @@
         <Transition name="fade">
             <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
         </Transition>
-        <div class="section" id="presentationSection">
+        <div id="presentationSection">
             <PresentationPanel />
         </div>
 
@@ -54,6 +54,8 @@ const projectsTitle = computed(() => t('experiences'))
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    margin-right: 10px;
+    margin-left: 10px;
 }
 
 #presentation {

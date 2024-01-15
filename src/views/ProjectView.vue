@@ -67,6 +67,14 @@ const links = t('projectSections.links')
     height: 50px;
     padding-bottom: 0px;
 }
+
+@media screen and (max-width: 500px){
+    #carousselDisplay {
+        position: absolute;
+        right: 0;
+    }
+}
+
 @media screen and (min-width: 1570px) {
     
     #carousselDisplay {

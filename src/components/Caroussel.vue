@@ -47,9 +47,8 @@ function isMP4(path: string) {
     height: 50px;
     margin: 5px;
 }
-
 #carousselComponent {
-    padding: 10px;
+    padding: 10px;;
 }
 .cImage > * {
     border-radius: 16px;

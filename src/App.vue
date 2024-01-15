@@ -36,7 +36,7 @@ body::-webkit-scrollbar {
   text-align: center;
   color: white;
   background-color: #0f172a;
-  overflow: hidden;
+  height: 2700px;
 }
 
 nav {

@@ -33,6 +33,12 @@ const presentation = {
 #grid {
     color: white;
 }
+@media screen and (min-width: 650px){
+    #grid {
+        font-size: 1.5em;
+    }
+}
+
 .v-enter-active,
 .v-leave-active {
   transition: transform 0.5s ease;

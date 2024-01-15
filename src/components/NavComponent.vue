@@ -74,7 +74,7 @@ const handleResize = () => {
     windowWidth.value = window.innerWidth
     windowHeight.value = window.innerHeight
 
-    if(windowWidth.value < 1570){
+    if(windowWidth.value < 900){
         mobile.value = true
     }
     else {
@@ -84,7 +84,7 @@ const handleResize = () => {
 }
 
 onMounted(() => {
-    if(window.innerWidth < 1570){
+    if(window.innerWidth < 900){
         mobile.value = true
     }
     window.addEventListener('resize', handleResize)
@@ -100,9 +100,9 @@ onUnmounted(() => {
 #nav2 {
     z-index: 10;
 
-  position: fixed;
-  left: 50px;
-  top: 50px;
+    position: fixed;
+    left: 50px;
+    top: 50px;
 }
 #nav {
   display: flex;
@@ -111,8 +111,17 @@ onUnmounted(() => {
 
   position: fixed;
   left: 150px;
-  top: 15%;
+  top: 150px;
 }
+
+@media screen and (max-width: 500px){
+    #nav {
+        position: fixed;
+        left: 100px;
+        top: 150px;
+    }
+}
+
 
 #nav>*{
     margin-top: 10px;
