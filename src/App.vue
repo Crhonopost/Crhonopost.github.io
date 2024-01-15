@@ -62,12 +62,7 @@ nav a.router-link-exact-active {
 }
 .mainContent {
   z-index: 1;
-}
-
-@media screen and (min-width: 1000px){
-  .mainContent {
-    flex: 2;
-  }
+  flex: 2;
 }
 
 .whiteText {
@@ -87,13 +82,12 @@ nav a.router-link-exact-active {
 }
 
 .frontColor {
-  background-color: rgb(148, 163, 184);
+  background-color: white;
 }
 
 .mainFrame {
   display: flex;
   flex-direction: row;
-  width: 100%;
 }
 
 #background {
@@ -101,7 +95,6 @@ nav a.router-link-exact-active {
   z-index: -1;
   top: 0;
   left: 0;
-  width: 100%;
   overflow: hidden;
 }
 
