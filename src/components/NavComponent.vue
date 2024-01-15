@@ -1,5 +1,11 @@
 <template>
-    <div id="nav">
+    <GlassComponent v-if="!displayNav" id="nav2">
+        <svg class="clickable bread" @click="() => hideNav=false" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M5 8H19M5 16H19M3 12H21" stroke="#ffffff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+    </GlassComponent>
+    <div id="nav" v-if="displayNav">
+        <GlassComponent v-if="mobile">
+            <svg class="clickable bread" @click="() => hideNav=true" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg"><g id="SVGRepo_bgCarrier" stroke-width="0"></g><g id="SVGRepo_tracerCarrier" stroke-linecap="round" stroke-linejoin="round"></g><g id="SVGRepo_iconCarrier"> <path d="M14.9999 9L8.99994 15M9.00006 9L10.5 10.5M15.0001 15L12 12M20 16C20 18.2091 18.2091 20 16 20H8C5.79086 20 4 18.2091 4 16V8C4 5.79086 5.79086 4 8 4H16C18.2091 4 20 5.79086 20 8V12" stroke="#ffffff" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"></path> </g></svg>
+        </GlassComponent>
         <GlassComponent>
             <div id="siteLinks">            
                 <RouterLink to="/">Home</RouterLink>
@@ -48,35 +54,56 @@
 </template>
 
 <script setup lang="ts">
-import { onMounted, reactive, ref } from 'vue';
+import { computed, onMounted, onUnmounted, ref } from 'vue';
 import GlassComponent from './GlassComponent.vue';
 import Switch from './Switch.vue';
 import { i18n } from '@/i18n/translations';
 
-interface Raccourci { 
-    href: string, 
-    idx: number 
-}
 
-let sectionIdx = 0;
-const listSections = document.querySelectorAll(".section");
-
-
-const sections = ref([] as string[])
-
-onMounted(() => {
-    for(let i=0; i<listSections.length; i++){
-        sections.value.push(listSections[i].id)
-    }
+const mobile = ref(false)
+const hideNav = ref(true)
+const displayNav = computed(() => {
+    return !mobile.value || !hideNav.value
 })
 
-function changeCurrentSection(newIndex: number){
-    sectionIdx = newIndex;
+
+const windowWidth = ref(window.innerWidth)
+const windowHeight = ref(window.innerHeight)
+
+const handleResize = () => {
+    windowWidth.value = window.innerWidth
+    windowHeight.value = window.innerHeight
+
+    if(windowWidth.value < 1570){
+        mobile.value = true
+    }
+    else {
+        hideNav.value = true
+        mobile.value = false
+    }
 }
+
+onMounted(() => {
+    if(window.innerWidth < 1570){
+        mobile.value = true
+    }
+    window.addEventListener('resize', handleResize)
+})
+
+onUnmounted(() => {
+    window.removeEventListener('resize', handleResize)
+})
 
 </script>
 
 <style scoped>
+#nav2 {
+    z-index: 10;
+
+  position: fixed;
+  left: 50px;
+  top: 50px;
+}
 #nav {
   display: flex;
   flex-direction: column;
@@ -120,5 +147,10 @@ a {
 .logo {
     height: 30px;
     width: 30px;
+}
+
+.bread {
+    width: 50px;
+    height: 50px;
 }
 </style>
