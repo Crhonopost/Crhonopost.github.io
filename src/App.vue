@@ -121,24 +121,13 @@ nav a.router-link-exact-active {
   top: 0;
   left: 0;
   overflow: hidden;
+  height: max-content;
 }
 
 #background > *{
-  z-index: 0;
   height: 900px;
 }
 
-#background svg:nth-child(0n + 1){
-  transform: translate(40%, 0);
-}
-
-#background svg:nth-child(0n + 2){
-  transform: translate(-40%, -40%);
-}
-
-#background svg:nth-child(0n + 3){
-  transform: translate(40%, -80%);
-}
 
 .clickable {
     cursor: pointer;

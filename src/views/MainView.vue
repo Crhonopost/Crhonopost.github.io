@@ -1,13 +1,13 @@
 <template>
     <div class="align">
-        <Transition name="fade">
+        <Transition name="fade" style="z-index: 3;">
             <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
         </Transition>
         <div id="presentationSection">
             <PresentationPanel />
         </div>
 
-        <Transition name="fade" style="margin-top: 60px;">
+        <Transition name="fade" style="margin-top: 60px; z-index: 3;">
             <div class="title" v-if="!projectS.projectOpened">
                 <h1>{{ projectsTitle }}</h1>
             </div>

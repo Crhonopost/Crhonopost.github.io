@@ -38,9 +38,6 @@ function navigateToProject() {
     }
 }
 
-.project p {
-    color: #84a3a8;
-}
 
 .tags {
     display: flex;
