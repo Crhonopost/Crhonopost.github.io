@@ -1,15 +1,12 @@
 <template>
-    <GlassComponent>
-        <div @click="switchOption" id="switch" class="clickable">
-            <p :hidden="chosen!==0">{{ choices[0].content }}</p>
-            <p :hidden="chosen!==1">{{ choices[1].content }}</p>
-        </div>
-    </GlassComponent>
+    <div @click="switchOption" id="switch" class="clickable glass">
+        <p :hidden="chosen!==0">{{ choices[0].content }}</p>
+        <p :hidden="chosen!==1">{{ choices[1].content }}</p>
+    </div>
 </template>
 
 <script setup lang="ts">
 import { ref } from 'vue';
-import GlassComponent from './GlassComponent.vue';
 
 interface IChoice {
     content: string, 

@@ -1,12 +1,10 @@
 <template>
     <Transition>
-        <GlassComponent v-if="!projectS.projectOpened">
-            <div id="grid">
-                <Presentation title="Presentation" :content="presentation.resume.value"></Presentation>
-                <Presentation title="Biographie" :content="presentation.biography.value"></Presentation>
-                <Presentation title="Intérets" :content="presentation.interests.value"></Presentation>
-            </div>
-        </GlassComponent>
+        <div v-if="!projectS.projectOpened" class="glass" id="grid">
+            <Presentation title="Presentation" :content="presentation.resume.value"></Presentation>
+            <Presentation title="Biographie" :content="presentation.biography.value"></Presentation>
+            <Presentation title="Intérets" :content="presentation.interests.value"></Presentation>
+        </div>
     </Transition>
 </template>
 
@@ -15,7 +13,6 @@ import Presentation from "@/components/PresentationItem.vue"
 import { i18n } from "@/i18n/translations"
 import projectStore from "@/store/projectStore";
 import { computed } from "vue"
-import GlassComponent from "./GlassComponent.vue";
 
 const projectS = projectStore()
 

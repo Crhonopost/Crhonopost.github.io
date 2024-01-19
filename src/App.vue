@@ -4,12 +4,12 @@
       <Navigation />
     </nav>
     <div class="mainContent">
-      <router-view />
       <div id="background">
           <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="b" gradientTransform="rotate(-45 .5 .5)"><stop offset="0%" stop-color="#FF3CAC"/><stop offset="50%" stop-color="#784BA0"/><stop offset="100%" stop-color="#2b86c5"/></linearGradient><clipPath id="a"><path fill="currentColor" d="M804.5 607Q714 714 607 848t-277 63q-170-71-186-241t14-326q30-156 186-217.5t314.5-2.5Q817 183 856 341.5T804.5 607Z"/></clipPath></defs><g clip-path="url(#a)"><path fill="url(#b)" d="M804.5 607Q714 714 607 848t-277 63q-170-71-186-241t14-326q30-156 186-217.5t314.5-2.5Q817 183 856 341.5T804.5 607Z"/></g></svg>
           <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="b" gradientTransform="rotate(-45 .5 .5)"><stop offset="0%" stop-color="#FF9A8B"/><stop offset="50%" stop-color="#FF6A88"/><stop offset="100%" stop-color="#ff99ac"/></linearGradient><clipPath id="a"><path fill="currentColor" d="M731 581.5Q663 663 581.5 813t-254 91q-172.5-59-136-231.5t67-278Q289 289 394.5 268T647 226.5Q794 206 796.5 353T731 581.5Z"/></clipPath></defs><g clip-path="url(#a)"><path fill="url(#b)" d="M731 581.5Q663 663 581.5 813t-254 91q-172.5-59-136-231.5t67-278Q289 289 394.5 268T647 226.5Q794 206 796.5 353T731 581.5Z"/></g></svg>
           <svg viewBox="0 0 1000 1000" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="b" gradientTransform="rotate(240 .5 .5)"><stop offset="0%" stop-color="#85FFBD"/><stop offset="100%" stop-color="#FFFB7D"/></linearGradient><clipPath id="a"><path fill="currentColor" d="M804.5 607Q714 714 607 848t-277 63q-170-71-186-241t14-326q30-156 186-217.5t314.5-2.5Q817 183 856 341.5T804.5 607Z"/></clipPath></defs><g clip-path="url(#a)"><path fill="url(#b)" d="M804.5 607Q714 714 607 848t-277 63q-170-71-186-241t14-326q30-156 186-217.5t314.5-2.5Q817 183 856 341.5T804.5 607Z"/></g></svg>
       </div>
+      <router-view />
     </div>
   </div>
 </template>
@@ -39,17 +39,45 @@ body::-webkit-scrollbar {
   height: 2700px;
 }
 
-nav {
-  flex: 1;
-  height: 100vh;
+@media screen and (max-width: 1020px){
+  nav {
+    position: fixed;
+    left: 20px;
+    top: 20px;
+  }
+
+
+  .mainContent {
+    width: 100%;
+  }
 }
 
-nav>* {
-  position: relative;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  max-width: 600px;
+
+@media screen and (min-width: 1020px){
+  nav {
+    position: fixed;
+    width: 18%;
+  }
+
+  nav>* {
+    position: absolute;
+    margin-top: 50%;
+    right: 20px;
+  }
+
+
+  .mainContent {
+    margin-left: 10%;
+    width: 80%;
+  }
+}
+
+nav {
+  z-index: 3;
+}
+
+.mainContent > * {
+  margin: auto;
 }
 
 nav a {
@@ -60,10 +88,7 @@ nav a {
 nav a.router-link-exact-active {
   color: #dfe6f0;
 }
-.mainContent {
-  z-index: 1;
-  flex: 2;
-}
+
 
 .whiteText {
   color: #dfe6f0;
@@ -92,7 +117,7 @@ nav a.router-link-exact-active {
 
 #background {
   position: absolute;
-  z-index: -1;
+  z-index: 0;
   top: 0;
   left: 0;
   overflow: hidden;
@@ -119,10 +144,18 @@ nav a.router-link-exact-active {
     cursor: pointer;
 }
 
+.glass {
+    background: rgba(255, 255, 255, 0.16);
+    border-radius: 16px;
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+    backdrop-filter: blur(6.3px);
+    -webkit-backdrop-filter: blur(6.3px);
+    border: 1px solid rgba(255, 255, 255, 0.19);
+}
+
 
 </style>
 
 <script setup lang="ts">
 import Navigation from "@/components/NavComponent.vue"
-import ScrollParallax from "./components/ScrollParallax.vue";
 </script>

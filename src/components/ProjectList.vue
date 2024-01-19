@@ -1,9 +1,11 @@
 <template>
-    <div id="list">
-        <div v-for="(project, index) in store.projects">
-            <Transition :name="`projectItem${index % 2}`" appear>
-                <ProjectItem v-if="!store.projectOpened" :project="project"></ProjectItem>
-            </Transition>
+    <div class="align">
+        <div id="list">
+            <div v-for="(project, index) in store.projects">
+                <Transition :name="`projectItem${index % 2}`" appear>
+                    <ProjectItem v-if="!store.projectOpened" :project="project"></ProjectItem>
+                </Transition>
+            </div>
         </div>
     </div>
 </template>
@@ -17,19 +19,35 @@ const store = projectStore()
 </script>
 
 <style scoped>
+
 #list {
-    overflow: hidden;
+    width: fit-content;
+    margin: auto;
 }
+
 #list > *{
     margin-bottom: 40px;
-    margin-left: 20px;
 }
+
 @media screen and (min-width: 650px){
     #list > *:nth-child(2n){
-        margin-left: 200px;
+        transform: translateX(100px);
+    }
+    #list > *:nth-child(2n + 1){
+        transform: translateX(-100px);
     }
 }
 
+
+@media screen and (max-width: 500px){
+    #list{
+        width: 100%;
+    }
+
+    #list > *{
+        width: 100%;   
+    }
+}
 
 .projectItem0-enter-active,
 .projectItem0-leave-active,

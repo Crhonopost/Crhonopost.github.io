@@ -1,5 +1,5 @@
 <template>
-    <div id="align">
+    <div class="align">
         <Transition name="fade">
             <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
         </Transition>
@@ -7,7 +7,7 @@
             <PresentationPanel />
         </div>
 
-        <Transition name="fade">
+        <Transition name="fade" style="margin-top: 60px;">
             <div class="title" v-if="!projectS.projectOpened">
                 <h1>{{ projectsTitle }}</h1>
             </div>
@@ -43,6 +43,8 @@ const projectsTitle = computed(() => t('experiences'))
 <style scoped>
 #presentationSection {
     padding-top: 20%;
+    padding-left: 10px;
+    padding-right: 10px;
 }
 .title {
     margin-top: 80px;
@@ -50,12 +52,22 @@ const projectsTitle = computed(() => t('experiences'))
     text-align: left;
     width: fit-content;
 }
-#align{
+
+@media screen and (max-width: 650px){
+    .align {
+        font-size: 0.8em;
+    }
+}
+
+
+.align{
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    margin-right: 10px;
-    margin-left: 10px;
+}
+
+.align > * {
+    margin: auto;
 }
 
 #presentation {
@@ -64,8 +76,7 @@ const projectsTitle = computed(() => t('experiences'))
 }
 
 #projets {
-    margin-top: 20px;
-    margin-left: 20px;
+    margin: 10px;
 }
 
 
