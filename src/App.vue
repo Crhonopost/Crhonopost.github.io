@@ -116,6 +116,7 @@ nav a.router-link-exact-active {
 }
 
 #background {
+  width: 100%;
   position: absolute;
   z-index: 0;
   top: 0;
