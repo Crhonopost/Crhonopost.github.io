@@ -69,11 +69,14 @@ async function sendForm() {
 
 <style scoped>
 #contact {
+    position: absolute;
+    width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-top: 10%;
+    margin-left: 40px;
 }
 
 form {
@@ -83,6 +86,7 @@ form {
 }
 
 label {
+    color: black;
     display: block;
     margin-bottom: 5px;
     margin-top: 10px;
