@@ -151,12 +151,13 @@ onMounted(() => {
         uniform vec2 addVectorLocation;
         uniform vec2 addVectorForce;
         uniform int leftClick;
+        uniform float vectorStrength;
         varying vec2 uv;
 
         ${textNice}
 
         vec4 advection() {
-            vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
+            vec2 vector = texture2D(prevVector, uv).xy * delta * vectorStrength;
 
             return textureNice(prevVector, uv - vector);
         }
@@ -166,7 +167,7 @@ onMounted(() => {
             vec2 vector = vec2(0.);
 
             if(length(uv - addVectorLocation) < 0.05
-            && leftClick > 0){
+                && leftClick > 0){
                 vector = addVectorForce;
             }else {
                 vector = advection().xy;
@@ -177,8 +178,8 @@ onMounted(() => {
         uniforms: {
             addVectorLocation: () => [currentMouseLocation.x, 
                                 1 - currentMouseLocation.y],
-            addVectorForce: () => [(currentMouseLocation.x - lastMouseLocation.x) * 20,
-                                    (lastMouseLocation.y - currentMouseLocation.y) * 20],
+            addVectorForce: () => [(currentMouseLocation.x - lastMouseLocation.x),
+                                    (lastMouseLocation.y - currentMouseLocation.y)],
             leftClick: () => leftClickPressed ? 1 : 0
         }
         ,
@@ -193,12 +194,13 @@ onMounted(() => {
     uniform vec2 resolution;
     uniform float delta;
     uniform float viscosity;
+    uniform float vectorStrength;
     varying vec2 uv;
 
     ${textNice}
 
     vec4 advection() {
-        vec2 vector = texture2D(prevVector, uv).xy * delta * (1./resolution);
+        vec2 vector = texture2D(prevVector, uv).xy * delta * vectorStrength;
 
         return textureNice(prevPressure, uv - vector);
     }
@@ -229,13 +231,12 @@ onMounted(() => {
     
     void main() {
         vec2 pixelDiff = 1. / resolution;
-        float x = .5;
 
-        float alpha = (x * x) / delta;
-        float rBeta = 1. / (4. + (x * x) / delta);
+        float alpha = (viscosity * viscosity) / delta;
+        float rBeta = 1. / (4. + alpha);
 
 
-        vec2 vector = jacobi(pixelDiff, alpha, rBeta, iterationVector, prevVector).xy;
+        vec2 vector = jacobi(pixelDiff, alpha, rBeta, prevVector, iterationVector).xy;
         gl_FragColor = vec4(vector, 0., 0.);
     }`,
 
@@ -270,10 +271,9 @@ onMounted(() => {
     
     void main() {
         vec2 pixelDiff = 1. / resolution;
-        float x = 0.5;
 
-        float alpha = (x * x) / delta;
-        float rBeta = 1. / (4. + (x * x) / delta);
+        float alpha = (viscosity * viscosity) / delta;
+        float rBeta = 1. / (4. + alpha);
 
 
         gl_FragColor = jacobi(pixelDiff, alpha, rBeta, iterationPressure, prevPressure);
@@ -311,12 +311,13 @@ onMounted(() => {
     uniform sampler2D prevVector;
     uniform vec2 resolution;
     uniform float delta;
+    uniform float vectorStrength;
     varying vec2 uv;
     void main() {
-        vec3 state = texture2D(prevVector, uv).rgb;
-        gl_FragColor = vec4(state.xy, 1. - (state.x + state.y) * 0.5, 1.);
-        // vec3 state = texture2D(prevPressure, uv).rgb;
-        // gl_FragColor = vec4(vec3(state.r), 1);
+        // vec3 state = texture2D(prevVector, uv).rgb;
+        // gl_FragColor = vec4(state.xy * 10., 0, 1.);
+        vec3 state = texture2D(prevPressure, uv).rgb;
+        gl_FragColor = vec4(vec3(state.r), 1);
     }`,
 
 
@@ -333,7 +334,8 @@ onMounted(() => {
             return time - tempPrevTime;
         },
         resolution: [800, 800],
-        viscosity: .5
+        viscosity: .15,
+        vectorStrength: 100,
     },
 
     depth: { enable: false },
