@@ -1,5 +1,5 @@
 <template>
-    <div @click="switchOption" id="switch" class="clickable glass">
+    <div @click="switchOption" id="switch" class="clickable">
         <p :hidden="chosen!==0">{{ choices[0].content }}</p>
         <p :hidden="chosen!==1">{{ choices[1].content }}</p>
     </div>
@@ -27,7 +27,7 @@ function switchOption() {
 
 <style scoped>
 #switch {
-    width: 75px;
     color: white;
+    text-align: center;
 }
 </style>

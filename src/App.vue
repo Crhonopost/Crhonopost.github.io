@@ -1,5 +1,5 @@
 <template>
-  <div class="backGradient mainFrame" id="app">
+  <div class="backGradient mainFrame" id="app">    
     <nav>
       <Navigation />
     </nav>
@@ -36,7 +36,6 @@ body::-webkit-scrollbar {
   text-align: center;
   color: white;
   background-color: #0f172a;
-  height: 2700px;
 }
 
 @media screen and (max-width: 1020px){
@@ -78,6 +77,7 @@ nav {
 
 .mainContent > * {
   margin: auto;
+  min-height: 100vh;
 }
 
 nav a {
@@ -122,11 +122,11 @@ nav a.router-link-exact-active {
   top: 0;
   left: 0;
   overflow: hidden;
-  height: max-content;
+  height: 100%;
 }
 
 #background > *{
-  height: 900px;
+  position: absolute;
 }
 
 
