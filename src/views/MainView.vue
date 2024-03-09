@@ -1,4 +1,7 @@
 <template>
+    <ModalComponent>
+        <h1>SALUT</h1>
+    </ModalComponent>
     <div class="align">
         <Transition name="fade" style="z-index: 3;">
             <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
@@ -17,10 +20,6 @@
             <ProjectList />
         </div>
     </div>
-    
-    <ModalComponent>
-        <h1>SALUT</h1>
-    </ModalComponent>
 </template>
 
 <script setup lang="ts">
@@ -64,6 +63,7 @@ const projectsTitle = computed(() => t('experiences'))
     max-width: 800px;
     display: flex;
     flex-direction: column;
+    height: fit-content;
 }
 
 .align > * {

@@ -45,7 +45,7 @@ const store = projectStore();
     }
 }
 .modal {
-    position: absolute;
+    position: relative;
     top: 0;
     left: 0;
     z-index: 1;
