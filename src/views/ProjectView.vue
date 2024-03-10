@@ -101,6 +101,9 @@ const links = t('projectSections.links')
     max-width: 1000px;
     margin: auto;
 }
+.projectView > div > p {
+    text-align: justify;
+}
 .projectImg {
     max-width: 600px;
 }

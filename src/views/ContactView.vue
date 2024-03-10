@@ -1,26 +1,28 @@
 <template>
-    <div id="contact">
-        <form class="frontColor">
-            <div>
-                <label for="form_nom">Nom</label>
-                <input type="text" id="form_nom" name="nom" placeholder="Votre nom" v-model="state.firstName">
-            </div>
-            <div>
-                <label for="form_prenom">Prénom</label>
-                <input type="text" id="form_prenom" name="prenom" placeholder="Votre prénom" v-model="state.lastName">
-            </div>
-            <div>
-                <label for="form_email">Email</label>
-                <input type="email" id="form_email" name="email" placeholder="Votre email" v-model="state.email">
-            </div>
-            <div>
-                <label for="form_message">Message</label>
-                <textarea id="form_message" name="message" placeholder="Votre message" v-model="state.message"></textarea>
-            </div>
-            <div>
-                <input id="sub" value="Envoyer" @click="sendForm">
-            </div>
-        </form>
+    <div id="center">
+        <div id="contact">
+            <form class="frontColor">
+                <div>
+                    <label for="form_nom">Nom</label>
+                    <input type="text" id="form_nom" name="nom" placeholder="Votre nom" v-model="state.firstName">
+                </div>
+                <div>
+                    <label for="form_prenom">Prénom</label>
+                    <input type="text" id="form_prenom" name="prenom" placeholder="Votre prénom" v-model="state.lastName">
+                </div>
+                <div>
+                    <label for="form_email">Email</label>
+                    <input type="email" id="form_email" name="email" placeholder="Votre email" v-model="state.email">
+                </div>
+                <div>
+                    <label for="form_message">Message</label>
+                    <textarea id="form_message" name="message" placeholder="Votre message" v-model="state.message"></textarea>
+                </div>
+                <div>
+                    <input id="sub" value="Envoyer" @click="sendForm">
+                </div>
+            </form>
+        </div>
     </div>
 </template>
 
@@ -68,15 +70,20 @@ async function sendForm() {
 </script>
 
 <style scoped>
+#center {
+    width: 100%;
+    height: 100vh;
+    margin-left: 40px;
+}
+
 #contact {
-    position: absolute;
     width: 80%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
     padding-top: 10%;
-    margin-left: 40px;
+    margin: auto;
 }
 
 form {
