@@ -19,7 +19,7 @@
                     <textarea id="form_message" name="message" placeholder="Votre message" v-model="state.message"></textarea>
                 </div>
                 <div>
-                    <button type="submit" id="sub" @click="sendForm">Envoyer</button>
+                    <button id="sub" @click="sendForm">Envoyer</button>
                 </div>
             </form>
         </div>
