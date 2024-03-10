@@ -18,10 +18,8 @@
                     <label for="form_message">Message</label>
                     <textarea id="form_message" name="message" placeholder="Votre message" v-model="state.message"></textarea>
                 </div>
-                <div>
-                    <button id="sub" @click="sendForm">Envoyer</button>
-                </div>
             </form>
+            <button id="sub" @click="sendForm">Envoyer</button>
         </div>
     </div>
 </template>
@@ -123,6 +121,7 @@ textarea {
 #sub {
     background-color: #0f172a;
     border: none;
+    box-shadow: 0px 0px 5px white;
     border-radius: 5px;
     color: white;
     cursor: pointer;
