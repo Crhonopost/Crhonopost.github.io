@@ -6,7 +6,7 @@
     "serve": "vue-cli-service serve",
     "build": "vue-cli-service build",
     "lint": "vue-cli-service lint",
-    "build:publish": "git add dist && git commit -m 'build' && git subtree push --prefix dist origin gh-pages"
+    "build:publish": "pnpm build && git add dist && git commit -m 'build' && git subtree push --prefix dist origin gh-pages"
   },
   "dependencies": {
     "@lucien144/vue3-parallaxy": "^0.1.1",
