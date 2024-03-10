@@ -1,7 +1,7 @@
 <template>
     <div class="align">
         <ModalComponent>
-            <h1>SALUT</h1>
+            <h1>SALUT!</h1>
         </ModalComponent>
         <Transition name="fade" style="z-index: 3;">
             <h1 style="margin-top: 60px;" v-if="!projectS.projectOpened">{{ introduction }}</h1>
