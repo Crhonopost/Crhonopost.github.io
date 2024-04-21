@@ -51,7 +51,7 @@ export default defineStore("projectStore",{
       return{
         ...getProjectFromTranslate('behaviour'),
         tags: ["C#", "Godot"],
-        links: [{url: 'https://github.com/Crhonopost/behavior-tree', name: 'Github repository', iconPath: 'assets/links/github-white.svg'}]
+        links: [{url: 'https://github.com/Crhonopost/Behavior_tree_4.2', name: 'Github repository', iconPath: 'assets/links/github-white.svg'}]
       }
     })]
 

@@ -56,8 +56,8 @@ export const lang = {
             },
             behaviour: {
                 title: "Behavior tree",
-                shortDescription: "Plugin for Godot 3.5 to build modular AIs using the behavior tree.",
-                context:"The project was carried out between July and August 2022. The first step was to study behavior tree theory and its use in the video game industry. Next, the implementation was carried out using the C# language and tools provided by Godot.",
+                shortDescription: "Plugin for Godot C# enabling the construction of modular AI using the behavior tree pattern.",
+                context:"I first completed this project for Godot 3.5 in 2022. However, in 2024, I updated it for Godot 4.2, which makes creating plugins in C# easier. The initial step involved studying the theory of behavior trees and their application in the video game industry. Then, the implementation was carried out using the C# language and tools provided by Godot.",
                 description: `The aim of this project was to create a functional plugin for Godot that would enable the creation of modular AIs using the behavior tree. 
                 The aim was also to develop programming skills in C# and gain a better understanding of AI design in the context of video games.
                 The Visual Studio Code editor was used for C# programming. 
@@ -124,8 +124,8 @@ export const lang = {
             },
             behaviour: {
                 title: "Arbre de comportement",
-                shortDescription: "Plugin pour Godot 3.5 permettant de construire des IA modulaires en utilisant l'arbre de comportement.",
-                context:"Le projet a été réalisé entre juillet et aout 2022. La première étape a été l'étude de la théorie de l'arbre de comportement et de son utilisation dans l'industrie du jeu vidéo. Ensuite, la mise en place de l'implémentation a été réalisée en utilisant le langage C# et les outils fournis par Godot.",
+                shortDescription: "Plugin pour Godot C# permettant de construire des IA modulaires en utilisant le patron d'arbre de comportement.",
+                context:"J'ai réalisé ce projet une première fois pour Godot 3.5 en 2022. En 2024, je l'ai cependant mis à jour pour Godot 4.2 qui facilite la création de plugins en C#. La première étape a été l'étude de la théorie de l'arbre de comportement et de son utilisation dans l'industrie du jeu vidéo. Ensuite, la mise en place de l'implémentation a été réalisée en utilisant le langage C# et les outils fournis par Godot.",
                 description: `Le but de ce projet était de réaliser un plugin fonctionnel pour Godot qui permettrait la création d'IA modulaires en utilisant l'arbre de comportement. 
                               L'objectif était également de développer les compétences en programmation en C# et de mieux comprendre la conception d'IA dans le contexte des jeux vidéo.
                               Pour la réalisation du projet, l'éditeur Visual Studio Code a été utilisé pour la programmation en C#. 
