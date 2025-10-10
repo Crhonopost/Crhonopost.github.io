@@ -118,6 +118,7 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
     }
 
     function resize(width: number, height: number) {
+        if (!camera) return
         camera.aspect = width / height
         camera.updateProjectionMatrix()
 
