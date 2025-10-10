@@ -1,145 +1,132 @@
-<template>
-  <div class="backGradient mainFrame" id="app">
-      <nav>
-        <Navigation />
-      </nav>
-      <div class="mainContent">
-      <router-view />
-    </div>
-  </div>
-</template>
-<style>
-body {
-  margin: 0%;
-  padding: 0%;
-  
-  /* Hide scrollbar for IE, Edge and Firefox */
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
-}
-
-/* Hide scrollbar for Chrome, Safari and Opera */
-body::-webkit-scrollbar {
-  display: none;
-}
-
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: white;
-  background-color: #0f172a;
-}
-
-@media screen and (max-width: 1020px){
-  nav {
-    position: fixed;
-    left: 20px;
-    top: 20px;
-  }
-
-
-  .mainContent {
-    width: 100%;
-  }
-}
-
-
-@media screen and (min-width: 1020px){
-  nav {
-    position: fixed;
-    width: 18%;
-  }
-
-  nav>* {
-    position: absolute;
-    margin-top: 50%;
-    right: 20px;
-  }
-
-
-  .mainContent {
-    margin-left: 10%;
-    width: 80%;
-  }
-}
-
-nav {
-  z-index: 3;
-}
-
-.mainContent > * {
-  margin: auto;
-}
-
-nav a {
-  font-weight: bold;
-  color: #94a3b8;
-}
-
-nav a.router-link-exact-active {
-  color: #dfe6f0;
-}
-
-
-.whiteText {
-  color: #dfe6f0;
-}
-
-.greyText {
-  color: #94a3b8;
-}
-
-.backGradient {
-  background-image: url("/public/assets/svg/uuunion.svg");
-  background-size: cover;
-}
-
-.backColor {
-  background-color: #0f172a;
-}
-
-.frontColor {
-  background-color: white;
-}
-
-.mainFrame {
-  display: flex;
-  flex-direction: row;
-}
-
-#background {
-  width: 100%;
-  position: absolute;
-  z-index: 0;
-  top: 0;
-  left: 0;
-  overflow: hidden;
-  height: 100%;
-}
-
-#background > *{
-  /* position: absolute; */
-}
-
-
-.clickable {
-    cursor: pointer;
-}
-
-.glass {
-    background: rgba(255, 255, 255, 0.16);
-    border-radius: 16px;
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
-    backdrop-filter: blur(6.3px);
-    -webkit-backdrop-filter: blur(6.3px);
-    border: 1px solid rgba(255, 255, 255, 0.19);
-}
-
-
-</style>
-
 <script setup lang="ts">
-import Navigation from "@/components/NavComponent.vue"
+import NavBar from '@/components/NavBar.vue'
+import DepthScroll from '@/components/DepthScroll/DepthListComponent.vue'
+import SceneComponent from '@/components/SceneRendering/SceneComponent.vue'
+import ProjectShellTexturing from '@/components/Projects/ProjectShellTexturing.vue'
+import ProjectTER from '@/components/Projects/ProjectTER.vue'
+import ProjectGameEngine from '@/components/Projects/ProjectGameEngine.vue'
+import Apropos from '@/components/AproposComponent.vue'
+import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
+import { AnotationEnum, type Skill } from '@/types'
+import ProjectShorts from './components/Projects/ProjectShorts.vue'
+import { onMounted, ref } from 'vue'
+import ProjectRayTracing from './components/Projects/ProjectRayTracing.vue'
+import ProjectGames from './components/Projects/ProjectGames.vue'
+import ExperiencesComponent from './components/ExperiencesComponent.vue'
+import ProjectWeb from './components/Projects/ProjectWeb.vue'
+
+const skills: Skill[] = [
+    { name: 'C++', icon: './logo/cpp.png', anotation: AnotationEnum.LANGUAGE, isWeb: false },
+    { name: 'GLSL', icon: './logo/opengl.png', anotation: AnotationEnum.LANGUAGE, isWeb: false },
+    { name: 'Godot', icon: './logo/godot.png', anotation: AnotationEnum.TOOL, isWeb: false },
+    { name: 'Java', icon: './logo/java.png', anotation: AnotationEnum.LANGUAGE, isWeb: false },
+    { name: 'C#', icon: './logo/csharp.png', anotation: AnotationEnum.LANGUAGE, isWeb: false },
+    { name: 'HTML', icon: './logo/html.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
+    { name: 'CSS', icon: './logo/css.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
+    {
+        name: 'PostgreSQL',
+        icon: './logo/postgre.png',
+        anotation: AnotationEnum.LANGUAGE,
+        isWeb: true,
+    },
+    { name: 'PHP', icon: './logo/php.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
+    { name: 'TypeScript', icon: './logo/ts.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
+    { name: 'NodeJS', icon: './logo/node.png', anotation: AnotationEnum.TOOL, isWeb: true },
+    { name: 'VueJS', icon: './logo/vue.png', anotation: AnotationEnum.TOOL, isWeb: true },
+    { name: 'NestJS', icon: './logo/nest.png', anotation: AnotationEnum.TOOL, isWeb: true },
+]
+
+const depthListRef = ref<typeof DepthScroll>()
+const sceneComponentRef = ref()
+
+function tryMoving(direction: 'f' | 'b') {
+    if (!depthListRef?.value?.canScroll(direction)) {
+        console.warn('Cannot scroll in this direction:', direction)
+        return
+    }
+
+    depthListRef?.value.moveOneSlide(direction)
+    if (sceneComponentRef?.value)
+        sceneComponentRef.value.movePlaine(direction === 'f' ? 'front' : 'back')
+}
+
+onMounted(() => {
+    document.addEventListener(
+        'wheel',
+        (evt) => {
+            const scrollDirection = evt.deltaY < 0 ? 'f' : 'b'
+            tryMoving(scrollDirection)
+
+            evt.preventDefault()
+        },
+        { passive: false },
+    )
+})
+function projectClicked(idx: number) {
+    selectedProject.value = idx
+    depthListRef?.value?.moveOneSlide('f')
+    sceneComponentRef?.value.movePlaine('front')
+}
+
+const projectsComponents = [
+    ProjectShellTexturing,
+    ProjectTER,
+    ProjectGameEngine,
+    ProjectRayTracing,
+    ProjectGames,
+    ProjectWeb,
+]
+const selectedProject = ref(-1)
 </script>
+
+<template>
+    <head>
+        <link
+            href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined"
+            rel="stylesheet"
+        />
+    </head>
+    <div id="layout">
+        <header>
+            <NavBar
+                @moved="(dir) => tryMoving(dir)"
+                :can-move-backward="depthListRef?.canScroll('b')"
+                :can-move-forward="depthListRef?.canScroll('f')"
+            />
+        </header>
+
+        <main>
+            <SceneComponent ref="sceneComponentRef" />
+            <DepthScroll ref="depthListRef" id="depth">
+                <Apropos class="item" />
+                <ExperiencesComponent />
+                <SkillSetComponent class="item" :skills="skills" />
+                <ProjectShorts class="item" @project-clicked="projectClicked" />
+                <component
+                    v-if="selectedProject >= 0"
+                    :is="projectsComponents[selectedProject]"
+                    class="item"
+                />
+            </DepthScroll>
+        </main>
+    </div>
+</template>
+
+<style scoped>
+#layout {
+    display: flex;
+}
+
+header {
+    width: fit-content;
+}
+
+main {
+    flex: 1;
+}
+
+.item {
+    max-height: 80vh;
+    margin: 15px;
+}
+</style>
