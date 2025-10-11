@@ -2,15 +2,18 @@
 import { nextTick, onMounted, ref } from 'vue'
 import SkillComponent from '@/components/Skills/SkillComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
-import CustomButton from '../CustomButton.vue'
+import { capitalizeFirst } from '@/util/util'
+import { useI18n } from 'vue-i18n'
 
-const props = defineProps<{
+const { t } = useI18n()
+
+defineProps<{
     skills: Skill[]
 }>()
 
 const showWebRelated = ref(true)
 
-const selectedAnotation = ref<AnotationEnum>(AnotationEnum.NONE)
+ref<AnotationEnum>(AnotationEnum.NONE)
 const skillSetRef = ref<HTMLElement | null>(null)
 const columns = ref(1)
 
@@ -38,8 +41,8 @@ onMounted(() => {
 <template>
     <div id="page">
         <div class="skill-set-header">
-            <h2>Skills</h2>
-            <p>Here are some of the skills I have acquired over the years.</p>
+            <h2>{{ capitalizeFirst(t('titles.skills')) }}</h2>
+            <p>{{ capitalizeFirst(t('descriptions.skills')) }}</p>
             <!-- <div id="filters">
                 <p>Filters:</p>
                 <CustomButton

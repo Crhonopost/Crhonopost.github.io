@@ -8,7 +8,16 @@ export function initComponent() {
     function moveOneSlide(direction: 'f' | 'b') {
         scrollPosition.value += direction === 'f' ? jumpDistance : -jumpDistance
         scrollPosition.value = Math.max(0, scrollPosition.value)
+
+        const pageIndex = scrollPosition.value / jumpDistance
+        history.pushState({ page: pageIndex }, '', `/slide-${pageIndex}`)
     }
+
+    window.addEventListener('popstate', (event) => {
+        if (event.state && typeof event.state.page === 'number') {
+            scrollPosition.value = event.state.page * jumpDistance
+        }
+    })
 
     function getStyle(index: number) {
         const z = index * jumpDistance - scrollPosition.value // simulated depth
@@ -39,8 +48,9 @@ export function initComponent() {
     function canScroll(scrollDirection: 'f' | 'b') {
         const nbSlides = document.querySelector('.scene')?.childElementCount || 0
         const maxScroll = (nbSlides - 1) * jumpDistance
-        const newScrollPosition = scrollPosition.value + (scrollDirection === 'f' ? jumpDistance : -jumpDistance);
-        return newScrollPosition >= 0 && newScrollPosition <= maxScroll;
+        const newScrollPosition =
+            scrollPosition.value + (scrollDirection === 'f' ? jumpDistance : -jumpDistance)
+        return newScrollPosition >= 0 && newScrollPosition <= maxScroll
     }
 
     return { scrollPosition, canScroll, moveOneSlide, getStyle }

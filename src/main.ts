@@ -15,6 +15,11 @@ const i18n = createI18n({
                 about: 'about',
                 studies: 'studies',
                 professional: 'professional',
+                skills: 'skills',
+                projects: 'projects',
+            },
+            descriptions: {
+                skills: 'Here are some of the skills I have acquired over the years.',
             },
             contents: {
                 about: "I'm Nathan Souvignet, a fourth-year Computer Science student with a strong passion for computer graphics and video game development. I enjoy bringing new ideas to life, especially by creating tools and features that empower artists and developers whether it's through innovative rendering techniques, gameplay mechanics, or engine systems. My experience spans C++, OpenGL, Godot, and web technologies, and I’m always eager to learn and experiment.",
@@ -26,6 +31,11 @@ const i18n = createI18n({
                 about: 'à propos',
                 studies: 'études',
                 professional: 'professionnel',
+                skills: 'compétences',
+                projects: 'projets',
+            },
+            descriptions: {
+                skills: "Quelques compétences que j'ai acquises au fil des années.",
             },
             contents: {
                 about: "Je m'appelle Nathan Souvignet, étudiant en quatrième année d’informatique, passionné par le graphisme informatique et le développement de jeux vidéo. J’aime donner vie à de nouvelles idées, notamment en créant des outils et des fonctionnalités qui facilitent le travail des artistes et des développeurs que ce soit par des techniques de rendu innovantes, des mécaniques de jeu ou des systèmes de moteur. J’ai de l’expérience en C++, OpenGL, Godot et technologies web, et je suis toujours motivé à apprendre et à expérimenter.",

@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { onMounted, ref } from 'vue'
 import ProjectShortComponent from './ProjectShortComponent.vue'
-import { isScrollable } from '@/util/util'
+import { capitalizeFirst, isScrollable } from '@/util/util'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 
 const projectClickedSignal = defineEmits<{
     (e: 'projectClicked', index: number): void
@@ -59,7 +62,7 @@ onMounted(() => {
 
 <template>
     <div id="page">
-        <h1>Projects</h1>
+        <h1>{{ capitalizeFirst(t('titles.projects')) }}</h1>
         <div class="projects-container" ref="projectContainer">
             <ProjectShortComponent
                 v-for="(project, index) in projects"

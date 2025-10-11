@@ -29,7 +29,6 @@ const skills: Skill[] = [
         anotation: AnotationEnum.LANGUAGE,
         isWeb: true,
     },
-    { name: 'PHP', icon: './logo/php.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
     { name: 'TypeScript', icon: './logo/ts.png', anotation: AnotationEnum.LANGUAGE, isWeb: true },
     { name: 'NodeJS', icon: './logo/node.png', anotation: AnotationEnum.TOOL, isWeb: true },
     { name: 'VueJS', icon: './logo/vue.png', anotation: AnotationEnum.TOOL, isWeb: true },
