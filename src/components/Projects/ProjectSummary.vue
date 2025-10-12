@@ -2,6 +2,10 @@
 import { onMounted, ref } from 'vue'
 import TechnologieTagComponent from './TechnologieTagComponent.vue'
 import { isScrollable } from '@/util/util'
+import { useI18n } from 'vue-i18n'
+import { capitalizeFirst } from '@/util/util'
+
+const { t } = useI18n()
 
 defineProps<{
     title: string
@@ -25,13 +29,13 @@ onMounted(() => {
             <div class="column round">
                 <h1>{{ title }}</h1>
                 <div class="project_context">
-                    <h2>Context</h2>
+                    <h2>{{ capitalizeFirst(t('titles.context')) }}</h2>
                     <p>{{ context }}</p>
                 </div>
             </div>
             <div class="column round">
                 <div>
-                    <h2>Technologies</h2>
+                    <h2>{{ capitalizeFirst(t('titles.technologies')) }}</h2>
                     <div class="project_technologies">
                         <TechnologieTagComponent
                             v-for="tech in technologies"
@@ -41,7 +45,7 @@ onMounted(() => {
                     </div>
                 </div>
                 <div class="project_links">
-                    <h2>Links</h2>
+                    <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
                     <ul>
                         <li v-for="link in links" :key="link.url">
                             <a :href="link.url">{{ link.name }}</a>

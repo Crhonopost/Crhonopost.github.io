@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import ProjectSummary from '@/components/Projects/ProjectSummary.vue'
 import CarousselComponent from '../CarousselComponent.vue'
+import { useI18n } from 'vue-i18n'
+import { capitalizeFirst } from '@/util/util'
+
+const { t } = useI18n()
 </script>
 
 <template>
@@ -15,7 +19,7 @@ import CarousselComponent from '../CarousselComponent.vue'
     >
         <div class="project_section">
             <div>
-                <h2>Learning</h2>
+                <h2>{{ capitalizeFirst(t('titles.learning')) }}</h2>
                 <p>
                     My goal was to build a general purpose game engine. Through this project, I
                     implemented an <strong>Entity-Component System</strong>,

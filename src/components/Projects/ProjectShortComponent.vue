@@ -1,6 +1,10 @@
 <script lang="ts" setup>
 import { defineProps } from 'vue'
 import TechnologieTagComponent from '@/components/Projects/TechnologieTagComponent.vue'
+import { useI18n } from 'vue-i18n'
+import { capitalizeFirst } from '@/util/util'
+
+const { t } = useI18n()
 
 defineProps<{
     title: string
@@ -24,7 +28,7 @@ defineProps<{
             />
         </div>
         <div class="right-offset">
-            <a href="#">View more</a>
+            <a href="#">{{ capitalizeFirst(t('viewMore')) }}</a>
         </div>
     </div>
 </template>
