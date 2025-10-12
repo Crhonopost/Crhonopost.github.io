@@ -12,9 +12,9 @@ import FurEditor from '@/components/FurEditor.vue'
         :technologies="['WebGL', 'Typescript', 'Three.js']"
         :links="[{ url: 'https://github.com/Crhonopost/portfoliopengl', name: 'Github' }]"
     >
-    <FurEditor/>
-    <h1>Concerns</h1>
-    <p>Every strands are aligned which instantly break the illusion.</p>
+        <FurEditor />
+        <h1>Concerns</h1>
+        <p>Every strands are aligned which instantly break the illusion.</p>
     </ProjectSummary>
 </template>
 

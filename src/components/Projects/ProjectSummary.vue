@@ -50,9 +50,9 @@ onMounted(() => {
                 </div>
             </div>
         </div>
+        <div class="separator_h"></div>
         <div class="other round">
-            <div class="separator_h"></div>
-            <div class="layer" v-for="(item, index) in $slots.default?.() ?? []" :key="index">
+            <div v-for="(item, index) in $slots.default?.() ?? []" :key="index">
                 <component :is="item" />
             </div>
         </div>
@@ -90,7 +90,13 @@ onMounted(() => {
 
 .other {
     margin-top: 20px;
-    padding: 0px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     /* background-color: var(--terciary-bg-color); */
+}
+
+.other > * {
+    width: 100%;
 }
 </style>

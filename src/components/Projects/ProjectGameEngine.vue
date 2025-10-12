@@ -1,5 +1,6 @@
 <script lang="ts" setup>
 import ProjectSummary from '@/components/Projects/ProjectSummary.vue'
+import CarousselComponent from '../CarousselComponent.vue'
 </script>
 
 <template>
@@ -12,47 +13,80 @@ import ProjectSummary from '@/components/Projects/ProjectSummary.vue'
         :technologies="['C++', 'OpenGL', 'GLSL', 'ImGUI']"
         :links="[{ url: 'https://github.com/Crhonopost/Star-engine', name: 'Github' }]"
     >
-        <div class="project_learning">
-            <h2>Learning</h2>
-            <p>
-                My objective was to implement the most general-purpose engine possible, drawing
-                inspiration from what has been done in the Godot engine in challenging situations.
-                This project provided an opportunity to implement an entity-component system for
-                managing entities within scenes. The engine integrates PBR (physically based
-                rendering), a concise editor for quick debugging (which I am currently reworking),
-                and a physics management system (collision detection between different shapes: AABB,
-                OOBB, sphere, plane, ray) to integrate forces with a position resolution phase. The
-                engine also includes a nearly functional solution for managing animations.
-            </p>
+        <div class="project_section">
+            <div>
+                <h2>Learning</h2>
+                <p>
+                    My goal was to build a general purpose game engine. Through this project, I
+                    implemented an <strong>Entity-Component System</strong>,
+                    <strong>PBR rendering</strong>, a lightweight <strong>editor</strong> for
+                    debugging, and an early <strong>physics system</strong> handling collisions
+                    (AABB, OBB, spheres, planes, rays, and rigid bodies collision reactions). It was
+                    my first large-scale C++ project — a challenging but extremely rewarding
+                    experience.
+                </p>
+
+                <CarousselComponent
+                    :images="[
+                        './projects/gameengine/main_scene.png',
+                        './projects/gameengine/init.gif',
+                        './projects/gameengine/moving.gif',
+                    ]"
+                    class="caroussel"
+                />
+            </div>
         </div>
-        <div class="project_next_steps">
-            <h2>Next Steps</h2>
-            <p>
-                As it was my first big and complex C++ project, I need to start a new engine from
-                scratch as I learned a lot from the many mistakes I made. Among the tasks I plan to
-                prioritize are:
-            </p>
-            <ul>
-                <li>Write tools for logging, debugging, and profiling</li>
-                <li>Decouple engine core features from the editor and runtime environments</li>
-                <li>
-                    Design renderer and physics modules to be highly modular and isolated, enabling
-                    easier optimization
-                </li>
-                <li>
-                    Introduce abstractions for window management and other subsystems to support
-                    multiplatform development
-                </li>
-                <li>Enhance resource management for better performance and scalability</li>
-                <li>Implement robust scene serialization and deserialization</li>
-                <li>Add support for scripting languages (e.g., Lua)</li>
-                <li>Redesign the animation system for flexibility and reliability</li>
-                <li>Improve lighting, starting with proper shadow implementation</li>
-            </ul>
+
+        <div class="project_section">
+            <div>
+                <h2>Next Steps</h2>
+                <p>
+                    The first version taught me a lot — enough to start fresh with a cleaner
+                    foundation. The upcoming V2 focuses on a stronger architecture that gives me
+                    more flexibility for experimentation. This second iteration takes inspiration
+                    from Godot’s design, emphasizing inheritance and composition over a pure ECS
+                    approach.
+                </p>
+                <ul>
+                    <li>Independent renderer exposing a clear API</li>
+                    <li>Better resource and scene serialization management</li>
+                    <li>Improved logging and debugging tools</li>
+                    <li>Physics rework and scripting support</li>
+                    <li>Global illumination with light probes</li>
+                </ul>
+
+                <p>
+                    Below is a preview of the new editor interface, built on a more structured
+                    architecture. Next goal: global illumination implementation
+                </p>
+            </div>
+
+            <img
+                id="new_editor"
+                src="/projects/gameengine/new_editor.png"
+                alt="New editor interface"
+            />
         </div>
     </ProjectSummary>
 </template>
 
 <style>
 @import url('@/components/Projects/style.css');
+
+#new_editor {
+    width: 80%;
+    object-fit: cover;
+    object-position: left;
+    border-radius: 15px;
+}
+
+.project_section {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.project_section > div {
+    width: 80%;
+}
 </style>
