@@ -3,14 +3,13 @@ import NavBar from '@/components/NavBar.vue'
 import DepthScroll from '@/components/DepthScroll/DepthListComponent.vue'
 import SceneComponent from '@/components/SceneRendering/SceneComponent.vue'
 import ProjectShellTexturing from '@/components/Projects/ProjectShellTexturing.vue'
-import ProjectTER from '@/components/Projects/ProjectTER.vue'
+import ProjectRendering from '@/components/Projects/ProjectRendering.vue'
 import ProjectGameEngine from '@/components/Projects/ProjectGameEngine.vue'
 import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
 import { onMounted, ref } from 'vue'
-import ProjectRayTracing from './components/Projects/ProjectRayTracing.vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
@@ -69,9 +68,8 @@ function projectClicked(idx: number) {
 
 const projectsComponents = [
     ProjectShellTexturing,
-    ProjectTER,
     ProjectGameEngine,
-    ProjectRayTracing,
+    ProjectRendering,
     ProjectGames,
     ProjectWeb,
 ]

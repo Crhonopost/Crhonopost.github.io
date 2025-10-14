@@ -33,16 +33,14 @@ const i18n = createI18n({
                 shell: {
                     quickDesc: 'A small implementation done for this portfolio',
                 },
-                volumetric: {
-                    title: 'volumetric rendering',
-                    quickDesc: 'Experimenting with volumetric cloud rendering',
+                rendering: {
+                    title: 'rendering approaches',
+                    quickDesc:
+                        'Discovering ray tracing, fluid volume rendering with ray marching and other techniques',
                 },
                 engine: {
                     title: 'game engine',
                     quickDesc: 'Developing game engines',
-                },
-                rayTracing: {
-                    quickDesc: 'School project to create a ray tracer',
                 },
                 games: {
                     title: 'game dev',
@@ -78,16 +76,14 @@ const i18n = createI18n({
                 shell: {
                     quickDesc: 'Une implémentation rapide pour le portfolio',
                 },
-                volumetric: {
-                    title: 'rendu volumique',
-                    quickDesc: 'Découverte du rendu volumique de fluide',
+                rendering: {
+                    title: 'techniques de rendu',
+                    quickDesc:
+                        'Découverte du ray tracing, du rendu volumique de fluide via ray marching et autres techniques',
                 },
                 engine: {
                     title: 'moteur de jeu',
                     quickDesc: 'Développement de moteurs de jeu',
-                },
-                rayTracing: {
-                    quickDesc: "Développement d'un ray tracer",
                 },
                 games: {
                     quickDesc: "D'autres projets autour de la création de jeux vidéo",

@@ -48,12 +48,12 @@ defineProps<{
 }
 
 .card p {
-    max-width: 250px;
+    max-width: 300px;
 }
 
 .card img {
-    width: 250px;
-    height: 250px;
+    width: 300px;
+    height: 300px;
     object-fit: cover;
     object-position: left;
     border-radius: 15px;

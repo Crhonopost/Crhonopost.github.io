@@ -18,22 +18,16 @@ const projects = [
         illustration: './projects/shelltexturing/fur.png',
     },
     {
-        title: capitalizeFirst(t('projects.volumetric.title')),
-        description: t('projects.volumetric.quickDesc'),
-        technologies: ['OpenGL', 'C++'],
-        illustration: './projects/TER/moving_cloud.gif',
-    },
-    {
         title: capitalizeFirst(t('projects.engine.title')),
         description: t('projects.engine.quickDesc'),
         technologies: ['OpenGL', 'C++'],
         illustration: './projects/gameengine/illu_game.png',
     },
     {
-        title: 'Ray Tracing',
-        description: t('projects.rayTracing.quickDesc'),
-        technologies: ['C++'],
-        illustration: './projects/raytracing/refraction.png',
+        title: capitalizeFirst(t('projects.rendering.title')),
+        description: t('projects.rendering.quickDesc'),
+        technologies: ['OpenGL', 'C++'],
+        illustration: './projects/TER/moving_cloud.gif',
     },
     {
         title: capitalizeFirst(t('projects.games.title')),

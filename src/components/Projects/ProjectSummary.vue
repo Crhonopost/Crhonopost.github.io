@@ -103,4 +103,8 @@ onMounted(() => {
 .other > * {
     width: 100%;
 }
+
+.project_links a {
+    white-space: nowrap;
+}
 </style>
