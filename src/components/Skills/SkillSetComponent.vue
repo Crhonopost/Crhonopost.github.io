@@ -91,6 +91,10 @@ onMounted(() => {
     margin-bottom: 20px;
 }
 
+.skill-set-header > p {
+    text-align: center;
+}
+
 #skill-set-container {
     display: flex;
     flex-direction: column;

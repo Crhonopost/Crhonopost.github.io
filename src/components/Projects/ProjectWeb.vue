@@ -68,8 +68,6 @@ import ProjectSummary from './ProjectSummary.vue'
 </template>
 
 <style>
-@import url('@/components/Projects/style.css');
-
 .sub-project {
     display: flex;
     flex-direction: column;

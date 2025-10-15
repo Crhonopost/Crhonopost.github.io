@@ -57,7 +57,3 @@ import ProjectSummary from './ProjectSummary.vue'
         />
     </ProjectSummary>
 </template>
-
-<style>
-@import url('@/components/Projects/style.css');
-</style>

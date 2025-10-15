@@ -18,6 +18,4 @@ import FurEditor from '@/components/FurEditor.vue'
     </ProjectSummary>
 </template>
 
-<style>
-@import url('@/components/Projects/style.css');
-</style>
+<style></style>

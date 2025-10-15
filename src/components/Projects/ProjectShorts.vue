@@ -27,7 +27,7 @@ const projects = [
         title: capitalizeFirst(t('projects.rendering.title')),
         description: t('projects.rendering.quickDesc'),
         technologies: ['OpenGL', 'C++'],
-        illustration: './projects/TER/moving_cloud.gif',
+        illustration: '/projects/TER/cloud-around.gif',
     },
     {
         title: capitalizeFirst(t('projects.games.title')),
@@ -42,7 +42,6 @@ const projects = [
         illustration: './projects/web/satiscraftory.png',
     },
 ]
-
 const projectContainer = ref<HTMLElement | null>(null)
 
 onMounted(() => {

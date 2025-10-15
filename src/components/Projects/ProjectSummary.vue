@@ -24,72 +24,80 @@ onMounted(() => {
 })
 </script>
 <template>
-    <div class="glass item project_whole" ref="projectSummary">
+    <div class="glass item project_whole column" ref="projectSummary">
         <div class="row">
-            <div class="column round">
-                <h1>{{ title }}</h1>
-                <div class="project_context">
-                    <h2>{{ capitalizeFirst(t('titles.context')) }}</h2>
-                    <p>{{ context }}</p>
-                </div>
+            <h1>{{ title }}</h1>
+            <div class="project_context">
+                <h2>{{ capitalizeFirst(t('titles.context')) }}</h2>
+                <p>{{ context }}</p>
             </div>
-            <div class="column round">
-                <div>
+            <div class="column end-align project_technologies">
+                <div class="column round">
                     <h2>{{ capitalizeFirst(t('titles.technologies')) }}</h2>
-                    <div class="project_technologies">
+                    <div class="technologies_list">
                         <TechnologieTagComponent
                             v-for="tech in technologies"
                             :key="tech"
                             :name="tech"
                         />
                     </div>
-                </div>
-                <div class="project_links">
-                    <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
-                    <ul>
-                        <li v-for="link in links" :key="link.url">
-                            <a :href="link.url">{{ link.name }}</a>
-                        </li>
-                    </ul>
+                    <div class="project_links">
+                        <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
+                        <ul>
+                            <li v-for="link in links" :key="link.url">
+                                <a :href="link.url">{{ link.name }}</a>
+                            </li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
         <div class="separator_h"></div>
-        <div class="other round">
-            <div v-for="(item, index) in $slots.default?.() ?? []" :key="index">
-                <component :is="item" />
-            </div>
+        <div class="other">
+            <component v-for="(item, index) in $slots.default?.() ?? []" :key="index" :is="item" />
         </div>
     </div>
 </template>
 
 <style>
-@import url('@/components/Projects/style.css');
-
 .project_whole {
-    display: flex;
-    flex-direction: column;
     height: 100%;
     overflow: auto;
 }
 
-.column {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    padding: 30px;
-    /* background-color: var(--secondary-bg-color); */
+.project_whole h1 {
+    height: auto;
+    margin-top: 40px;
+    margin-left: 40px;
 }
-.row {
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+
+.project_context {
+    width: 40%;
+    margin-top: 50px;
+}
+
+.project_context > h2 {
+    text-align: center;
 }
 
 .project_technologies {
+    padding: 30px;
+    padding-top: 50px;
+    margin-top: auto;
+}
+
+.technologies_list {
     display: flex;
-    flex-wrap: wrap;
     gap: 5px;
+    margin-bottom: 10px;
+}
+
+.row > * {
+    flex: 1;
+}
+
+.row > column {
+    flex: 0.6;
 }
 
 .other {

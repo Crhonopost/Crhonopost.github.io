@@ -75,8 +75,6 @@ const { t } = useI18n()
 </template>
 
 <style>
-@import url('@/components/Projects/style.css');
-
 #new_editor {
     width: 80%;
     object-fit: cover;
