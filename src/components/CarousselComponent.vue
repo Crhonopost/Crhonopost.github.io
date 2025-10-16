@@ -17,7 +17,7 @@ defineProps<{ images: { path: string; desc: string }[] }>()
     scroll-snap-type: x mandatory;
     gap: 10px;
     padding: 10px;
-    width: 100%;
+    width: auto;
     height: 400px; /* Adjust height as needed */
 }
 

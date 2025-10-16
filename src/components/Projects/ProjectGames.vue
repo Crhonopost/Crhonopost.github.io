@@ -1,5 +1,6 @@
 <script setup lang="ts">
 import CarousselComponent from '../CarousselComponent.vue'
+import ProjectSection from './ProjectSection.vue'
 import ProjectSummary from './ProjectSummary.vue'
 </script>
 
@@ -16,26 +17,16 @@ import ProjectSummary from './ProjectSummary.vue'
             },
         ]"
     >
-        <div>
-            <h2>Behavior tree</h2>
-            <p>
-                I created a behavior tree plugin for Godot 4.2 mono, which is available on the Asset
+        <ProjectSection
+            title="Behavior tree"
+            desc="I created a behavior tree plugin for Godot 4.2 mono, which is available on the Asset
                 Library. It allows you to create complex AI behaviors in a visual way, making it
                 easier to manage and understand the logic behind AI actions. The plugin is
-                straightforward and does not have much optimization.
-            </p>
-            <a href="https://github.com/Crhonopost/Behavior_tree_4.2">Github link</a>
-            <CarousselComponent
-                :images="[
-                    {
-                        path: './projects/games/illu_behavior.png',
-                        desc: 'Typical use of the behavior tree using composition in godot.',
-                    },
-                ]"
-                class="caroussel"
-            />
-        </div>
-
+                straightforward and does not have much optimization."
+            image-path="./projects/games/illu_behavior.png"
+            image-alt="Typical use of the behavior tree using composition in godot."
+            :image-first="false"
+        />
         <div>
             <h2>Dicecraft</h2>
             <p>
@@ -63,23 +54,15 @@ import ProjectSummary from './ProjectSummary.vue'
                 class="caroussel"
             />
         </div>
-        <div>
-            <h2>Other projects</h2>
-            <p>
-                I have worked on several other projects, but they act more as experiments or proofs
-                of concept rather than full-fledged games. These projects include various mechanics
-                from magic spells programming to 2D platformers about time control.
-            </p>
-        </div>
 
-        <CarousselComponent
-            :images="[
-                {
-                    path: './projects/games/glyphes.png',
-                    desc: 'On the right is the interface to create spell. The result can be seen on the left in the scene. 3 symbols expand the water as we can see ',
-                },
-            ]"
-            class="caroussel"
+        <ProjectSection
+            title="Other projects"
+            desc="I have worked on several other projects, but they act more as experiments or proofs
+                of concept rather than full-fledged games. These projects include various mechanics
+                from magic spells programming to 2D platformers about time control."
+            image-path="./projects/games/glyphes.png"
+            image-alt="On the right is the interface to create spell. The result can be seen on the left in the scene. 3 symbols expand the water as we can see."
+            :image-first="true"
         />
     </ProjectSummary>
 </template>
