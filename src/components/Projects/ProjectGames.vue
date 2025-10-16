@@ -25,6 +25,15 @@ import ProjectSummary from './ProjectSummary.vue'
                 straightforward and does not have much optimization.
             </p>
             <a href="https://github.com/Crhonopost/Behavior_tree_4.2">Github link</a>
+            <CarousselComponent
+                :images="[
+                    {
+                        path: './projects/games/illu_behavior.png',
+                        desc: 'Typical use of the behavior tree using composition in godot.',
+                    },
+                ]"
+                class="caroussel"
+            />
         </div>
 
         <div>
@@ -32,10 +41,27 @@ import ProjectSummary from './ProjectSummary.vue'
             <p>
                 I participated in a game jam where, as a team of 3, we created a game called
                 Dicecraft. The game is about crafting dice in order to manipulate randomness and
-                maximize combos and units spawn quantities. The game lacks content and polish, but
-                it was a fun project and the core mechanics are solid.
+                maximize combos and units spawn quantities to fight against an AI. The game lacks
+                content and polish, but it was a fun project and the core mechanics are solid.
             </p>
             <a href="https://ohhnyx.itch.io/dicecraft">Game link</a>
+            <CarousselComponent
+                :images="[
+                    {
+                        path: './projects/games/dice_main.png',
+                        desc: 'Main menu, we must protect the left while attacking the right',
+                    },
+                    {
+                        path: './projects/games/dice_throw.png',
+                        desc: 'We attack by throwing our dice on the board',
+                    },
+                    {
+                        path: './projects/games/dice_face_custom.png',
+                        desc: 'Experience is gained by killing ennemies. When leveling up we can customize our dice or buy new one',
+                    },
+                ]"
+                class="caroussel"
+            />
         </div>
         <div>
             <h2>Other projects</h2>
@@ -48,10 +74,10 @@ import ProjectSummary from './ProjectSummary.vue'
 
         <CarousselComponent
             :images="[
-                './projects/shelltexturing/fur.png',
-                './projects/TER/moving_cloud.gif',
-                './projects/gameengine/illu_game.png',
-                './projects/raytracing/refraction.png',
+                {
+                    path: './projects/games/glyphes.png',
+                    desc: 'On the right is the interface to create spell. The result can be seen on the left in the scene. 3 symbols expand the water as we can see ',
+                },
             ]"
             class="caroussel"
         />

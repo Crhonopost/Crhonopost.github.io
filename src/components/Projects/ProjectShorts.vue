@@ -33,7 +33,7 @@ const projects = [
         title: capitalizeFirst(t('projects.games.title')),
         description: t('projects.games.quickDesc'),
         technologies: ['Godot', 'Gdscript', 'C#'],
-        illustration: './projects/games/illu_behavior.png',
+        illustration: './projects/games/what.png',
     },
     {
         title: capitalizeFirst(t('projects.web.title')),

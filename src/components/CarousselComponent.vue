@@ -1,15 +1,12 @@
 <script setup lang="ts">
-defineProps<{ images: string[] }>()
+defineProps<{ images: { path: string; desc: string }[] }>()
 </script>
 <template>
     <div class="caroussel">
-        <img
-            v-for="(image, index) in images"
-            :key="index"
-            class="caroussel-item"
-            :src="image"
-            alt="Caroussel Image"
-        />
+        <div v-for="(image, index) in images" :key="index" class="caroussel-item column">
+            <img :src="image.path" :alt="image.desc" class="round" />
+            <p>{{ image.desc }}</p>
+        </div>
     </div>
 </template>
 
@@ -25,7 +22,9 @@ defineProps<{ images: string[] }>()
 }
 
 .caroussel-item {
-    flex: none;
-    scroll-snap-align: start;
+}
+
+.caroussel-item > img {
+    height: 100%;
 }
 </style>
