@@ -84,8 +84,8 @@ function handleMouseMotion(event: MouseEvent) {
     previousRotation.x = event.movementX
     previousRotation.y = event.movementY
 
-    rotation.value.x -= event.movementY * sensitivity
-    rotation.value.y -= event.movementX * sensitivity
+    rotation.value.x += event.movementY * sensitivity
+    rotation.value.y += event.movementX * sensitivity
 
     // updateCamPos()
     updateObjRotation()
@@ -165,6 +165,7 @@ function changeMesh() {
     if (selectedMesh.value == MeshTypeEnum.Fox) {
         loadMesh(model)
             .then((m) => {
+                m.geometry.rotateX(-90)
                 furRender.baseGeometry = m.geometry
                 emptyTexture(furRender)
                 updateFur(furRender)
