@@ -43,6 +43,7 @@ defineProps<{
 
 .project-section img {
     width: 300px;
-    height: fit-content;
+    max-height: 300px;
+    object-fit: contain;
 }
 </style>

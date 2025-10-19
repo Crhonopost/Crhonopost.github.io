@@ -9,10 +9,10 @@ defineProps<{
 <template>
     <div class="studies-card">
         <div>
-            <h4>{{ date }}</h4>
-            <h5>{{ location }}</h5>
+            <h3>{{ date }}</h3>
+            <h3>{{ location }}</h3>
         </div>
-        <h4>{{ description }}</h4>
+        <h2>{{ description }}</h2>
     </div>
 </template>
 
@@ -28,9 +28,13 @@ defineProps<{
     flex-direction: row;
 }
 
-.studies-card > div > h4 {
+.studies-card > div > h3 {
     margin-right: 15px;
 }
+.studies-card > div > h3:nth-child(2) {
+    font-weight: bold;
+}
+
 .studies-card > div > * {
     align-content: center;
 }

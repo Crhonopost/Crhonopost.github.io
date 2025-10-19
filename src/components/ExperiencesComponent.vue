@@ -4,11 +4,13 @@ import { useI18n } from 'vue-i18n'
 import StudiesCard from './Experience/StudiesCard.vue'
 
 const { t } = useI18n()
+
+import ToolTip from 'v-tooltip-lite'
 </script>
 
 <template>
     <div id="experiences">
-        <div class="glass">
+        <div class="glass column">
             <h1>{{ capitalizeFirst(t('titles.studies')) }}</h1>
             <StudiesCard
                 date="2024 - 2026"
@@ -16,12 +18,17 @@ const { t } = useI18n()
                 description="Master Imagine"
             />
             <div class="separator_h"></div>
-            <StudiesCard
-                date="2021 - 2024"
-                location="IUT de Montpellier"
-                description="BUT Informatique (parcours Réalisation
-            d'Application: Développement, Validation)"
-            />
+
+            <ToolTip content="Réalisation d'Application, Développement et Validation">
+                <template #trigger>
+                    <StudiesCard
+                        date="2021 - 2024"
+                        location="IUT de Montpellier"
+                        description="BUT Informatique (parcours RACDV)"
+                    />
+                </template>
+            </ToolTip>
+
             <div class="separator_h"></div>
             <StudiesCard
                 date="2021"
@@ -32,27 +39,32 @@ const { t } = useI18n()
         <div class="glass" id="pro">
             <h1>{{ capitalizeFirst(t('titles.professional')) }}</h1>
             <StudiesCard
-                date="april - june 2024"
+                date="April - June 2024"
                 location="Andragogy (Sète)"
-                description="web developer internship"
+                description="Web developer internship"
             />
             <div class="separator_h"></div>
             <StudiesCard
-                date="april 2023 - january 2024"
+                date="April 2023 - January 2024"
                 location="Kapix (Montpellier)"
-                description="web developer internship"
+                description="Web developer internship"
             />
         </div>
     </div>
 </template>
 
 <style scoped>
+@import url('v-tooltip-lite/style.css');
+
 #experiences {
     display: flex;
+    width: 100%;
+    justify-content: center;
+    gap: 20px;
 }
 
 #experiences > div {
-    width: 100%;
+    width: fit-content;
 }
 
 #pro {

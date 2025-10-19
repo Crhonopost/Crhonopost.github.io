@@ -16,6 +16,7 @@
   "dependencies": {
     "@types/three": "^0.177.0",
     "three": "^0.177.0",
+    "v-tooltip-lite": "^0.0.9",
     "vue": "^3.5.13",
     "vue-accessible-color-picker": "^5.2.0",
     "vue-i18n": "^11.1.9"
