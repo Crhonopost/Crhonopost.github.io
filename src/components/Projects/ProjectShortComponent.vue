@@ -15,8 +15,8 @@ defineProps<{
 </script>
 
 <template>
-    <div class="card">
-        <h1>{{ title }}</h1>
+    <div class="card column">
+        <h2>{{ title }}</h2>
         <img :src="illustration" alt="Project Illustration" />
         <p>{{ description }}</p>
         <div class="technologies">
@@ -36,7 +36,7 @@ defineProps<{
 <style scoped>
 .card {
     justify-content: center;
-    width: 100%;
+    width: fit-content;
 }
 
 .technologies {
@@ -49,6 +49,7 @@ defineProps<{
 
 .card p {
     max-width: 300px;
+    flex: 1;
 }
 
 .card img {

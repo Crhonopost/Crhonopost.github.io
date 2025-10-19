@@ -54,6 +54,8 @@ function tryMoving(position: number) {
 }
 
 function projectClicked(idx: number) {
+    prevPos++
+    navRef.value?.setNavIdx(prevPos)
     selectedProject.value = idx
     depthListRef?.value?.moveOneSlide('f')
     sceneComponentRef?.value.movePlaine('front')

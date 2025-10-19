@@ -91,13 +91,21 @@ body {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-    width: 100%;
     /* background-color: var(--secondary-bg-color); */
 }
 .row {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+}
+
+h1 {
+    font-size: xxx-large;
+    font-weight: bold;
+}
+
+h2 {
+    font-size: xx-large;
 }
 
 p {
