@@ -1,5 +1,11 @@
 <script setup lang="ts">
-const SYMBOL_NAMES = ['arrow_drop_down', 'arrow_drop_up', 'colorize', 'unfold_more_double'] as const
+const SYMBOL_NAMES = [
+    'arrow_drop_down',
+    'arrow_drop_up',
+    'colorize',
+    'unfold_more_double',
+    'language',
+] as const
 type SymbolName = (typeof SYMBOL_NAMES)[number]
 
 function isSymbol(name: string): name is SymbolName {
