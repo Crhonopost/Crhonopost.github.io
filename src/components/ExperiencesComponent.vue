@@ -55,10 +55,6 @@ const { t } = useI18n()
     width: 100%;
 }
 
-div {
-    margin: 10px;
-}
-
 #pro {
     width: fit-content;
     height: fit-content;

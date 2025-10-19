@@ -6,7 +6,7 @@ const { t } = useI18n()
 </script>
 <template>
     <div id="apropos">
-        <div class="glass">
+        <div class="glass" id="apropos-text">
             <h1>{{ capitalizeFirst(t('titles.about')) }}</h1>
             <p>
                 {{ t('contents.about') }}
@@ -19,5 +19,10 @@ const { t } = useI18n()
 #apropos {
     display: flex;
     align-items: center;
+    justify-content: center;
+}
+
+#apropos-text {
+    width: 60%;
 }
 </style>
