@@ -75,11 +75,11 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
 
     function initScene() {
         camera?.translateZ(1)
-        grassRef.value.scale = 2500
+        grassRef.value.scale = 500
         grassRef.value.threshold = 0.1
         grassRef.value.displacementStrength = 0.01
         grassRef.value.thicknessBot = 1
-        grassRef.value.thicknessTop = 1
+        grassRef.value.thicknessTop = 0.8
         grassRef.value.totalHeight = 1
         grassRef.value.nbInstances = 45
         grassRef.value.colors[0].color = new THREE.Vector3(0.078, 0.22, 0.173)

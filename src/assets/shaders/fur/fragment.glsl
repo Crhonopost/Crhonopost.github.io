@@ -36,6 +36,24 @@ vec3 hash33( uvec3 x )
     
     return vec3(x)*(1.0/float(0xffffffffU));
 }
+
+// https://www.shadertoy.com/view/dtyGWR
+uint hash(uint s) {
+    s ^= 2747636419u;
+    s *= 2654435769u;
+    s ^= s >> 16;
+    s *= 2654435769u;
+    s ^= s >> 16;
+    s *= 2654435769u;
+    return s;
+}
+float randS(uint s) {
+    uint rn = hash(s);
+    rn %= 1000000000u;
+    float rs = float(rn);
+    rs /= 1000000000.0;
+    return rs;
+}
 ///////
 
 float map(float v, float l0, float h0, float ln, float hn){
@@ -78,6 +96,8 @@ void main() {
     float n2 = hash33(uvec3(cellIdx / scale + vec2(37.0, 91.0), 0)).r;
     // float n2 = texture(voronoise, cellIdx / scale + vec2(37.0, 91.0)).r; // offset arbitraire
     vec2 strandOffset = vec2(n1, n2) * 0.5;
+
+    // float randNum = randS(uint((cellIdx.x + sin(cellIdx.y)) * 10.f)) * 0.5f;
     newUV += strandOffset;
     
 
