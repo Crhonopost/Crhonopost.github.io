@@ -6,21 +6,31 @@ export function initComponent() {
     const scrollPosition = ref(0)
 
     function moveOneSlide(direction: 'f' | 'b') {
-        scrollPosition.value += direction === 'f' ? jumpDistance : -jumpDistance
+        scrollPosition.value += direction === 'f' ? 1 : -1
         scrollPosition.value = Math.max(0, scrollPosition.value)
 
-        const pageIndex = scrollPosition.value / jumpDistance
+        const pageIndex = scrollPosition.value
+        history.pushState({ page: pageIndex }, '', `/slide-${pageIndex}`)
+    }
+
+    function moveToSlide(position: number) {
+        const nbSlides = document.querySelector('.scene')?.childElementCount || 0
+
+        scrollPosition.value = position
+        scrollPosition.value = Math.min(Math.max(0, scrollPosition.value), nbSlides)
+
+        const pageIndex = scrollPosition.value
         history.pushState({ page: pageIndex }, '', `/slide-${pageIndex}`)
     }
 
     window.addEventListener('popstate', (event) => {
         if (event.state && typeof event.state.page === 'number') {
-            scrollPosition.value = event.state.page * jumpDistance
+            scrollPosition.value = event.state.page
         }
     })
 
     function getStyle(index: number) {
-        const z = index * jumpDistance - scrollPosition.value // simulated depth
+        const z = (index - scrollPosition.value) * jumpDistance // simulated depth
         const scale = 1 - z / (jumpDistance * 2)
         const horizonFactor = 0.1 // adjust this for how high the horizon is (0 = center, 1 = top)
 
@@ -47,11 +57,15 @@ export function initComponent() {
 
     function canScroll(scrollDirection: 'f' | 'b') {
         const nbSlides = document.querySelector('.scene')?.childElementCount || 0
-        const maxScroll = (nbSlides - 1) * jumpDistance
-        const newScrollPosition =
-            scrollPosition.value + (scrollDirection === 'f' ? jumpDistance : -jumpDistance)
-        return newScrollPosition >= 0 && newScrollPosition <= maxScroll
+        const newScrollPosition = scrollPosition.value + (scrollDirection === 'f' ? 1 : -1)
+        return newScrollPosition >= 0 && newScrollPosition < nbSlides
     }
 
-    return { scrollPosition, canScroll, moveOneSlide, getStyle }
+    function canScrollTo(position: number) {
+        const nbSlides = document.querySelector('.scene')?.childElementCount || 0
+
+        return position >= 0 && position < nbSlides
+    }
+
+    return { scrollPosition, canScroll, canScrollTo, moveOneSlide, moveToSlide, getStyle }
 }

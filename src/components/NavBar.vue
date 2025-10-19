@@ -1,13 +1,38 @@
 <script setup lang="ts">
 import CustomButton from '@/components/CustomButton.vue'
+import { onMounted, ref } from 'vue'
 const movedSignal = defineEmits<{
-    (e: 'moved', direction: 'f' | 'b'): void
+    (e: 'moved', idx: number): void
 }>()
 
 defineProps<{
     canMoveForward: boolean
     canMoveBackward: boolean
+    pageCount: number
 }>()
+
+const navIdx = ref(0)
+
+function setNavIdx(pos: number) {
+    navIdx.value = pos
+}
+
+defineExpose({
+    setNavIdx,
+})
+
+onMounted(() => {
+    document.addEventListener(
+        'wheel',
+        (evt) => {
+            const scrollDirection = evt.deltaY < 0 ? 1 : -1
+            navIdx.value += scrollDirection
+            movedSignal('moved', navIdx.value)
+            evt.preventDefault()
+        },
+        { passive: false },
+    )
+})
 </script>
 
 <template>
@@ -22,14 +47,24 @@ defineProps<{
 
         <div id="progress">
             <CustomButton
-                v-if="canMoveForward"
+                :disable="!canMoveForward"
                 content="arrow_drop_up"
-                @click="movedSignal('moved', 'f')"
+                @click="
+                    () => {
+                        navIdx++
+                        movedSignal('moved', navIdx)
+                    }
+                "
             />
             <CustomButton
-                v-if="canMoveBackward"
+                :disable="!canMoveBackward"
                 content="arrow_drop_down"
-                @click="movedSignal('moved', 'b')"
+                @click="
+                    () => {
+                        navIdx--
+                        movedSignal('moved', navIdx)
+                    }
+                "
             />
         </div>
     </div>

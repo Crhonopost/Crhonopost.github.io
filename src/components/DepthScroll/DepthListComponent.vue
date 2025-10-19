@@ -1,11 +1,13 @@
 <script lang="ts" setup>
 import { initComponent } from './script'
 
-const { getStyle, moveOneSlide, canScroll } = initComponent()
+const { getStyle, moveOneSlide, moveToSlide, canScroll, canScrollTo } = initComponent()
 
 defineExpose({
+    moveToSlide,
     moveOneSlide,
     canScroll,
+    canScrollTo,
 })
 </script>
 

@@ -9,7 +9,7 @@ import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
@@ -34,32 +34,25 @@ const skills: Skill[] = [
     { name: 'NestJS', icon: './logo/nest.png', anotation: AnotationEnum.TOOL, isWeb: true },
 ]
 
+const navRef = ref<typeof NavBar>()
 const depthListRef = ref<typeof DepthScroll>()
 const sceneComponentRef = ref()
+let prevPos = 0
+function tryMoving(position: number) {
+    if (!depthListRef?.value?.canScrollTo(position)) {
+        console.warn('Cannot scroll to:', position)
+        navRef.value?.setNavIdx(prevPos)
 
-function tryMoving(direction: 'f' | 'b') {
-    if (!depthListRef?.value?.canScroll(direction)) {
-        console.warn('Cannot scroll in this direction:', direction)
         return
     }
 
-    depthListRef?.value.moveOneSlide(direction)
+    depthListRef?.value.moveToSlide(position)
     if (sceneComponentRef?.value)
-        sceneComponentRef.value.movePlaine(direction === 'f' ? 'front' : 'back')
+        sceneComponentRef.value.movePlaine(position - prevPos > 0 ? 'front' : 'back')
+
+    prevPos = position
 }
 
-onMounted(() => {
-    document.addEventListener(
-        'wheel',
-        (evt) => {
-            const scrollDirection = evt.deltaY < 0 ? 'f' : 'b'
-            tryMoving(scrollDirection)
-
-            evt.preventDefault()
-        },
-        { passive: false },
-    )
-})
 function projectClicked(idx: number) {
     selectedProject.value = idx
     depthListRef?.value?.moveOneSlide('f')
@@ -86,9 +79,11 @@ const selectedProject = ref(-1)
     <div id="layout">
         <header>
             <NavBar
+                ref="navRef"
                 @moved="(dir) => tryMoving(dir)"
                 :can-move-backward="depthListRef?.canScroll('b')"
                 :can-move-forward="depthListRef?.canScroll('f')"
+                :page-count="4"
             />
         </header>
 
