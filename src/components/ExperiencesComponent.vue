@@ -39,15 +39,15 @@ import ToolTip from 'v-tooltip-lite'
         <div class="glass" id="pro">
             <h1>{{ capitalizeFirst(t('titles.professional')) }}</h1>
             <StudiesCard
-                date="April - June 2024"
+                :date="`${capitalizeFirst(t('dates.april'))} - ${capitalizeFirst(t('dates.june'))} 2024`"
                 location="Andragogy (Sète)"
-                description="Web developer internship"
+                :description="capitalizeFirst(t('experiences.professional.job_andragogy'))"
             />
             <div class="separator_h"></div>
             <StudiesCard
-                date="April 2023 - January 2024"
+                :date="`${capitalizeFirst(t('dates.april'))} 2023 - ${capitalizeFirst(t('dates.january'))} 2024`"
                 location="Kapix (Montpellier)"
-                description="Web developer internship"
+                :description="capitalizeFirst(t('experiences.professional.job_kapix'))"
             />
         </div>
     </div>

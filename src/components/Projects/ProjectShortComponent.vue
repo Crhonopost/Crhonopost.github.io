@@ -50,6 +50,7 @@ defineProps<{
 .card p {
     max-width: 300px;
     flex: 1;
+    padding-top: 10px;
 }
 
 .card img {
