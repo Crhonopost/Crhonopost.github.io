@@ -21,6 +21,10 @@ import { ColorPicker } from 'vue-accessible-color-picker'
 import { ShapeEnum, type FurProperties, type FurRender } from '@/types'
 import CustomButton from './CustomButton.vue'
 
+import { useI18n } from 'vue-i18n'
+import { capitalizeFirst } from '@/util/util'
+const { t } = useI18n()
+
 const canva = useTemplateRef('viewport')
 function getTextureButtonText(): string {
     const state = furPropertiesRef.value.useColorTexture ? 'Disable' : 'Enable'
@@ -201,7 +205,7 @@ const showColorPicker = ref(false)
 
 <template>
     <div id="frame" ref="frameRef">
-        <h1>Fur editing</h1>
+        <h1>{{ capitalizeFirst(t('titles.fur_editor')) }}</h1>
         <div id="fur-editor">
             <!-- <p>Distance from camera: {{ radius }}</p>
             <input type="range" v-model="radius" min="0.1" max="5" step="0.01" @input="updateCamPos" /> -->
@@ -209,7 +213,7 @@ const showColorPicker = ref(false)
                 <p>Fur shape:</p>
                 <select v-model="selectedMesh" @change="changeMesh">
                     <option>Fox</option>
-                    <option>Plane</option>
+                    <!-- <option>Plane</option> -->
                     <option>Sphere</option>
                 </select>
                 <p>Strand shape:</p>

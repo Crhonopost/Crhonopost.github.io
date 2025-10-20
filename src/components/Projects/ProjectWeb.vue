@@ -1,12 +1,16 @@
 <script setup lang="ts">
+import { capitalizeFirst } from '@/util/util'
 import ProjectSection from './ProjectSection.vue'
 import ProjectSummary from './ProjectSummary.vue'
+import { useI18n } from 'vue-i18n'
+
+const { t } = useI18n()
 </script>
 
 <template>
     <ProjectSummary
-        title="Web"
-        context="During my studies, I had the opportunity to work on several web projects. It was a great way to learn about web technologies and how to create advanced web applications."
+        :title="capitalizeFirst(t('projects.web.title'))"
+        :context="t('projects.web.context')"
         :technologies="['Javascript / Typescript', 'Vue.js', 'Node.js', 'SQL', 'PHP']"
         :links="[
             {
@@ -25,10 +29,7 @@ import ProjectSummary from './ProjectSummary.vue'
     >
         <ProjectSection
             title="SatisCraftory"
-            desc="The goal of this project was to make a web application providing receipes around a
-                specific theme. Ours was about the game Satisfactory. I worked on the frontend part
-                of the application, which included a minigame that I build entirely using Vue
-                reactivity."
+            :desc="t('projects.web.satiscraftory_desc')"
             image-path="/projects/web/satiscraftory.png"
             image-alt="SatisCraftory screenshot"
             :image-first="false"
@@ -36,8 +37,7 @@ import ProjectSummary from './ProjectSummary.vue'
 
         <ProjectSection
             title="Explore"
-            desc="For this project, I worked on the backend part of a web application. Implementing
-                pathfinding algorithms and database structure and optimization."
+            :desc="t('projects.web.explore_desc')"
             image-path="/projects/web/explore_ui.png"
             image-alt="Explore application screenshot"
             :image-first="true"
@@ -45,8 +45,7 @@ import ProjectSummary from './ProjectSummary.vue'
 
         <ProjectSection
             title="Rich Vote"
-            desc="I also worked on the backend of a web application for voting. The goal was to offer
-                different ways to vote and tools to create and manages propositions."
+            :desc="t('projects.web.rich_desc')"
             image-path="/projects/web/RichVote_liste.png"
             image-alt="Rich Vote application screenshot"
             :image-first="false"

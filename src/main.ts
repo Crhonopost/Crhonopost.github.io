@@ -29,6 +29,7 @@ const i18n = createI18n({
                 learning: 'learning',
                 difficulties: 'difficulties',
                 next_steps: 'next steps',
+                fur_editor: 'fur editor',
             },
             experiences: {
                 professional: {
@@ -45,6 +46,8 @@ const i18n = createI18n({
             projects: {
                 shell: {
                     quickDesc: 'A small implementation done for this portfolio',
+                    context:
+                        'While building this website, I wanted to implement a small project to showcase my skills. I decided to create a shell texturing effect using WebGL and Three.js.',
                     difficulties:
                         "For now, all strands are perfectly aligned within the fur, which creates an unnatural grid-like pattern. I tried adding a random offset to each strand, but I'm still unsure how to achieve a more organic UV scaling. Another possible solution would be to adjust the root texture by adding fake 2D strands to hide the visible starting points.",
                 },
@@ -96,6 +99,14 @@ const i18n = createI18n({
                 web: {
                     title: 'web dev',
                     quickDesc: 'Some of my work surrounding web development',
+                    context:
+                        'During my studies, I had the opportunity to work on several web projects. It was a great way to learn about web technologies and how to create advanced web applications.',
+                    satiscraftory_desc:
+                        'The goal of this project was to make a web application providing receipes around a specific theme. Ours was about the game Satisfactory. I worked on the frontend part of the application, which included a minigame that I build entirely using Vue reactivity.',
+                    explore_desc:
+                        'For this project, I worked on the backend part of a web application. Implementing pathfinding algorithms and database structure and optimization.',
+                    rich_desc:
+                        'I also worked on the backend of a web application for voting. The goal was to offer different ways to vote and tools to create and manages propositions.',
                 },
             },
         },
@@ -119,6 +130,7 @@ const i18n = createI18n({
                 learning: 'apprentissage',
                 difficulties: 'difficultées',
                 next_steps: 'prochaines étapes',
+                fur_editor: 'éditeur de fourrure',
             },
             experiences: {
                 professional: {
@@ -135,6 +147,8 @@ const i18n = createI18n({
             projects: {
                 shell: {
                     quickDesc: 'Une implémentation rapide pour le portfolio',
+                    context:
+                        "En développant ce site web, j'ai voulu implémenter cette technique de rendu de fourure qui avait l'air amusante. L'idée est de supperposer plusieurs couche du même mesh et de ne pas afficher certains pixels du mesh pour donner l'impression qu'il y a un volume. Alors qu'en réalité il s'agit juste de plusieurs tranches superposées. Pour cette implémentation j'ai utilisé three.js et webgl.",
                     difficulties:
                         "Pour l\'instant, tous les poils sont parfaitement alignés, ce qui crée un motif en grille peu naturel. J'ai essayé d'ajouter un décalage aléatoire à chaque poil, mais je ne sais pas encore comment obtenir un rendu plus organique au niveau du redimensionnement des UV. Une autre solution serait de modifier la texture des racines en y ajoutant de faux poils en 2D afin de masquer les points de départ visibles.",
                 },
@@ -185,6 +199,14 @@ const i18n = createI18n({
                 },
                 web: {
                     quickDesc: 'Quelques projets de développement web',
+                    context:
+                        "Au cours de mes études, j'ai eu l'occasion de travailler sur plusieurs projets web principalement sur du backend. En plus d'avoir énormément appris sur les technologies utiles au développement web ca a été l'occasion pour moi de m'entraîner dans un environnement professionel.",
+                    satiscraftory_desc:
+                        "L'objectif était de faire un site web avec plusieurs services connectés à un même frontend. J'ai principalement contribué en réalisant un mini jeu entièrement en utilisant la réactivité de vue sans webgl. La thématique du projet était de proposer une sorte de wiki pour les constructions faisables dans le jeu 'Satisfactory'.",
+                    explore_desc:
+                        "Pour ce projet, j'ai travaillé sur le backend avec du PHP et une librairie postgis de postgresSQL. Il a fallu implémenter un algorithme de pathfinding ainsi que des optimisations pour charger le plus rapidement un chemin optimal entre 2 points (ou plus avec des étapes)",
+                    rich_desc:
+                        "J'ai également travaillé sur le backend de cette application web. Le but était de faire un site sur lequel les gens pouvait proposer des sujets ainsi que des propositions pour répondre à ces problèmatiques. Le choix de la meilleure réponse dépendait d'un système de vote et de différentes phases de rédaction où les gens pouvaient écrire en collaboration. J'ai donc travaillé sur la base de données pour rendre tout cela possible.",
                 },
             },
         },

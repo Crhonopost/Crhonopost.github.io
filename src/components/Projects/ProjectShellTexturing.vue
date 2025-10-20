@@ -10,9 +10,7 @@ const { t } = useI18n()
 <template>
     <ProjectSummary
         title="Shell Texturing"
-        context="While building this website, I wanted to implement a small project to
-                showcase my skills. I decided to create a shell texturing effect using WebGL and
-                Three.js."
+        :context="t('projects.shell.context')"
         :technologies="['WebGL', 'Typescript', 'Three.js']"
         :links="[{ url: 'https://github.com/Crhonopost/portfoliopengl', name: 'Github' }]"
     >
