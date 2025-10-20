@@ -9,7 +9,7 @@ import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
@@ -38,27 +38,37 @@ const navRef = ref<typeof NavBar>()
 const depthListRef = ref<typeof DepthScroll>()
 const sceneComponentRef = ref()
 let prevPos = 0
-function tryMoving(position: number) {
-    if (!depthListRef?.value?.canScrollTo(position)) {
+function tryMoving(position: number, project: number | null): boolean {
+    const concernProject = project != null
+    if (!depthListRef?.value?.canScrollTo(position) && !concernProject) {
         console.warn('Cannot scroll to:', position)
         navRef.value?.setNavIdx(prevPos)
 
-        return
+        return false
     }
 
-    depthListRef?.value.moveToSlide(position)
+    const url = new URL(window.location.href)
+    url.searchParams.set('s', position.toString())
+    if (concernProject) url.searchParams.set('p', project.toString())
+    else url.searchParams.delete('p')
+    history.pushState({ page: position }, '', url)
+
+    depthListRef?.value?.moveToSlide(position)
     if (sceneComponentRef?.value)
         sceneComponentRef.value.movePlaine(position - prevPos > 0 ? 'front' : 'back')
 
     prevPos = position
+    return true
 }
 
 function projectClicked(idx: number) {
-    prevPos++
-    navRef.value?.setNavIdx(prevPos)
-    selectedProject.value = idx
-    depthListRef?.value?.moveOneSlide('f')
-    sceneComponentRef?.value.movePlaine('front')
+    // aller sur la slide projet (ici 4) et définir le projet actif
+    const projectSlide = 4
+    if (tryMoving(projectSlide, idx)) {
+        navRef.value?.setNavIdx(projectSlide)
+        selectedProject.value = idx
+        sceneComponentRef?.value.movePlaine('front')
+    }
 }
 
 const projectsComponents = [
@@ -69,6 +79,27 @@ const projectsComponents = [
     ProjectWeb,
 ]
 const selectedProject = ref(-1)
+
+onMounted(() => {
+    if (!depthListRef.value) return
+
+    const params = new URLSearchParams(window.location.search)
+    const s = parseInt(params.get('s') || '0', 10)
+    const p = parseInt(params.get('p') || '-1', 10)
+
+    let slideIdx = isNaN(s) ? 0 : s
+    const projectIdx = isNaN(p) ? null : p
+
+    if (projectIdx !== null && slideIdx === 4) {
+        // slide 4 = page projet
+        projectClicked(projectIdx)
+    } else {
+        slideIdx = 3
+    }
+    depthListRef.value.moveToSlide(slideIdx)
+    prevPos = slideIdx
+    navRef.value?.setNavIdx(prevPos)
+})
 </script>
 
 <template>
@@ -82,7 +113,7 @@ const selectedProject = ref(-1)
         <header>
             <NavBar
                 ref="navRef"
-                @moved="(dir) => tryMoving(dir)"
+                @moved="(dir) => tryMoving(dir, null)"
                 :can-move-backward="depthListRef?.canScroll('b')"
                 :can-move-forward="depthListRef?.canScroll('f')"
                 :page-count="4"

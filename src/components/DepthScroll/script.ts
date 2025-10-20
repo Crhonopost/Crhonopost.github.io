@@ -8,9 +8,6 @@ export function initComponent() {
     function moveOneSlide(direction: 'f' | 'b') {
         scrollPosition.value += direction === 'f' ? 1 : -1
         scrollPosition.value = Math.max(0, scrollPosition.value)
-
-        const pageIndex = scrollPosition.value
-        history.pushState({ page: pageIndex }, '', `/slide-${pageIndex}`)
     }
 
     function moveToSlide(position: number) {
@@ -18,9 +15,6 @@ export function initComponent() {
 
         scrollPosition.value = position
         scrollPosition.value = Math.min(Math.max(0, scrollPosition.value), nbSlides)
-
-        const pageIndex = scrollPosition.value
-        history.pushState({ page: pageIndex }, '', `/slide-${pageIndex}`)
     }
 
     window.addEventListener('popstate', (event) => {
