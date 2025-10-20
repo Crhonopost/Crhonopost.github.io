@@ -9,7 +9,6 @@ const movedSignal = defineEmits<{
 defineProps<{
     canMoveForward: boolean
     canMoveBackward: boolean
-    pageCount: number
 }>()
 
 const navIdx = ref(0)
@@ -17,7 +16,6 @@ const navIdx = ref(0)
 function setNavIdx(pos: number) {
     navIdx.value = pos
 }
-
 defineExpose({
     setNavIdx,
 })

@@ -58,13 +58,13 @@ export function initComponent() {
     function canScroll(scrollDirection: 'f' | 'b') {
         const nbSlides = document.querySelector('.scene')?.childElementCount || 0
         const newScrollPosition = scrollPosition.value + (scrollDirection === 'f' ? 1 : -1)
-        return newScrollPosition >= 0 && newScrollPosition < nbSlides
+        return newScrollPosition >= 0 && newScrollPosition < nbSlides - 1
     }
 
     function canScrollTo(position: number) {
         const nbSlides = document.querySelector('.scene')?.childElementCount || 0
 
-        return position >= 0 && position < nbSlides
+        return position >= 0 && position < nbSlides - 1
     }
 
     return { scrollPosition, canScroll, canScrollTo, moveOneSlide, moveToSlide, getStyle }
