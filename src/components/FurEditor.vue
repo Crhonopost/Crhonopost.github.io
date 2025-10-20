@@ -37,7 +37,6 @@ const delta = ref(0)
 let lastTime = performance.now()
 
 const rotation = ref({ x: 0, y: 0, z: 0 })
-const position = ref({ x: 0, y: 0, z: 0 })
 
 enum MeshTypeEnum {
     Plane = 'Plane',
@@ -46,15 +45,6 @@ enum MeshTypeEnum {
 }
 const selectedMesh = ref<MeshTypeEnum>(MeshTypeEnum.Sphere)
 const selectedStrandShape = ref<ShapeEnum>(ShapeEnum.ROUND)
-
-function weightedAverage(a: THREE.Vector2, b: THREE.Vector2, weight: number, count = 2) {
-    const res = new THREE.Vector2()
-    for (let i = 0; i < count; i++) {
-        res.x += a.x * (1 - weight) + b.x * weight
-        res.y += a.y * (1 - weight) + b.y * weight
-    }
-    return res.divideScalar(count)
-}
 
 const leftOffset = 0
 
@@ -310,6 +300,7 @@ const showColorPicker = ref(false)
                 <CustomButton
                     content="colorize"
                     @click="() => (showColorPicker = !showColorPicker)"
+                    :disable="false"
                 ></CustomButton>
                 <div v-if="showColorPicker">
                     <CustomButton
@@ -317,6 +308,7 @@ const showColorPicker = ref(false)
                         @click="
                             furPropertiesRef.useColorTexture = !furPropertiesRef.useColorTexture
                         "
+                        :disable="false"
                     />
                     <div v-if="furPropertiesRef.useColorTexture">
                         <p>Color texture scale: {{ furPropertiesRef.colorTextureScale }}</p>

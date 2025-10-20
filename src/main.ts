@@ -52,6 +52,12 @@ const i18n = createI18n({
                     title: 'rendering approaches',
                     quickDesc:
                         'Discovering ray tracing, fluid volume rendering with ray marching and other techniques',
+                    context:
+                        "In the context of my first year of master's degree, I had the opportunity to experiment on some rendering techniques. The first one being ray tracing (in deferred on the CPU) and the second being the render and simulation in real time of volumetric clouds",
+                    ray_tracing_desc:
+                        'I had the opportunity to work on the implementation of a simple ray tracer. I worked on implementing different intersections between ray and shapes as well as various effects such as refraction, reflection, and Beer-Lambert for lighting, as well as soft shadows. I also implemented a BVH as an acceleration structure to speed up the rendering of complex meshes.',
+                    volume_desc:
+                        'This project was an opportunity to discover different approaches to modeling (from noise, using particles) as well as rendering (using impostors to visualize particles, ray marching of a volume). I also had the opportunity to experiment with the geometry shader and compute shaders to minimize CPU-GPU communication in order to render particles efficiently. ',
                 },
                 engine: {
                     title: 'game engine',
@@ -76,6 +82,16 @@ const i18n = createI18n({
                 games: {
                     title: 'game dev',
                     quickDesc: 'Some of my work surrounding game creation',
+                    context:
+                        'As a hobby I love making games. Most of the times it is more about implementing an idea rather than creating a full game',
+                    behavior_title: 'Behavior tree',
+                    behavior_desc:
+                        "I created a behavior tree addon for Godot 4.2 mono. It allows you to create complex AI behaviors in a visual way, making it easier to manage and understand the logic behind AI actions. In the illustration on the right, for example, we can see the use of the extension within Godot's scene tree: if a node in the 'FollowMouse' action sequence fails, the system will then switch to the 'GoHome' sequence.",
+                    dicecraft_desc:
+                        'I participated in a game jam where, as a team of 3, we created a game called Dicecraft. The game is about crafting dice in order to manipulate randomness and maximize combos and units spawn quantities to fight against an AI. The game lacks content and polish, but it was a fun project and the core mechanics are solid.',
+                    other_title: 'other projects',
+                    other_desc:
+                        'I have worked on several other projects, but they act more as experiments or proofs of concept rather than full-fledged games. These projects include various mechanics from 2D platformers about time control to magic spells programming. The illustration on the right come from my spell programming game. On the right is the interface to create spell. The result can be seen on the left in the scene. 3 symbols expand the water shape as we can see.',
                 },
                 web: {
                     title: 'web dev',
@@ -126,6 +142,12 @@ const i18n = createI18n({
                     title: 'techniques de rendu',
                     quickDesc:
                         'Découverte du ray tracing, du rendu volumique de fluide via ray marching et autres techniques',
+                    context:
+                        "Au cours de ma première année de master, j'ai eu l'opportunité de découvrir de nouvelles approches de rendu. J'ai par exemple implémenté du ray tracing sur CPU (en rendu déféré), j'ai également pu faire de la simulation et du rendu en temps réel de nuages volumétriques avec des imposteurs et du ray marching",
+                    ray_tracing_desc:
+                        "J'ai eu l'occasion de travailler sur la mise en œuvre d'un ray tracer simple. J'ai développé différentes intersections entre les rayons et les formes, ainsi que plusieurs effets tels que la réfraction, la réflexion, la loi de Beer-Lambert pour l'éclairage, et les ombres douces. J'ai également implémenté une structure d'accélération BVH afin d'accélérer le rendu de maillages complexes.",
+                    volume_desc:
+                        "Ce projet a été l'occasion de découvrir différentes approches de modélisation (à partir de bruit, ou à l'aide de particules), ainsi que de rendu (utilisation d'imposteurs pour visualiser les particules, et ray marching de volume). J'ai également pu expérimenter avec le geometry shader et les compute shaders afin de réduire la communication entre le CPU et le GPU, et ainsi rendre les particules de manière plus efficace.",
                 },
                 engine: {
                     title: 'moteur de jeu',
@@ -148,7 +170,18 @@ const i18n = createI18n({
                     ],
                 },
                 games: {
+                    title: 'jeux',
                     quickDesc: "D'autres projets autour de la création de jeux vidéo",
+                    context:
+                        "J'aime développer des jeux dans mon temps libre. Bien qu'il s'agisse généralement de tester des concepts plus que de faire un jeu complet",
+                    behavior_title: 'Arbre de comportement',
+                    behavior_desc:
+                        "J'ai développé un addon pour godot 4.2 mono. Il s'agit d'une implentation d'arbre de comportement qui permet de créer facilement des comportements d'IA complexes à l'aide d'un arbre. Sur l'illustration à droite par exemple on peut voir l'utilisation de l'extension dans le graphe de scène de godot, si un noeud de la séquence d'actions 'FollowMouse' échoue, alors on passera à la séquence 'GoHome'.",
+                    dicecraft_desc:
+                        "J'ai participé à une game jam durant laquelle, en équipe de trois, nous avons créé un jeu appelé Dicecraft. Le principe du jeu est de fabriquer des dés afin de manipuler l'aléatoire et de maximiser les combos et la quantité d'unités invoquées par les lancés de dés pour affronter une IA. Le jeu manque de finition, mais ce fut un projet amusant, et les mécaniques de base sont solides.",
+                    other_title: 'autres projets',
+                    other_desc:
+                        "Je travaille sur plusieurs autres projets, mais rien de très présentable. Ils vont d'un platformer 2D utilisant le contrôle du temps pour réussir les puzzles à un jeu de programmation de sort magiques. L'illustration sur la droite illustre ce concept de programmation magique, le joueur dispose des symboles sur un cercle d'invocation, la forme et le sens des symboles impactent l'effet produit. Ici on a 3 dilatations appliquées à un sort d'eau, ce qui donne ce triangle.",
                 },
                 web: {
                     quickDesc: 'Quelques projets de développement web',
