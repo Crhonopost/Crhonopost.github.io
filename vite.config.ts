@@ -13,4 +13,8 @@ export default defineConfig({
         },
     },
     assetsInclude: ['**/*.glb'],
+    base: '/',
+    build: {
+        outDir: 'dist'
+    }
 })
