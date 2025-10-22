@@ -38,4 +38,16 @@ defineProps<{
 .studies-card > div > * {
     align-content: center;
 }
+
+@media (max-width: 1400px) {
+    .studies-card {
+        margin: 5px;
+    }
+    .studies-card h3 {
+        margin: 0;
+    }
+    .studies-card h2 {
+        font-size: small;
+    }
+}
 </style>

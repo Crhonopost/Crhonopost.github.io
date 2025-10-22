@@ -150,8 +150,7 @@ onMounted(() => {
 }
 
 header {
-    flex-shrink: 0;      /* Empêche le header de se réduire */
-    width: 90px;        /* Largeur fixe ou variable selon ton design */
+    flex-shrink: 0;
 }
 
 main {

@@ -72,7 +72,7 @@ import ToolTip from 'v-tooltip-lite'
     height: fit-content;
 }
 
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
     #experiences {
         flex-direction: column;
         padding: 10px;

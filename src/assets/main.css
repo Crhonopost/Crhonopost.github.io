@@ -125,3 +125,9 @@ p {
     padding: 0 2rem;
   } 
 } */
+
+@media (max-width: 1400px) {
+    .separator_h {
+        margin: 10px;
+    }
+}
