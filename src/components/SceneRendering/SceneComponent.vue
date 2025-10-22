@@ -4,7 +4,12 @@ import { initComponent } from './script'
 
 const canva = ref<HTMLCanvasElement | null>(null)
 
-const { movePlaine, initRender, initScene, resize } = initComponent(canva)
+const { movePlaine, initRender, initScene, clearScene, resize } = initComponent(canva)
+
+function optimize(){
+    clearScene()
+    initScene(15, 0.7)
+}
 onMounted(() => {
     window.addEventListener('resize', () => {
         if (canva.value) {
@@ -24,7 +29,7 @@ onMounted(() => {
             throw new Error('WebGL2 context not available')
         } else {
             initRender(canva.value, context)
-            initScene()
+            initScene(45, 1)
         }
     } else {
         console.error('Canvas reference is not an HTMLCanvasElement')
@@ -33,6 +38,7 @@ onMounted(() => {
 
 defineExpose({
     movePlaine,
+    optimize
 })
 </script>
 <template>

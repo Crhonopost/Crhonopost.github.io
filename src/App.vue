@@ -75,8 +75,7 @@ function projectClicked(idx: number) {
 }
 
 const projectsComponents = [
-    // ProjectShellTexturing,
-    ProjectGameEngine,
+    ProjectShellTexturing,
     ProjectGameEngine,
     ProjectRendering,
     ProjectGames,
@@ -126,7 +125,7 @@ onMounted(() => {
         </header>
 
         <main>
-            <PerformancePopup/>
+            <PerformancePopup @lower-resolution="sceneComponentRef?.optimize"/>
             <SceneComponent ref="sceneComponentRef" />
             <DepthScroll ref="depthListRef" id="depth">
                 <Apropos class="item" />
