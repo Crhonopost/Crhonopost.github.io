@@ -9,10 +9,13 @@ import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
-import { onMounted, ref } from 'vue'
+import { onMounted, onUnmounted, ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
+
+
+import { globalPerformanceMonitor } from '@/util/PerformanceMonitor.ts'
 
 const skills: Skill[] = [
     { name: 'C++', icon: './logo/cpp.png', anotation: AnotationEnum.LANGUAGE, isWeb: false },
@@ -98,7 +101,33 @@ onMounted(() => {
         // slide 4 = page projet
         projectClicked(projectIdx)
     }
+
+    frameStartTime = performance.now()
+    updateFrameTime()
 })
+
+
+
+const fps = ref(60)
+let frameStartTime = 0
+const frameTime = ref(0)
+
+const unsubscribe = globalPerformanceMonitor.onFPSUpdate((currentFps: number) => {
+    fps.value = currentFps
+})
+function updateFrameTime() {
+    const now = performance.now()
+    frameTime.value = Math.round(now - frameStartTime)
+    frameStartTime = now
+    requestAnimationFrame(updateFrameTime)
+}
+
+
+
+onUnmounted(() => {
+    unsubscribe()
+})
+
 </script>
 
 <template>
@@ -120,6 +149,7 @@ onMounted(() => {
         </header>
 
         <main>
+            <h3>{{ 'fps: ' + fps }}</h3>
             <SceneComponent ref="sceneComponentRef" />
             <DepthScroll ref="depthListRef" id="depth">
                 <Apropos class="item" />
