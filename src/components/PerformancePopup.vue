@@ -1,7 +1,10 @@
 <script setup lang="ts">
 import { globalPerformanceMonitor } from '@/util/PerformanceMonitor'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
 import CustomButton from './CustomButton.vue';
+import { useI18n } from 'vue-i18n';
+
+const {t} = useI18n()
 
 const emit = defineEmits<{
     (e: 'lowerResolution'): void
@@ -54,6 +57,13 @@ function optimize() {
 function dismiss() {
     showPopup.value = false
 }
+
+const texts = computed(() => ({
+  title: t('performances.title', { fps: averageFps.value }),
+  optimize: t('performances.optimize'),
+  proposition: t('performances.proposition'),
+  note: t('performances.note')
+}))
 </script>
 
 <template>
@@ -62,21 +72,24 @@ function dismiss() {
             <div class="banner-icon">⚡</div>
             <div class="banner-text">
                 <span class="banner-title">
-                    Performance issues {{ `(avg: ${averageFps}fps)` }}
+                    {{ texts.title }}
                 </span>
                 <span class="banner-description">
-                    Switch to performance mode?
+                    {{ texts.proposition }}
+                </span>
+                <span class="banner-description">
+                    {{ texts.note }}
                 </span>
             </div>
             <div class="banner-actions">
                 <CustomButton 
                     :disable="false" 
-                    content="Optimize" 
+                    :content="t('performances.optimize')" 
                     class="btn-optimize"
                     @click="optimize" 
                 />
                 <button class="btn-dismiss" @click="dismiss">
-                    ×
+                    x
                 </button>
             </div>
         </div>

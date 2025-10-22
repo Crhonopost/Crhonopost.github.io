@@ -110,6 +110,12 @@ const i18n = createI18n({
                         'I also worked on the backend of a web application for voting. The goal was to offer different ways to vote and tools to create and manages propositions.',
                 },
             },
+            performances: {
+                title: 'Performance issues (avg: {fps} FPS)',
+                optimize: 'optimize',
+                proposition: 'Switch to performance mode?',
+                note: 'Some browsers may provide better performance.'
+            }
         },
         fr: {
             hello: 'bonjour',
@@ -211,6 +217,12 @@ const i18n = createI18n({
                         "J'ai également travaillé sur le backend de cette application web. Le but était de faire un site sur lequel les utilisateurs pouvaient proposer des sujets ainsi que des propositions pour répondre à ces problématiques. Le choix de la meilleure réponse dépendait d'un système de vote et de différentes phases de rédaction où les gens pouvaient écrire en collaboration. J'ai donc travaillé sur la base de données pour rendre tout cela possible.",
                 },
             },
+            performances: {
+                title: 'Problèmes de performances (moy: {fps} FPS)',
+                optimize: 'optimiser',
+                proposition: 'Passer en mode performance?',
+                note: "D'autres navigateurs peuvent obtenir de meilleurs performances."
+            }
         },
     },
 })
