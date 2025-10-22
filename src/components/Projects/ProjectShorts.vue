@@ -12,32 +12,32 @@ const projectClickedSignal = defineEmits<{
 
 const projects = [
     {
-        title: 'Shell texturing',
-        description: t('projects.shell.quickDesc'),
+        title: () => 'Shell texturing',
+        description: () => t('projects.shell.quickDesc'),
         technologies: ['WebGL', 'Typescript', 'Three.js'],
         illustration: './projects/shelltexturing/fur.png',
     },
     {
-        title: capitalizeFirst(t('projects.engine.title')),
-        description: t('projects.engine.quickDesc'),
+        title: () => capitalizeFirst(t('projects.engine.title')),
+        description: () => t('projects.engine.quickDesc'),
         technologies: ['OpenGL', 'C++'],
         illustration: './projects/gameengine/illu_game.png',
     },
     {
-        title: capitalizeFirst(t('projects.rendering.title')),
-        description: t('projects.rendering.quickDesc'),
+        title: () => capitalizeFirst(t('projects.rendering.title')),
+        description: () => t('projects.rendering.quickDesc'),
         technologies: ['OpenGL', 'C++'],
         illustration: '/projects/TER/cloud-around.gif',
     },
     {
-        title: capitalizeFirst(t('projects.games.title')),
-        description: t('projects.games.quickDesc'),
+        title: () => capitalizeFirst(t('projects.games.title')),
+        description: () => t('projects.games.quickDesc'),
         technologies: ['Godot', 'Gdscript', 'C#'],
         illustration: './projects/games/what.gif',
     },
     {
-        title: capitalizeFirst(t('projects.web.title')),
-        description: t('projects.web.quickDesc'),
+        title: () => capitalizeFirst(t('projects.web.title')),
+        description: () => t('projects.web.quickDesc'),
         technologies: ['Vue.js', 'Node.js', 'PHP', 'SQL'],
         illustration: './projects/web/satiscraftory.png',
     },
@@ -61,8 +61,8 @@ onMounted(() => {
                 v-for="(project, index) in projects"
                 :key="index"
                 class="glass clickable project"
-                :title="project.title"
-                :description="project.description"
+                :title="project.title()"
+                :description="project.description()"
                 :technologies="project.technologies"
                 :illustration="project.illustration"
                 @click="projectClickedSignal('projectClicked', index)"
