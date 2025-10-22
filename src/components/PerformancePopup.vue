@@ -14,15 +14,14 @@ const averageFps = ref(60)
 let frameStartTime = 0
 const frameTime = ref(0)
 
-const histeresyBot = 50
-const histeresyTop = 70
+const minFps = 50
 
 const unsubscribe = globalPerformanceMonitor.onFPSUpdate((currentFps: number, avgFps: number) => {
     averageFps.value = avgFps
-    if(showPopup.value && !popupShowed && averageFps.value > histeresyTop){
-        showPopup.value = false
-        popupShowed = false
-    } else if(averageFps.value > -1 && averageFps.value < histeresyBot && !popupShowed){
+    
+    if(popupShowed) return
+
+    if(averageFps.value > -1 && averageFps.value < minFps){
         showPopup.value = true
         popupShowed = true
     }
