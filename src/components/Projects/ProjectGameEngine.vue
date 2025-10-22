@@ -7,7 +7,7 @@ import ProjectSection from './ProjectSection.vue'
 
 const { t, tm } = useI18n()
 
-const features = tm('projects.engine.features_list') as string[]
+const features = () => tm('projects.engine.features_list') as string[]
 </script>
 
 <template>
@@ -44,9 +44,9 @@ const features = tm('projects.engine.features_list') as string[]
         >
         </ProjectSection>
         <div id="list">
-            <h3>Some of the features I want to implement</h3>
+            <h3>{{ t("projects.engine.features_list_title") }}</h3>
             <ul>
-                <li v-for="(str, i) in features" :key="i">{{ str }}</li>
+                <li v-for="(str, i) in features()" :key="i">{{ str }}</li>
             </ul>
         </div>
     </ProjectSummary>
@@ -54,6 +54,6 @@ const features = tm('projects.engine.features_list') as string[]
 
 <style>
 #list {
-    width: auto;
+    width: 60%;
 }
 </style>

@@ -73,7 +73,8 @@ const i18n = createI18n({
                     img_desc_1: 'Second example of camera',
                     next_steps:
                         "The first version taught me enough to start over. The upcoming V2 focuses on a stronger code architecture and takes inspiration from Godot's design, emphasizing inheritance and composition over a pure ECS approach.",
-                    features_list: [
+                    features_list_title: 'Some of the features I want to implement',
+                        features_list: [
                         'Independent renderer exposing a clear API (done)',
                         'Better resource and scene serialization management (done)',
                         'Improved logging and debugging tools (done)',
@@ -174,6 +175,7 @@ const i18n = createI18n({
                     img_desc_1: 'Deuxième exemple de caméra',
                     next_steps:
                         "Ma première tentative m'a tellement appris que j'ai dû recommencer de zéro. La prochaine version du moteur de jeu possède une structure de code claire et facilement codable en s'inspirant de temps à autres de l'architecture de Godot. Dans cette version, pas d'ECS mais une approche plus traditionnelle axée autour de l'héritage ainsi que la composition.",
+                    features_list_title: 'Quelques fonctionnalités que je compte implémenter',
                     features_list: [
                         'Un renderer indépendant exposant une API (fait)',
                         "Meilleur système de gestion des ressources ainsi qu'une solution de sauvegarde et de chargement des scenes fonctionnelle (fait)",
