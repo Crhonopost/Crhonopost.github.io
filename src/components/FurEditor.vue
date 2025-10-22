@@ -47,7 +47,7 @@ enum MeshTypeEnum {
     Sphere = 'Sphere',
     Fox = 'Fox',
 }
-const selectedMesh = ref<MeshTypeEnum>(MeshTypeEnum.Sphere)
+const selectedMesh = ref<MeshTypeEnum>(MeshTypeEnum.Fox)
 const selectedStrandShape = ref<ShapeEnum>(ShapeEnum.ROUND)
 
 const leftOffset = 0
@@ -115,13 +115,28 @@ function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
 
     const baseGeometry = new THREE.SphereGeometry(0.5)
     furRender = generateFurR(baseGeometry)
-    selectedMesh.value = MeshTypeEnum.Sphere
+    
+    selectedMesh.value = MeshTypeEnum.Fox
+    loadMesh(model)
+    .then((m) => {
+        m.geometry.rotateX(-90)
+        furRender.baseGeometry = m.geometry
+        emptyTexture(furRender)
+        updateFur(furRender)
+    })
+    .catch((e) => console.error(e))
+
     furRender.properties.applyFog = false
     changeShape(furRender, selectedStrandShape.value)
     scene?.add(furRender.fur)
     loadTexture(furRender, leopardColor, 'colorTexture')
     loadTexture(furRender, noiseTexture, 'voronoise')
     furPropertiesRef.value = furRender.properties
+    furPropertiesRef.value.useColorTexture = true
+    furPropertiesRef.value.colorTextureScale = 5.75
+    furPropertiesRef.value.thicknessTop = 0.1
+    furPropertiesRef.value.thicknessBot = 1
+    furPropertiesRef.value.scale = 245
 
     function animate() {
         delta.value = (performance.now() - lastTime) / 1000
