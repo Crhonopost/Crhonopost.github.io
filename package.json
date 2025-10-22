@@ -10,8 +10,7 @@
     "build-only": "vite build",
     "type-check": "vue-tsc --build",
     "lint": "eslint . --fix",
-    "format": "prettier --write src/",
-    "build:publish": "pnpm build && git subtree split --prefix dist -b pages-tmp && git push -f origin pages-tmp:pages && git branch -D pages-tmp"
+    "format": "prettier --write src/"
   },
   "dependencies": {
     "@types/three": "^0.177.0",
