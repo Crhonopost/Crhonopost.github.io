@@ -26,15 +26,22 @@ defineProps<Skill>()
     object-fit: cover;
 }
 
-@media screen and (max-width: 900px) {
+@media (max-width: 900px) {
     .skill {
         width: 100px;
         height: 100px;
     }
-
+    
     .skill img {
         width: 100%;
         height: 100%;
+    }
+}
+
+@media (max-width: 530px) {
+.skill {
+        width: 80px;
+        height: 80px;
     }
 }
 </style>

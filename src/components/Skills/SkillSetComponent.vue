@@ -43,14 +43,6 @@ onMounted(() => {
         <div class="skill-set-header">
             <h2>{{ capitalizeFirst(t('titles.skills')) }}</h2>
             <p>{{ capitalizeFirst(t('descriptions.skills')) }}</p>
-            <!-- <div id="filters">
-                <p>Filters:</p>
-                <CustomButton
-                    class="btn"
-                    content="Web related"
-                    @click="() => (showWebRelated = !showWebRelated)"
-                ></CustomButton>
-            </div> -->
         </div>
         <div id="skill-set-container">
             <div class="skill-set">
@@ -93,6 +85,7 @@ onMounted(() => {
 
 .skill-set-header > p {
     text-align: center;
+    padding-right: 15px;
 }
 
 #skill-set-container {
@@ -112,35 +105,9 @@ onMounted(() => {
     justify-content: center;
     /* padding-right: 50px; */
 }
-.offset-row {
-    margin-left: 100px;
-}
-
-#filters {
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-}
-
-#filters * {
-    margin: 3px;
-}
-
-#filters p {
-    margin-right: 10px;
-}
 
 .btn {
     width: 100px;
 }
 
-@media screen and (max-width: 900px) {
-    .skill-set {
-        grid-template-columns: repeat(auto-fit, minmax(90px, 1fr));
-        padding-right: 0;
-    }
-    .offset-row {
-        margin-left: 0;
-    }
-}
 </style>
