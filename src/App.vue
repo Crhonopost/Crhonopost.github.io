@@ -134,7 +134,7 @@ onMounted(() => {
             </DepthScroll>
         </main>
     </div>
-</template>
+</template> 
 
 <style scoped>
 #layout {
