@@ -75,7 +75,8 @@ function projectClicked(idx: number) {
 }
 
 const projectsComponents = [
-    ProjectShellTexturing,
+    // ProjectShellTexturing,
+    ProjectGameEngine,
     ProjectGameEngine,
     ProjectRendering,
     ProjectGames,
