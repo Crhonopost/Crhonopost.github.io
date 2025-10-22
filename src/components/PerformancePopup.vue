@@ -13,6 +13,7 @@ const frameTime = ref(0)
 
 const unsubscribe = globalPerformanceMonitor.onFPSUpdate((currentFps: number, averageFps: number) => {
     fps.value = averageFps
+    // if(fps.value > -1 && fps.value < 200 && !popupShowed){
     if(fps.value < 200 && !popupShowed){
         showPopup.value = true
         popupShowed = true

@@ -75,31 +75,31 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
 
     function initScene() {
         camera?.translateZ(1)
-        grassRef.value.scale = 500
-        grassRef.value.threshold = 0.1
-        grassRef.value.displacementStrength = 0.01
-        grassRef.value.thicknessBot = 1
-        grassRef.value.thicknessTop = 0.8
-        grassRef.value.totalHeight = 1
-        grassRef.value.nbInstances = 45
-        grassRef.value.colors[0].color = new THREE.Vector3(0.078, 0.22, 0.173)
-        grassRef.value.colors[1].color = new THREE.Vector3(0.325, 0.569, 0.235)
-        grassRef.value.applyFog = true
+        // grassRef.value.scale = 500
+        // grassRef.value.threshold = 0.1
+        // grassRef.value.displacementStrength = 0.01
+        // grassRef.value.thicknessBot = 1
+        // grassRef.value.thicknessTop = 0.8
+        // grassRef.value.totalHeight = 1
+        // grassRef.value.nbInstances = 45
+        // grassRef.value.colors[0].color = new THREE.Vector3(0.078, 0.22, 0.173)
+        // grassRef.value.colors[1].color = new THREE.Vector3(0.325, 0.569, 0.235)
+        // grassRef.value.applyFog = true
 
-        const grassGeo = new THREE.PlaneGeometry(10, 10)
-            .rotateX(THREE.MathUtils.degToRad(-90))
-            .rotateY(THREE.MathUtils.degToRad(10))
-            .translate(0, -0.5, 0.5)
-        const furRender = generateFurR(
-            grassGeo,
-            grassRef.value,
-            renderer?.getClearColor(new THREE.Color()),
-        )
-        changeShape(furRender, ShapeEnum.ROUND)
-        updateUniforms(furRender)
-        scene?.add(furRender.fur)
-        furs.push(furRender)
-        loadTexture(furRender, leopardColor, 'colorTexture')
+        // const grassGeo = new THREE.PlaneGeometry(10, 10)
+        //     .rotateX(THREE.MathUtils.degToRad(-90))
+        //     .rotateY(THREE.MathUtils.degToRad(10))
+        //     .translate(0, -0.5, 0.5)
+        // const furRender = generateFurR(
+        //     grassGeo,
+        //     grassRef.value,
+        //     renderer?.getClearColor(new THREE.Color()),
+        // )
+        // changeShape(furRender, ShapeEnum.ROUND)
+        // updateUniforms(furRender)
+        // scene?.add(furRender.fur)
+        // furs.push(furRender)
+        // loadTexture(furRender, leopardColor, 'colorTexture')
 
         const godRay1 = getRay(6, 1.5, 0.1)
         godRay1.translateZ(-3)

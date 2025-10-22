@@ -49,7 +49,7 @@ export class PerformanceMonitor {
                 this.fpsHistory.reduce((sum, fps) => sum + fps, 0) / this.fpsHistory.length
             )
         } else {
-            this.averageFps = 120
+            this.averageFps = -1
         }
         
     }
