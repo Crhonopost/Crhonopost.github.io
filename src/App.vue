@@ -87,18 +87,17 @@ onMounted(() => {
     const s = parseInt(params.get('s') || '0', 10)
     const p = parseInt(params.get('p') || '-1', 10)
 
-    let slideIdx = isNaN(s) ? 0 : s
+    const slideIdx = isNaN(s) ? 0 : s
     const projectIdx = isNaN(p) ? null : p
+
+    depthListRef.value.moveToSlide(slideIdx)
+    prevPos = slideIdx
+    navRef.value?.setNavIdx(prevPos)
 
     if (projectIdx !== null && slideIdx === 4) {
         // slide 4 = page projet
         projectClicked(projectIdx)
-    } else {
-        slideIdx = 3
     }
-    depthListRef.value.moveToSlide(slideIdx)
-    prevPos = slideIdx
-    navRef.value?.setNavIdx(prevPos)
 })
 </script>
 
