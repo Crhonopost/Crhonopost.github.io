@@ -46,9 +46,9 @@ const showLang = ref(false)
 <template>
     <div id="navbar">
         <div class="glass column">
-            <a href="https://github.com/Crhonopost">Github</a>
-            <a href="cv">CV</a>
-            <a href="https://www.linkedin.com/in/nathan-souvignet-a10732230/">LinkedIn</a>
+            <a href="https://github.com/Crhonopost" target="_blank">Github</a>
+            <a href="cv.pdf" target="_blank">CV</a>
+            <a href="https://www.linkedin.com/in/nathan-souvignet-a10732230/" target="_blank">LinkedIn</a>
             <!-- Email -->
             <a href="mailto:nath.souvignet@gmail.com">Email</a>
         </div>
