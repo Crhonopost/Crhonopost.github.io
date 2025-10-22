@@ -5,6 +5,7 @@ const SYMBOL_NAMES = [
     'colorize',
     'unfold_more_double',
     'language',
+    'account_circle',
 ] as const
 type SymbolName = (typeof SYMBOL_NAMES)[number]
 

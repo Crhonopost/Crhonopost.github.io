@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import NavBar from '@/components/NavBar.vue'
+import NavBar from '@/components/Navigation/NavBar.vue'
 import DepthScroll from '@/components/DepthScroll/DepthListComponent.vue'
 import SceneComponent from '@/components/SceneRendering/SceneComponent.vue'
 import ProjectShellTexturing from '@/components/Projects/ProjectShellTexturing.vue'
@@ -145,18 +145,44 @@ onMounted(() => {
 <style scoped>
 #layout {
     display: flex;
+    width: 100vw;
+    height: 100vh;
 }
 
 header {
-    width: fit-content;
+    flex-shrink: 0;      /* Empêche le header de se réduire */
+    width: 90px;        /* Largeur fixe ou variable selon ton design */
 }
 
 main {
-    flex: 1;
+    flex: 1;             /* Prend tout l’espace restant */
+    overflow: hidden;    /* Évite les débordements */
+    display: flex;
+    flex-direction: column;
 }
-
 .item {
     max-height: 80vh;
     margin: 15px;
+}
+
+
+#depth {
+    height: 100%;
+}
+
+@media (max-width: 480px) {
+    #layout {
+        flex-direction: column;
+        flex-flow: column-reverse;
+    }
+
+    header {
+        width: 100%;
+    }
+
+    main {
+        flex: none;
+        flex-grow: 1;
+    }
 }
 </style>

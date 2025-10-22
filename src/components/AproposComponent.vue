@@ -25,4 +25,16 @@ const { t } = useI18n()
 #apropos-text {
     width: 60%;
 }
+
+@media (max-width: 1250px) {
+    #apropos-text {
+        width: 100%;
+    }   
+}
+
+@media (max-width: 480px) {
+    #apropos-text {
+        font-size: small;
+    }   
+}
 </style>

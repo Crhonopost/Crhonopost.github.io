@@ -27,7 +27,6 @@ defineExpose({
 <style scoped>
 .scene {
     perspective: 1000px;
-    height: 100vh;
     width: auto;
     overflow: hidden;
     position: relative;
