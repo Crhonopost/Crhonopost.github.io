@@ -19,7 +19,10 @@ const minFps = 40
 const unsubscribe = globalPerformanceMonitor.onFPSUpdate((currentFps: number, avgFps: number) => {
     averageFps.value = avgFps
     
-    if(popupShowed) return
+    if(averageFps.value > minFps && showPopup.value){
+        showPopup.value = false
+        popupShowed = false
+    } else if(popupShowed) return
 
     if(averageFps.value > -1 && averageFps.value < minFps){
         showPopup.value = true
