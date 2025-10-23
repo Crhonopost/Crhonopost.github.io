@@ -15,7 +15,7 @@ const features = () => tm('projects.engine.features_list') as string[]
         title="Star Engine"
         :context="t('projects.engine.context')"
         :technologies="['C++', 'OpenGL', 'GLSL', 'ImGUI']"
-        :links="[{ url: 'https://github.com/Crhonopost/Star-engine', name: 'Github' }]"
+        :links="[{ url: 'https://github.com/Crhonopost/Star-engine', name: 'Github V1' }, { url: 'https://github.com/Godon-t/galaxy-engine', name: 'Github V2' }]"
     >
         <ProjectSection
             :title="capitalizeFirst(t('titles.learning'))"

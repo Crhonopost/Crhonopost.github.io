@@ -12,7 +12,7 @@ const { t } = useI18n()
         title="Shell Texturing"
         :context="t('projects.shell.context')"
         :technologies="['WebGL', 'Typescript', 'Three.js']"
-        :links="[{ url: 'https://github.com/Crhonopost/portfoliopengl', name: 'Github' }]"
+        :links="[{ url: 'https://github.com/Crhonopost/Crhonopost.github.io', name: 'Github' }]"
     >
         <FurEditor />
         <h1 id="shelldifftitle">{{ capitalizeFirst(t('titles.difficulties')) }}</h1>

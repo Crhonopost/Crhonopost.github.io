@@ -49,7 +49,7 @@ onUnmounted(() => window.removeEventListener('resize', update))
                         />
                     </div>
                 </div>
-                <div class="project_links">
+                <div class="project_links" v-if="links.length > 0">
                     <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
                     <ul>
                         <li v-for="link in links" :key="link.url">
@@ -70,9 +70,6 @@ onUnmounted(() => window.removeEventListener('resize', update))
 #project-header {
     margin-top: 50px;
 }
-#project-header > h1:first-child {
-    flex: 1;
-}
 .project_whole {
     height: 100%;
     overflow: auto;
@@ -84,9 +81,10 @@ onUnmounted(() => window.removeEventListener('resize', update))
 }
 
 .project_context {
-    flex: 1.5;
+    flex: 1;
     padding-left: 15px;
     padding-right: 15px;
+    max-width: 800px;
 }
 
 .project_context > h2 {
@@ -118,6 +116,10 @@ onUnmounted(() => window.removeEventListener('resize', update))
 }
 
 .other > * {
+    width: 100%;
+}
+
+.project_links {
     width: 100%;
 }
 

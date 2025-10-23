@@ -35,7 +35,7 @@ onUnmounted(() => window.removeEventListener('resize', update))
 
 <style>
 .project-section {
-    width: 60%;
+    width: 80%;
     margin: 20px;
 }
 
@@ -49,8 +49,8 @@ onUnmounted(() => window.removeEventListener('resize', update))
 }
 
 .project-section img {
-    width: 300px;
-    max-height: 300px;
+    width: 700px;
+    max-height: 700px;
     object-fit: contain;
 }
 
@@ -69,6 +69,13 @@ onUnmounted(() => window.removeEventListener('resize', update))
     }
 }
 
+@media (max-width: 900px) {
+    .project-section img {
+        width: 300px;
+        max-height: 400px;
+    }
+
+}
 @media (max-width: 700px) {
     .project-section p {
         font-size: small;

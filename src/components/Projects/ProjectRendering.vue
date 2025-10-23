@@ -12,10 +12,7 @@ const { t } = useI18n()
         :title="capitalizeFirst(t('projects.rendering.title'))"
         :context="t('projects.rendering.context')"
         :technologies="['C++', 'OpenGL', 'GLSL', 'ImGUI']"
-        :links="[
-            { url: 'https://github.com/TER-VOX/cloud', name: 'Volumetric clouds' },
-            { url: 'https://github.com/Crhonopost/Ray-tracing', name: 'Ray tracing' },
-        ]"
+        :links="[]"
     >
         <ProjectSection
             title="Ray tracing"
