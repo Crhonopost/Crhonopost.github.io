@@ -169,7 +169,7 @@ main {
     height: 100%;
 }
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
     #layout {
         flex-direction: column;
         flex-flow: column-reverse;

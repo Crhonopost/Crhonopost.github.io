@@ -44,7 +44,7 @@ const features = () => tm('projects.engine.features_list') as string[]
         >
         </ProjectSection>
         <div id="list">
-            <h3>{{ t("projects.engine.features_list_title") }}</h3>
+            <h2>{{ t("projects.engine.features_list_title") }}</h2>
             <ul>
                 <li v-for="(str, i) in features()" :key="i">{{ str }}</li>
             </ul>
@@ -55,5 +55,17 @@ const features = () => tm('projects.engine.features_list') as string[]
 <style>
 #list {
     width: 60%;
+}
+
+@media (max-width: 1400px) {
+    #list {
+        width: 100%;
+    }
+}
+
+@media (max-width: 900px) {
+    #list > h2 {
+        font-size: x-large;
+    }
 }
 </style>

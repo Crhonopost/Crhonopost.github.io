@@ -432,4 +432,11 @@ canvas {
     height: fit-content;
     pointer-events: none;
 }
+
+
+@media (max-width: 580px) {    
+    #frame h1 {
+        font-size: xx-large;
+    }
+}
 </style>

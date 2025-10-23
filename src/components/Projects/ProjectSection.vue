@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { onUnmounted, ref } from 'vue';
+
 defineProps<{
     title: string
     desc: string | undefined
@@ -6,11 +8,16 @@ defineProps<{
     imageAlt: string | undefined
     imageFirst: boolean
 }>()
+
+const isMobile = ref(window.innerWidth < 1200)
+const update = () => (isMobile.value = window.innerWidth < 1200)
+window.addEventListener('resize', update)
+onUnmounted(() => window.removeEventListener('resize', update))
 </script>
 
 <template>
-    <div class="project-section row">
-        <img class="round" :src="imagePath" :alt="imageAlt" v-if="imageFirst" />
+    <div class="project-section" :class="{'row': !isMobile, 'column': isMobile}">
+        <img class="round" :src="imagePath" :alt="imageAlt" v-if="imageFirst || isMobile" />
         <div class="column">
             <h2>{{ title }}</h2>
             <p>
@@ -22,7 +29,7 @@ defineProps<{
                 />
             </p>
         </div>
-        <img class="round" :src="imagePath" :alt="imageAlt" v-if="!imageFirst" />
+        <img class="round" :src="imagePath" :alt="imageAlt" v-if="!imageFirst && !isMobile" />
     </div>
 </template>
 
@@ -46,4 +53,25 @@ defineProps<{
     max-height: 300px;
     object-fit: contain;
 }
+
+@media (max-width: 1400px) {
+    .project-section {
+        width: 100%;
+    }
+} 
+@media (max-width: 1200px) { 
+    .project-section {
+        align-items: center;
+    }
+
+    .project-section > * {
+        align-items: center;
+    }
+}
+
+@media (max-width: 700px) {
+    .project-section p {
+        font-size: small;
+    }
+ }
 </style>

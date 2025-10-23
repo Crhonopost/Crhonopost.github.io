@@ -14,7 +14,7 @@ const averageFps = ref(60)
 let frameStartTime = 0
 const frameTime = ref(0)
 
-const minFps = 50
+const minFps = 40
 
 const unsubscribe = globalPerformanceMonitor.onFPSUpdate((currentFps: number, avgFps: number) => {
     averageFps.value = avgFps

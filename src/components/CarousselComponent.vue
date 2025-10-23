@@ -1,8 +1,16 @@
 <script setup lang="ts">
+import { onUnmounted, ref } from 'vue';
+
 defineProps<{ images: { path: string; desc: string }[] }>()
+
+
+const isMobile = ref(window.innerWidth < 1000)
+const update = () => (isMobile.value = window.innerWidth < 1000)
+window.addEventListener('resize', update)
+onUnmounted(() => window.removeEventListener('resize', update))
 </script>
 <template>
-    <div class="caroussel">
+    <div class="caroussel" :class="{'column': isMobile}">
         <div v-for="(image, index) in images" :key="index" class="caroussel-item column">
             <img :src="image.path" :alt="image.desc" class="round" />
             <p>{{ image.desc }}</p>
@@ -21,10 +29,8 @@ defineProps<{ images: { path: string; desc: string }[] }>()
     height: 400px; /* Adjust height as needed */
 }
 
-.caroussel-item {
-}
-
 .caroussel-item > img {
     height: 100%;
+    object-fit: contain;
 }
 </style>

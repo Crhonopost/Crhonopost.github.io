@@ -35,8 +35,8 @@ onMounted(() => {
 })
 
 const showQuickLinks = ref(false)
-const isMobile = ref(window.innerWidth < 480)
-const update = () => (isMobile.value = window.innerWidth < 480)
+const isMobile = ref(window.innerWidth < 700)
+const update = () => (isMobile.value = window.innerWidth < 700)
 window.addEventListener('resize', update)
 onUnmounted(() => window.removeEventListener('resize', update))
 
@@ -115,7 +115,7 @@ onUnmounted(() => window.removeEventListener('resize', update))
 }
 
 
-@media (max-width: 480px) {
+@media (max-width: 700px) {
     #navbar {
         height: fit-content;
         width: 100%;
