@@ -1,30 +1,32 @@
-import { ref } from 'vue'
+import { appStore } from '@/store/appStore'
 
 const jumpDistance = 1000
 
 export function initComponent() {
-    const scrollPosition = ref(0)
 
     function moveOneSlide(direction: 'f' | 'b') {
-        scrollPosition.value += direction === 'f' ? 1 : -1
-        scrollPosition.value = Math.max(0, scrollPosition.value)
+        let scrollPos = appStore.currentSlide
+        scrollPos += direction === 'f' ? 1 : -1
+        scrollPos = Math.max(0, scrollPos)
+        appStore.setSlide(scrollPos)
     }
 
     function moveToSlide(position: number) {
         const nbSlides = document.querySelector('.scene')?.childElementCount || 0
 
-        scrollPosition.value = position
-        scrollPosition.value = Math.min(Math.max(0, scrollPosition.value), nbSlides)
+        let scrollPos = position
+        scrollPos = Math.min(Math.max(0, scrollPos), nbSlides)
+        appStore.setSlide(scrollPos)
     }
 
     window.addEventListener('popstate', (event) => {
         if (event.state && typeof event.state.page === 'number') {
-            scrollPosition.value = event.state.page
+            appStore.setSlide(event.state.page)
         }
     })
 
     function getStyle(index: number) {
-        const z = (index - scrollPosition.value) * jumpDistance // simulated depth
+        const z = (index - appStore.currentSlide) * jumpDistance // simulated depth
         const scale = 1 - z / (jumpDistance * 2)
         const horizonFactor = 0.1 // adjust this for how high the horizon is (0 = center, 1 = top)
 
@@ -50,16 +52,23 @@ export function initComponent() {
     }
 
     function canScroll(scrollDirection: 'f' | 'b') {
-        const nbSlides = document.querySelector('.scene')?.childElementCount || 0
-        const newScrollPosition = scrollPosition.value + (scrollDirection === 'f' ? 1 : -1)
-        return newScrollPosition >= 0 && newScrollPosition < nbSlides - 1
+        const scrollBackward = scrollDirection === 'b'
+        if(scrollBackward){
+            const projectSelected = appStore.selectedProject !== -1
+            return appStore.currentSlide > 0 && !(appStore.currentSlide === 1 && !projectSelected)
+        } else {
+            return appStore.currentSlide < appStore.projectsCount-1
+        }
     }
 
     function canScrollTo(position: number) {
-        const nbSlides = document.querySelector('.scene')?.childElementCount || 0
-
-        return position >= 0 && position < nbSlides - 1
+        const projectSelected = appStore.selectedProject !== -1
+        if(position < appStore.currentSlide){
+            return position >= 0 && !(position === 0 && !projectSelected)
+        } else {
+            return position < appStore.projectsCount
+        }
     }
 
-    return { scrollPosition, canScroll, canScrollTo, moveOneSlide, moveToSlide, getStyle }
+    return {canScroll, canScrollTo, moveOneSlide, moveToSlide, getStyle }
 }

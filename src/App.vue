@@ -10,6 +10,7 @@ import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
 import { onMounted, ref } from 'vue'
+import { appStore } from '@/store/appStore'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
@@ -42,6 +43,7 @@ const depthListRef = ref<typeof DepthScroll>()
 const sceneComponentRef = ref()
 let prevPos = 0
 function tryMoving(position: number, project: number | null): boolean {
+
     const concernProject = project != null
     if (!depthListRef?.value?.canScrollTo(position) && !concernProject) {
         console.warn('Cannot scroll to:', position)
@@ -57,6 +59,8 @@ function tryMoving(position: number, project: number | null): boolean {
     history.pushState({ page: position }, '', url)
 
     depthListRef?.value?.moveToSlide(position)
+    // keep store in sync early
+    appStore.setSlide(position)
     if (sceneComponentRef?.value)
         sceneComponentRef.value.movePlaine(position - prevPos > 0 ? 'front' : 'back')
 
@@ -65,11 +69,12 @@ function tryMoving(position: number, project: number | null): boolean {
 }
 
 function projectClicked(idx: number) {
-    // aller sur la slide projet (ici 4) et définir le projet actif
-    const projectSlide = 4
-    if (tryMoving(projectSlide, idx)) {
-        navRef.value?.setNavIdx(projectSlide)
+    // navigate one slide backward to show project detail (detail is placed before the list)
+    const target = prevPos - 1
+    if (tryMoving(target, idx)) {
+        navRef.value?.setNavIdx(target)
         selectedProject.value = idx
+        appStore.setSelectedProject(idx)
         sceneComponentRef?.value.movePlaine('front')
     }
 }
@@ -87,18 +92,24 @@ onMounted(() => {
     if (!depthListRef.value) return
 
     const params = new URLSearchParams(window.location.search)
-    const s = parseInt(params.get('s') || '0', 10)
+    // default to 1 so the initial page is the projects list (detail is at 0)
+    const s = parseInt(params.get('s') || '1', 10)
     const p = parseInt(params.get('p') || '-1', 10)
 
-    const slideIdx = isNaN(s) ? 0 : s
-    const projectIdx = isNaN(p) ? null : p
+    const projectIdx = isNaN(p) ? -1 : p
+    let slideIdx = isNaN(s) ? 1 : s
+    if(slideIdx === 0 && projectIdx === -1)
+        slideIdx = 1
+
 
     depthListRef.value.moveToSlide(slideIdx)
     prevPos = slideIdx
     navRef.value?.setNavIdx(prevPos)
+    appStore.setProjectsCount(projectsComponents.length)
+    appStore.setSlide(prevPos)
 
-    if (projectIdx !== null && slideIdx === 4) {
-        // slide 4 = page projet
+    // if URL requested a project and we're on the projects list (now at index 1), open it
+    if (projectIdx >= 0 && slideIdx === 1) {
         projectClicked(projectIdx)
     }
 })
@@ -127,17 +138,17 @@ onMounted(() => {
         <main>
             <PerformancePopup @lower-resolution="sceneComponentRef?.optimize"/>
             <SceneComponent ref="sceneComponentRef" />
-            <DepthScroll ref="depthListRef" id="depth">
-                <Apropos class="item" />
-                <ExperiencesComponent />
-                <SkillSetComponent class="item" :skills="skills" />
-                <ProjectShorts class="item" @project-clicked="projectClicked" />
-                <component
-                    v-if="selectedProject >= 0"
-                    :is="projectsComponents[selectedProject]"
-                    class="item"
-                />
-            </DepthScroll>
+                    <DepthScroll ref="depthListRef" id="depth">
+                        <component
+                            v-if="selectedProject >= 0"
+                            :is="projectsComponents[selectedProject]"
+                            class="item"
+                        />
+                        <ProjectShorts class="item" @project-clicked="projectClicked" />
+                        <Apropos class="item" />
+                        <ExperiencesComponent />
+                        <SkillSetComponent class="item" :skills="skills" />
+                    </DepthScroll>
         </main>
     </div>
 </template> 
