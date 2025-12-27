@@ -15,6 +15,7 @@ import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
 import PerformancePopup from './components/PerformancePopup.vue'
+import ProjectEbucilper from './components/Projects/ProjectEbucilper.vue'
 
 
 
@@ -83,6 +84,7 @@ const projectsComponents = [
     ProjectShellTexturing,
     ProjectGameEngine,
     ProjectRendering,
+    ProjectEbucilper,
     ProjectGames,
     ProjectWeb,
 ]

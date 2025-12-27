@@ -109,6 +109,14 @@ const i18n = createI18n({
                     rich_desc:
                         'I also worked on the backend of a web application for voting. The goal was to offer different ways to vote and tools to create and manages propositions.',
                 },
+                ebucilper: {
+                    title: 'ebucilper',
+                    learnings:
+                        'The goal was to build a prototype of a game in a limited time like in a game jam. But while still having a good amount of time so this prototype is actually playable.',
+                    quickDesc: 'Serious game for learning programming inspired by "Replicube"',
+                    context:
+                        'The goal of this project was to create a serious game to help beginners learn programming concepts. In this game, you have to arrange instructions to place blocks in a 3D grid to match a target structure.',
+                }
             },
             performances: {
                 title: 'Performance issues (avg: {fps} FPS)',
@@ -215,6 +223,14 @@ const i18n = createI18n({
                         "Pour ce projet, j'ai travaillé sur le backend avec du PHP et une librairie postgis de PostgreSQL. Il a fallu implémenter un algorithme de pathfinding ainsi que des optimisations pour charger le plus rapidement un chemin optimal entre 2 points (ou plus avec des étapes)",
                     rich_desc:
                         "J'ai également travaillé sur le backend de cette application web. Le but était de faire un site sur lequel les utilisateurs pouvaient proposer des sujets ainsi que des propositions pour répondre à ces problématiques. Le choix de la meilleure réponse dépendait d'un système de vote et de différentes phases de rédaction où les gens pouvaient écrire en collaboration. J'ai donc travaillé sur la base de données pour rendre tout cela possible.",
+                },
+                ebucilper: {
+                    title: 'ebucilper',
+                    learnings:
+                        "L'objectif était de réaliser un prototype de jeu en temps limité, comme lors d'une game jam, tout en conservant suffisamment de temps pour que le prototype reste jouable.",
+                    quickDesc: 'Jeu sérieux pour apprendre la programmation, inspiré de « Replicube »',
+                    context:
+                        "Ce projet visait à créer un jeu sérieux permettant aux débutants d'apprendre des concepts de programmation. Dans ce jeu, il faut ordonner des instructions pour placer des blocs dans une grille 3D afin de reproduire une structure cible.",
                 },
             },
             performances: {
