@@ -4,6 +4,8 @@ export interface AppStore {
     currentSlide: number
     projectsCount: number
     selectedProject: number
+    slidesCount: number
+    setSlidesCount: (n: number) => void
     setSlide: (n: number) => void
     setProjectsCount: (n: number) => void
     setSelectedProject: (n: number) => void
