@@ -111,6 +111,7 @@ onMounted(() => {
     navRef.value?.setNavIdx(prevPos)
     appStore.setProjectsCount(projectsComponents.length)
     appStore.setSlide(prevPos)
+    appStore.setSlidesCount(depthListRef.value.$el.children.length)
 
     // if URL requested a project and we're on the projects list (now at index 1), open it
     if (projectIdx >= 0 && (slideIdx === 1 || slideIdx === 0)) {

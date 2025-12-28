@@ -57,7 +57,7 @@ export function initComponent() {
             const projectSelected = appStore.selectedProject !== -1
             return appStore.currentSlide > 0 && !(appStore.currentSlide === 1 && !projectSelected)
         } else {
-            return appStore.currentSlide < appStore.projectsCount-1
+            return appStore.currentSlide + 1 < appStore.slidesCount
         }
     }
 
@@ -66,7 +66,7 @@ export function initComponent() {
         if(position < appStore.currentSlide){
             return position >= 0 && !(position === 0 && !projectSelected)
         } else {
-            return position < appStore.projectsCount
+            return position < appStore.slidesCount
         }
     }
 
