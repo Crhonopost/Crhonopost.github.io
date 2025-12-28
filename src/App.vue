@@ -16,6 +16,7 @@ import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
 import PerformancePopup from './components/PerformancePopup.vue'
 import ProjectEbucilper from './components/Projects/ProjectEbucilper.vue'
+import ProjectSegmentation from './components/Projects/ProjectSegmentation.vue'
 
 
 
@@ -71,7 +72,7 @@ function tryMoving(position: number, project: number | null): boolean {
 
 function projectClicked(idx: number) {
     // navigate one slide backward to show project detail (detail is placed before the list)
-    const target = prevPos - 1
+    const target = 0
     if (tryMoving(target, idx)) {
         navRef.value?.setNavIdx(target)
         selectedProject.value = idx
@@ -84,6 +85,7 @@ const projectsComponents = [
     ProjectShellTexturing,
     ProjectGameEngine,
     ProjectRendering,
+    ProjectSegmentation,
     ProjectEbucilper,
     ProjectGames,
     ProjectWeb,
@@ -111,7 +113,8 @@ onMounted(() => {
     appStore.setSlide(prevPos)
 
     // if URL requested a project and we're on the projects list (now at index 1), open it
-    if (projectIdx >= 0 && slideIdx === 1) {
+    if (projectIdx >= 0 && (slideIdx === 1 || slideIdx === 0)) {
+        depthListRef.value.moveToSlide(1)
         projectClicked(projectIdx)
     }
 })

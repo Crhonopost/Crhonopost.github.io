@@ -116,6 +116,16 @@ const i18n = createI18n({
                     quickDesc: 'Serious game for learning programming inspired by "Replicube"',
                     context:
                         'The goal of this project was to create a serious game to help beginners learn programming concepts. In this game, you have to arrange instructions to place blocks in a 3D grid to match a target structure.',
+                },
+                segmentation: {
+                    title: 'segmentation',
+                    quickDesc: 'Image segmentation using superpixel clustering algorithms',
+                    context:
+                        'This project aimed to explore image segmentation techniques using superpixel clustering algorithms. The goal was to implement and compare different algorithms to understand their strengths and weaknesses in segmenting images effectively and test them for image compression.',
+                    learnings:
+                        'I implemented and compared several superpixel clustering algorithms (including SLIC, SNIC and a Watershed-based method), evaluating their segmentation quality, runtime and robustness across different image types. I also developed a compact encoding scheme that stores a color palette per superpixel and a neighbor-relative mapping of pixel indices, which compresses well when combined with Huffman coding. The work produced a stylized visual result and achieved compression ratios up to 3× without significant visual degradation.',
+                    segmentation_before: 'Image before segmentation using {algorithm}',
+                    segmentation_after: 'Image after segmentation using {algorithm}',
                 }
             },
             performances: {
@@ -231,6 +241,16 @@ const i18n = createI18n({
                     quickDesc: 'Jeu sérieux pour apprendre la programmation, inspiré de « Replicube »',
                     context:
                         "Ce projet visait à créer un jeu sérieux permettant aux débutants d'apprendre des concepts de programmation. Dans ce jeu, il faut ordonner des instructions pour placer des blocs dans une grille 3D afin de reproduire une structure cible.",
+                },
+                segmentation: {
+                    title: 'segmentation',
+                    quickDesc: 'Segmentation d\'images utilisant des algorithmes de clustering de superpixels',
+                    context:
+                        'Ce projet visait à explorer les techniques de segmentation d\'images à l\'aide d\'algorithmes de clustering de superpixels. L\'objectif était d\'implémenter et de comparer différents algorithmes pour comprendre leurs forces et faiblesses dans la segmentation efficace d\'images et de les tester pour la compression d\'images.',
+                    learnings:
+                        'J\'ai implémenté et comparé plusieurs algorithmes de clustering de superpixels (notamment SLIC, SNIC et une méthode basée sur Watershed), en évaluant la qualité de segmentation, le temps d\'exécution et la robustesse sur différents types d\'images. J\'ai également développé un schéma d\'encodage compact qui stocke une palette de couleurs par superpixel et une correspondance de pixels relative aux voisins, ce qui se compresse bien avec le codage Huffman. Le travail a produit un résultat visuel stylisé et a atteint des taux de compression jusqu\'à 3× sans dégradation visuelle significative.',
+                    segmentation_before: 'Image avant segmentation avec {algorithm}',
+                    segmentation_after: 'Image après segmentation avec {algorithm}',
                 },
             },
             performances: {

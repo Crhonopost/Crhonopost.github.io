@@ -29,8 +29,28 @@ onUnmounted(() => window.removeEventListener('resize', update))
     height: 400px; /* Adjust height as needed */
 }
 
-.caroussel-item > img {
+.caroussel-item {
+    display: flex;
+    flex-direction: column;
     height: 100%;
+}
+
+.caroussel-item > img {
+    width: 300px;
+    height: 300px;
     object-fit: contain;
+    flex-shrink: 0;
+}
+
+.caroussel-item > p {
+    flex: 0 0 auto;
+    margin: 0;
+    padding: 8px 4px;
+    text-align: center;
+    min-height: 3.6em; /* Ensure descriptions occupy consistent height (~2 lines) */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 300px;
 }
 </style>
