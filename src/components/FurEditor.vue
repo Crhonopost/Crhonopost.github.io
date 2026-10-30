@@ -55,33 +55,57 @@ const leftOffset = 0
 const rotationDiff = ref(new THREE.Vector2(0, 0))
 const previousRotation = new THREE.Vector2(0, 0)
 const lerpedDiff = ref(new THREE.Vector2(0, 0))
+const activePointer = ref<number | null>(null)
+const pointerPosition = new THREE.Vector2()
 
 function updateObjRotation() {
     if (!camera) return
 
     const rotationMatrix = new THREE.Matrix4()
-    rotationMatrix.makeRotationFromEuler(new THREE.Euler(rotation.value.x, rotation.value.y, 0))
+    rotationMatrix.makeRotationFromEuler(new THREE.Euler(rotation.value.x, rotation.value.y, 0, "YXZ"))
     furRender.fur.setRotationFromMatrix(rotationMatrix)
 }
 
-function handleMouseMotion(event: MouseEvent) {
-    if (event.buttons !== 1 || !camera) {
+function startRotation(event: PointerEvent) {
+    if (!event.isPrimary || event.button !== 0 || !camera || activePointer.value !== null) return
+
+    event.preventDefault()
+    activePointer.value = event.pointerId
+    pointerPosition.set(event.clientX, event.clientY)
+    previousRotation.set(0, 0)
+    canva.value?.setPointerCapture(event.pointerId)
+}
+
+function stopRotation(event: PointerEvent) {
+    if (event.pointerId !== activePointer.value) return
+
+    activePointer.value = null
+    previousRotation.set(0, 0)
+    if (canva.value?.hasPointerCapture(event.pointerId)) {
+        canva.value.releasePointerCapture(event.pointerId)
+    }
+}
+
+function handlePointerMotion(event: PointerEvent) {
+    if (event.pointerId !== activePointer.value || !camera) return
+    if ((event.buttons & 1) === 0) {
+        stopRotation(event)
         return
     }
 
+    event.preventDefault()
+    const movementX = event.clientX - pointerPosition.x
+    const movementY = event.clientY - pointerPosition.y
+    pointerPosition.set(event.clientX, event.clientY)
+
     const sensitivity = 0.005
-    // camera.rotation.x -= event.movementY * sensitivity
-    // camera.rotation.y -= event.movementX * sensitivity
+    rotationDiff.value.x = (movementX - previousRotation.x) * sensitivity
+    rotationDiff.value.y = (movementY - previousRotation.y) * sensitivity
+    previousRotation.set(movementX, movementY)
 
-    rotationDiff.value.x = (event.movementX - previousRotation.x) * sensitivity
-    rotationDiff.value.y = (event.movementY - previousRotation.y) * sensitivity
-    previousRotation.x = event.movementX
-    previousRotation.y = event.movementY
+    rotation.value.x += movementY * sensitivity
+    rotation.value.y += movementX * sensitivity
 
-    rotation.value.x += event.movementY * sensitivity
-    rotation.value.y += event.movementX * sensitivity
-
-    // updateCamPos()
     updateObjRotation()
 }
 
@@ -152,7 +176,6 @@ function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
         if (scene && camera) renderer?.render(scene, camera)
     }
     renderer.setAnimationLoop(animate)
-    canva.addEventListener('mousemove', handleMouseMotion)
     updateObjRotation()
 }
 
@@ -208,11 +231,6 @@ onMounted(() => {
     } else {
         console.error('Canvas reference is not an HTMLCanvasElement')
     }
-})
-
-onUnmounted(() => {
-    // Clean up event listener
-    canva.value?.removeEventListener('mousemove', handleMouseMotion)
 })
 
 const showColorPicker = ref(false)
@@ -314,7 +332,17 @@ const showColorPicker = ref(false)
                     step="0.01"
                 />
             </div>
-            <canvas ref="viewport"></canvas>
+            <canvas
+                ref="viewport"
+                :aria-label="capitalizeFirst(t('titles.fur_editor'))"
+                :class="{ rotating: activePointer !== null }"
+                @pointerdown="startRotation"
+                @pointermove="handlePointerMotion"
+                @pointerup="stopRotation"
+                @pointercancel="stopRotation"
+                @lostpointercapture="stopRotation"
+                @dragstart.prevent
+            ></canvas>
             <div id="color-editor" ref="color-editor">
                 <CustomButton
                     content="colorize"
@@ -410,13 +438,21 @@ const showColorPicker = ref(false)
     z-index: 1;
 }
 
-canvas {
+#fur-editor canvas {
     pointer-events: auto;
     width: 100%;
     height: 100%;
     top: 0;
     left: 0;
     z-index: 0;
+    cursor: grab;
+    touch-action: none;
+    user-select: none;
+    -webkit-user-select: none;
+}
+
+#fur-editor canvas.rotating {
+    cursor: grabbing;
 }
 
 #fur-editor {
