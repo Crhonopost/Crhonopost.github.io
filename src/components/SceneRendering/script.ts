@@ -76,7 +76,7 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
     }
 
     function initScene(layerCount: number, totalHeight: number) {
-        grassRef.value.scale = 500
+        grassRef.value.scale = 400
         grassRef.value.threshold = 0.1
         grassRef.value.displacementStrength = 0.01
         grassRef.value.thicknessBot = 1
@@ -89,7 +89,6 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
 
         const grassGeo = new THREE.PlaneGeometry(10, 10)
             .rotateX(THREE.MathUtils.degToRad(-90))
-            .rotateY(THREE.MathUtils.degToRad(10))
             .translate(0, -0.5, 0.5)
         const furRender = generateFurR(
             grassGeo,
@@ -101,15 +100,6 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         scene?.add(furRender.fur)
         furs.push(furRender)
         loadTexture(furRender, leopardColor, 'colorTexture')
-
-        const godRay1 = getRay(6, 1.5, 0.1)
-        godRay1.translateZ(-3)
-        godRay1.translateX(-4)
-        godRay1.translateY(3)
-        godRay1.rotateY(THREE.MathUtils.degToRad(90))
-        // godRay1.rotateX(THREE.MathUtils.degToRad(10))
-        godRayMats.push(godRay1.material)
-        scene?.add(godRay1)
     }
 
     function clearScene(){

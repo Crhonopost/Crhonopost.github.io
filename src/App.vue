@@ -9,14 +9,13 @@ import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
-import { onMounted, ref } from 'vue'
-import { appStore } from '@/store/appStore'
+import { onMounted, onUnmounted, ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
 import PerformancePopup from './components/PerformancePopup.vue'
-import ProjectEbucilper from './components/Projects/ProjectEbucilper.vue'
 import ProjectSegmentation from './components/Projects/ProjectSegmentation.vue'
+import ProjectEbucilper from './components/Projects/ProjectEbucilper.vue'
 
 
 
@@ -40,86 +39,60 @@ const skills: Skill[] = [
     { name: 'NestJS', icon: './logo/nest.png', anotation: AnotationEnum.TOOL, isWeb: true },
 ]
 
-const navRef = ref<typeof NavBar>()
-const depthListRef = ref<typeof DepthScroll>()
-const sceneComponentRef = ref()
-let prevPos = 0
-function tryMoving(position: number, project: number | null): boolean {
-
-    const concernProject = project != null
-    if (!depthListRef?.value?.canScrollTo(position) && !concernProject) {
-        console.warn('Cannot scroll to:', position)
-        navRef.value?.setNavIdx(prevPos)
-
-        return false
-    }
-
-    const url = new URL(window.location.href)
-    url.searchParams.set('s', position.toString())
-    if (concernProject) url.searchParams.set('p', project.toString())
-    else url.searchParams.delete('p')
-    history.pushState({ page: position }, '', url)
-
-    depthListRef?.value?.moveToSlide(position)
-    // keep store in sync early
-    appStore.setSlide(position)
-    if (sceneComponentRef?.value)
-        sceneComponentRef.value.movePlaine(position - prevPos > 0 ? 'front' : 'back')
-
-    prevPos = position
-    return true
-}
-
-function projectClicked(idx: number) {
-    // navigate one slide backward to show project detail (detail is placed before the list)
-    const target = 0
-    if (tryMoving(target, idx)) {
-        navRef.value?.setNavIdx(target)
-        selectedProject.value = idx
-        appStore.setSelectedProject(idx)
-        sceneComponentRef?.value.movePlaine('front')
-    }
-}
-
 const projectsComponents = [
     ProjectShellTexturing,
     ProjectGameEngine,
     ProjectRendering,
-    ProjectSegmentation,
-    ProjectEbucilper,
     ProjectGames,
     ProjectWeb,
+    ProjectSegmentation,
+    ProjectEbucilper,
 ]
+const pageCount = 4
+const currentSlide = ref(0)
 const selectedProject = ref(-1)
+const sceneComponentRef = ref<InstanceType<typeof SceneComponent>>()
+
+function tryMoving(position: number, project: number | null = null): boolean {
+    const isProject = position === pageCount && project !== null &&
+        Number.isInteger(project) && project >= 0 && project < projectsComponents.length
+    if (!Number.isInteger(position) || position < 0 ||
+        (position >= pageCount && !isProject)) return false
+    if (position === currentSlide.value && (!isProject || project === selectedProject.value)) return false
+
+    const previousSlide = currentSlide.value
+    currentSlide.value = position
+    if (isProject) selectedProject.value = project!
+
+    const url = new URL(window.location.href)
+    url.searchParams.set('s', position.toString())
+    if (isProject) url.searchParams.set('p', project!.toString())
+    else url.searchParams.delete('p')
+    history.pushState({ page: position }, '', url)
+    sceneComponentRef.value?.movePlaine(position > previousSlide ? 'front' : 'back')
+    return true
+}
+
+function projectClicked(idx: number) {
+    tryMoving(pageCount, idx)
+}
+
+function restoreLocation() {
+    const params = new URLSearchParams(window.location.search)
+    const position = Number(params.get('s') ?? '0')
+    const project = Number(params.get('p') ?? '-1')
+    const validProject = Number.isInteger(project) && project >= 0 && project < projectsComponents.length
+    selectedProject.value = validProject ? project : -1
+    currentSlide.value = Number.isInteger(position) && position >= 0 && position < pageCount
+        ? position
+        : position === pageCount ? (validProject ? pageCount : pageCount - 1) : 0
+}
 
 onMounted(() => {
-    if (!depthListRef.value) return
-
-    const params = new URLSearchParams(window.location.search)
-    // default to 1 so the initial page is the projects list (detail is at 0)
-    const s = parseInt(params.get('s') || '1', 10)
-    const p = parseInt(params.get('p') || '-1', 10)
-
-    const projectIdx = isNaN(p) ? -1 : p
-    let slideIdx = isNaN(s) ? 1 : s
-    if(slideIdx === 0 && projectIdx === -1)
-        slideIdx = 1
-
-
-    depthListRef.value.moveToSlide(slideIdx)
-    prevPos = slideIdx
-    navRef.value?.setNavIdx(prevPos)
-    appStore.setProjectsCount(projectsComponents.length)
-    appStore.setSlide(prevPos)
-    appStore.setSlidesCount(depthListRef.value.$el.children.length)
-
-    // if URL requested a project and we're on the projects list (now at index 1), open it
-    if (projectIdx >= 0 && (slideIdx === 1 || slideIdx === 0)) {
-        depthListRef.value.moveToSlide(1)
-        projectClicked(projectIdx)
-    }
+    restoreLocation()
+    window.addEventListener('popstate', restoreLocation)
 })
-
+onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
 
 </script>
 
@@ -133,28 +106,28 @@ onMounted(() => {
     <div id="layout">
         <header>
             <NavBar
-                ref="navRef"
-                @moved="(dir) => tryMoving(dir, null)"
-                :can-move-backward="depthListRef?.canScroll('b')"
-                :can-move-forward="depthListRef?.canScroll('f')"
-                :page-count="4"
+                @moved="(position) => tryMoving(position)"
+                :active-page="currentSlide"
+                :page-count="pageCount"
+                :can-move-backward="currentSlide > 0"
+                :can-move-forward="currentSlide < pageCount - 1"
             />
         </header>
 
         <main>
             <PerformancePopup @lower-resolution="sceneComponentRef?.optimize"/>
             <SceneComponent ref="sceneComponentRef" />
-                    <DepthScroll ref="depthListRef" id="depth">
-                        <component
-                            v-if="selectedProject >= 0"
-                            :is="projectsComponents[selectedProject]"
-                            class="item"
-                        />
-                        <ProjectShorts class="item" @project-clicked="projectClicked" />
-                        <Apropos class="item" />
-                        <ExperiencesComponent />
-                        <SkillSetComponent class="item" :skills="skills" />
-                    </DepthScroll>
+            <DepthScroll :active-index="currentSlide" id="depth">
+                <Apropos class="item" />
+                <ExperiencesComponent />
+                <SkillSetComponent class="item" :skills="skills" />
+                <ProjectShorts class="item" @project-clicked="projectClicked" />
+                <component
+                    v-if="currentSlide === pageCount && selectedProject >= 0"
+                    :is="projectsComponents[selectedProject]"
+                    class="item"
+                />
+            </DepthScroll>
         </main>
     </div>
 </template> 

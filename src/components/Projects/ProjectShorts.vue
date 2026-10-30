@@ -30,18 +30,6 @@ const projects = [
         illustration: '/projects/TER/cloud-around.gif',
     },
     {
-        title: () => capitalizeFirst(t('projects.segmentation.title')),
-        description: () => t('projects.segmentation.quickDesc'),
-        technologies: ['C++', 'ImGUI'],
-        illustration: './projects/segmentation/illu.png',
-    },
-    {
-        title: () => capitalizeFirst(t('projects.ebucilper.title')),
-        description: () => t('projects.ebucilper.quickDesc'),
-        technologies: ['Godot', 'Gdscript'],
-        illustration: './projects/ebucilper/illu.png',
-    },
-    {
         title: () => capitalizeFirst(t('projects.games.title')),
         description: () => t('projects.games.quickDesc'),
         technologies: ['Godot', 'Gdscript', 'C#'],
@@ -52,6 +40,18 @@ const projects = [
         description: () => t('projects.web.quickDesc'),
         technologies: ['Vue.js', 'Node.js', 'PHP', 'SQL'],
         illustration: './projects/web/satiscraftory.png',
+    },
+    {
+        title: () => capitalizeFirst(t('projects.segmentation.title')),
+        description: () => t('projects.segmentation.quickDesc'),
+        technologies: ['C++', 'ImGUI'],
+        illustration: './projects/segmentation/illu.png',
+    },
+    {
+        title: () => capitalizeFirst(t('projects.ebucilper.title')),
+        description: () => t('projects.ebucilper.quickDesc'),
+        technologies: ['Godot', 'Gdscript'],
+        illustration: './projects/ebucilper/illu.png',
     },
 ]
 const projectContainer = ref<HTMLElement | null>(null)

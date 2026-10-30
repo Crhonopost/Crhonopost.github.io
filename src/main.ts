@@ -10,6 +10,13 @@ const i18n = createI18n({
     fallbackLocale: 'en',
     messages: {
         en: {
+            navigation: {
+                panels: 'Portfolio navigation',
+                previous: 'Previous',
+                next: 'Next',
+                project_detail: 'Project details',
+                back_to_projects: 'Projects',
+            },
             hello: 'hello',
             viewMore: 'view more',
             dates: {
@@ -136,6 +143,13 @@ const i18n = createI18n({
             }
         },
         fr: {
+            navigation: {
+                panels: 'Navigation du portfolio',
+                previous: 'Précédent',
+                next: 'Suivant',
+                project_detail: 'Détail du projet',
+                back_to_projects: 'Projets',
+            },
             hello: 'bonjour',
             viewMore: 'voir plus',
             dates: {

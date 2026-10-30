@@ -27,33 +27,19 @@ varying float vFogDepth;
 
 
 //////// taken from shaderToy
-const uint k = 1103515245U;
-vec3 hash33( uvec3 x )
-{
-    x = ((x>>8U)^x.yzx)*k;
-    x = ((x>>8U)^x.yzx)*k;
-    x = ((x>>8U)^x.yzx)*k;
-    
-    return vec3(x)*(1.0/float(0xffffffffU));
-}
+// Gold Noise ©2015 dcerisano@standard3d.com
+// - based on the Golden Ratio
+// - uniform normalized distribution
+// - fastest static noise generator function (also runs at low precision)
+// - use with indicated fractional seeding method
 
-// https://www.shadertoy.com/view/dtyGWR
-uint hash(uint s) {
-    s ^= 2747636419u;
-    s *= 2654435769u;
-    s ^= s >> 16;
-    s *= 2654435769u;
-    s ^= s >> 16;
-    s *= 2654435769u;
-    return s;
+const float PHI = 1.61803398874989484820459; // Φ = Golden Ratio 
+
+float gold_noise(in vec2 xy, in float seed)
+{
+    return fract(tan(distance(xy*PHI, xy)*seed)*xy.x);
 }
-float randS(uint s) {
-    uint rn = hash(s);
-    rn %= 1000000000u;
-    float rs = float(rn);
-    rs /= 1000000000.0;
-    return rs;
-}
+const float seed = 0.1;
 ///////
 
 float map(float v, float l0, float h0, float ln, float hn){
@@ -92,17 +78,17 @@ void main() {
     vec2 newUV = fract(scaledUV);
     vec2 cellIdx = scaledUV - newUV;
 
-    float n1 = hash33(uvec3(cellIdx / scale, 0)).r;
-    float n2 = hash33(uvec3(cellIdx / scale + vec2(37.0, 91.0), 0)).r;
+    float n1 = gold_noise(cellIdx, seed);
+    float n2 = gold_noise(cellIdx, seed + 0.1);
     // float n2 = texture(voronoise, cellIdx / scale + vec2(37.0, 91.0)).r; // offset arbitraire
-    vec2 strandOffset = vec2(n1, n2) * 0.5;
+    vec2 strandOffset = vec2(n2, n1) * 0.3;
 
     // float randNum = randS(uint((cellIdx.x + sin(cellIdx.y)) * 10.f)) * 0.5f;
     newUV += strandOffset;
     
 
-    float maxHeight = hash33(uvec3(cellIdx, 0)).r + threshold;
-    vec2 centeredUV = toCenter(newUV);
+    float maxHeight = gold_noise(cellIdx, seed) + threshold;
+    vec2 centeredUV = toCenter(newUV);// + strandOffset;
     
     // Calculate progression toward max reachable height
     float currentHeight = map(sliceHeight, 0.f, maxHeight, 0.f, 1.f);
@@ -129,6 +115,7 @@ void main() {
         finalColor = texture(colorTexture, fragUV * colorTextureScale).rgb * sliceHeight;
     }
 
+
     if(applyFog){
         vec3 srgb = pow(clearColor, vec3(1.0/2.2));
         float depth = length(fragUV - vec2(0.5));
@@ -139,6 +126,7 @@ void main() {
         vec3 mixedLinear = mix(linearA, linearB, viewRange);
         finalColor = toSRGB(mixedLinear);
     }
+    // finalColor = vec3(strandOffset, 0.5);
     gl_FragColor = vec4(finalColor, 1.0);
 
 

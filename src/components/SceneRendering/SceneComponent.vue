@@ -29,7 +29,7 @@ onMounted(() => {
             throw new Error('WebGL2 context not available')
         } else {
             initRender(canva.value, context)
-            initScene(45, 1)
+            initScene(22, 0.8)
         }
     } else {
         console.error('Canvas reference is not an HTMLCanvasElement')

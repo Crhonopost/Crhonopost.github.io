@@ -68,7 +68,6 @@ onUnmounted(() => window.removeEventListener('resize', update))
 
 <style>
 #project-header {
-    align-items: center;
     margin-top: 50px;
 }
 .project_whole {
@@ -82,12 +81,8 @@ onUnmounted(() => window.removeEventListener('resize', update))
 }
 
 .project_context {
-    /* child are aligned from the bottom */
-    display: flex;
-    flex-direction: column;
-    margin-top: auto;
     flex: 1;
-    padding-left: 45px;
+    padding-left: 15px;
     padding-right: 15px;
     max-width: 800px;
 }

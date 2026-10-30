@@ -1,14 +1,7 @@
 <script lang="ts" setup>
-import { initComponent } from './script'
+import { getStyle } from './script'
 
-const { getStyle, moveOneSlide, moveToSlide, canScroll, canScrollTo } = initComponent()
-
-defineExpose({
-    moveToSlide,
-    moveOneSlide,
-    canScroll,
-    canScrollTo,
-})
+defineProps<{ activeIndex: number }>()
 </script>
 
 <template>
@@ -17,7 +10,10 @@ defineExpose({
             class="layer"
             v-for="(item, index) in $slots.default?.() ?? []"
             :key="index"
-            :style="getStyle(index)"
+            :style="getStyle(index, activeIndex)"
+            :inert="index !== activeIndex"
+            :aria-hidden="index !== activeIndex"
+            :class="{ inactive: index !== activeIndex }"
         >
             <component :is="item" />
         </div>
@@ -41,5 +37,9 @@ defineExpose({
         transform 0.3s,
         opacity 0.3s;
     width: 100%;
+}
+
+.layer.inactive {
+    pointer-events: none;
 }
 </style>

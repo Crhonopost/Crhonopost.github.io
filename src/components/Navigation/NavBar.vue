@@ -1,44 +1,67 @@
 <script setup lang="ts">
 import CustomButton from '@/components/CustomButton.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { computed, onMounted, onUnmounted, ref } from 'vue'
+import { useI18n } from 'vue-i18n'
+import { capitalizeFirst } from '@/util/util'
 import QuickLinks from './QuickLinks.vue';
 import LangSelection from './LangSelection.vue';
 const movedSignal = defineEmits<{
     (e: 'moved', idx: number): void
 }>()
 
-defineProps<{
+const props = defineProps<{
     canMoveForward: boolean
     canMoveBackward: boolean
+    activePage: number
+    pageCount: number
 }>()
 
-const navIdx = ref(0)
+const { t } = useI18n()
+const showProjectName = computed(() => props.activePage == props.pageCount)
 
-function setNavIdx(pos: number) {
-    navIdx.value = pos
+function move(direction: -1 | 1) {
+    if (direction === 1 ? !props.canMoveForward : !props.canMoveBackward) return
+    movedSignal('moved', props.activePage + direction)
 }
-defineExpose({
-    setNavIdx,
-})
 
-onMounted(() => {
-    document.addEventListener(
-        'wheel',
-        (evt) => {
-            const scrollDirection = evt.deltaY < 0 ? 1 : -1
-            navIdx.value += scrollDirection
-            movedSignal('moved', navIdx.value)
-            evt.preventDefault()
-        },
-        { passive: false },
-    )
-})
+let lastWheelTime = -Infinity
+let wheelDelta = 0
+function handleWheel(event: WheelEvent) {
+    if (event.defaultPrevented || event.ctrlKey || event.metaKey || event.shiftKey ||
+        event.deltaY === 0 || Math.abs(event.deltaX) > Math.abs(event.deltaY)) return
+    if (!(event.target instanceof Element)) return
+    // Keep native input and scrolling behavior inside the content, even at its edges.
+    if (event.target.closest('canvas, input, select, textarea, button, [contenteditable="true"]')) return
+    for (let element: Element | null = event.target; element; element = element.parentElement) {
+        const style = getComputedStyle(element)
+        if ((/(auto|scroll)/.test(style.overflowY) && element.scrollHeight > element.clientHeight) ||
+            (/(auto|scroll)/.test(style.overflowX) && element.scrollWidth > element.clientWidth)) return
+    }
+
+    event.preventDefault()
+    const now = performance.now()
+    const elapsed = now - lastWheelTime
+    lastWheelTime = now
+    // Trackpad inertia belongs to the same gesture. Require a short pause before another panel.
+    if (elapsed < 180 && wheelDelta === 0) return
+    if (elapsed >= 180 || Math.sign(wheelDelta) !== Math.sign(event.deltaY)) wheelDelta = 0
+    const unit = event.deltaMode === 1 ? 16 : event.deltaMode === 2 ? window.innerHeight : 1
+    wheelDelta += event.deltaY * unit
+    if (Math.abs(wheelDelta) < 40) return
+    move(wheelDelta > 0 ? 1 : -1)
+    wheelDelta = 0
+}
+
+onMounted(() => document.addEventListener('wheel', handleWheel, { passive: false }))
 
 const showQuickLinks = ref(false)
 const isMobile = ref(window.innerWidth < 700)
 const update = () => (isMobile.value = window.innerWidth < 700)
 window.addEventListener('resize', update)
-onUnmounted(() => window.removeEventListener('resize', update))
+onUnmounted(() => {
+    window.removeEventListener('resize', update)
+    document.removeEventListener('wheel', handleWheel)
+})
 
 </script>
 
@@ -53,28 +76,23 @@ onUnmounted(() => window.removeEventListener('resize', update))
         
         <LangSelection v-if="!isMobile" />
         
-        <div id="progress" class="column">
-            <CustomButton
-            :disable="!canMoveForward"
-            content="arrow_drop_up"
-            @click="
-                    () => {
-                        navIdx++
-                        movedSignal('moved', navIdx)
-                    }
-                    "
-            />
-            <CustomButton
-            :disable="!canMoveBackward"
-            content="arrow_drop_down"
-            @click="
-                    () => {
-                        navIdx--
-                        movedSignal('moved', navIdx)
-                    }
-                    "
-            />
-        </div>
+        <nav id="progress" class="column" :aria-label="t('navigation.panels')">
+            <button class="panel-button glass" type="button" :disabled="!canMoveBackward" @click="move(-1)">
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_up</span>
+                <span>{{ t(activePage === pageCount ? 'navigation.back_to_projects' : 'navigation.previous') }}</span>
+            </button>
+            <div class="panel-position" aria-live="polite">
+                <span v-if="showProjectName">{{ capitalizeFirst(t('navigation.project_detail')) }}</span>
+                <div v-if="!showProjectName">
+                    <div v-for="pageIdx in pageCount" v-bind:key="pageIdx" :class="['dot', activePage + 1 == pageIdx ? 'dot-full' : 'dot-empty']">
+                    </div>
+                </div>
+            </div>
+            <button class="panel-button glass" type="button" :disabled="!canMoveForward" @click="move(1)">
+                <span>{{ t('navigation.next') }}</span>
+                <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
+            </button>
+        </nav>
 
         <LangSelection v-if="isMobile" />
     </div>
@@ -94,9 +112,47 @@ onUnmounted(() => window.removeEventListener('resize', update))
     height: 80px;
 }
 
-#progress > * {
-    width: 50px;
-    height: 50px;
+.dot {
+    border-radius: 100%;
+    width: 10px;
+    height: 10px;
+    margin: 5px;
+}
+
+.dot-full {
+    background-color: var(--primary-font-color);
+}
+
+.dot-empty {
+    background-color: var(--primary-bg-color);
+    opacity: 20%;
+}
+
+.panel-button {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 8px;
+    font: inherit;
+    cursor: pointer;
+}
+
+.panel-button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+.panel-button:focus-visible {
+    outline: 2px solid white;
+    outline-offset: 3px;
+}
+
+.panel-position {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    padding: 8px 0;
 }
 
 #navbar > div {
@@ -110,10 +166,6 @@ onUnmounted(() => window.removeEventListener('resize', update))
     justify-content: center;
 }
 
-#progress > div {
-    margin: 5px;
-}
-
 
 @media (max-width: 700px) {
     #navbar {
@@ -122,6 +174,21 @@ onUnmounted(() => window.removeEventListener('resize', update))
         display: flex;
         flex-direction: row;
         align-items: end;
+        padding: 10px;
+    }
+
+    #progress {
+        flex-direction: row;
+        align-items: center;
+        gap: 4px;
+    }
+
+    .panel-button {
+        font-size: 12px;
+    }
+
+    .panel-position {
+        font-size: 12px;
     }
 }
 </style>
