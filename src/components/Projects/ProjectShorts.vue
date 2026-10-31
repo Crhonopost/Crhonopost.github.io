@@ -14,46 +14,46 @@ const componentSignals = defineEmits<{
 
 const projects = [
     {
+        id: 0,
         title: () => 'Shell texturing',
         description: () => t('projects.shell.quickDesc'),
         technologies: ['WebGL', 'Typescript', 'Three.js'],
         illustration: './projects/shelltexturing/fur.png',
     },
     {
+        id: 1,
         title: () => capitalizeFirst(t('projects.engine.title')),
         description: () => t('projects.engine.quickDesc'),
         technologies: ['OpenGL', 'C++'],
         illustration: './projects/gameengine/illu_game.png',
     },
     {
+        id: 2,
         title: () => capitalizeFirst(t('projects.rendering.title')),
         description: () => t('projects.rendering.quickDesc'),
         technologies: ['OpenGL', 'C++'],
         illustration: '/projects/TER/cloud-around.gif',
     },
     {
-        title: () => capitalizeFirst(t('projects.games.title')),
-        description: () => t('projects.games.quickDesc'),
-        technologies: ['Godot', 'Gdscript', 'C#'],
-        illustration: './projects/games/what.gif',
-    },
-    {
-        title: () => capitalizeFirst(t('projects.web.title')),
-        description: () => t('projects.web.quickDesc'),
-        technologies: ['Vue.js', 'Node.js', 'PHP', 'SQL'],
-        illustration: './projects/web/satiscraftory.png',
-    },
-    {
+        id: 5,
         title: () => capitalizeFirst(t('projects.segmentation.title')),
         description: () => t('projects.segmentation.quickDesc'),
         technologies: ['C++', 'ImGUI'],
         illustration: './projects/segmentation/illu.png',
     },
     {
-        title: () => capitalizeFirst(t('projects.ebucilper.title')),
-        description: () => t('projects.ebucilper.quickDesc'),
-        technologies: ['Godot', 'Gdscript'],
+        id: 3,
+        title: () => capitalizeFirst(t('projects.games.title')),
+        description: () => t('projects.games.quickDesc'),
+        technologies: ['Godot', 'Gdscript', 'C#'],
         illustration: './projects/ebucilper/illu.png',
+    },
+    {
+        id: 4,
+        title: () => capitalizeFirst(t('projects.web.title')),
+        description: () => t('projects.web.quickDesc'),
+        technologies: ['Vue.js', 'Node.js', 'PHP', 'SQL'],
+        illustration: './projects/web/satiscraftory.png',
     },
 ]
 const projectContainer = ref<HTMLElement | null>(null)
@@ -86,14 +86,14 @@ onMounted(() => {
         <h1>{{ capitalizeFirst(t('titles.projects')) }}</h1>
         <div class="projects-container" ref="projectContainer">
             <ProjectShortComponent
-                v-for="(project, index) in projects"
-                :key="index"
+                v-for="project in projects"
+                :key="project.id"
                 class="glass clickable project"
                 :title="project.title()"
                 :description="project.description()"
                 :technologies="project.technologies"
                 :illustration="project.illustration"
-                @click="componentSignals('projectClicked', index)"
+                @click="componentSignals('projectClicked', project.id)"
             />
         </div>
     </div>

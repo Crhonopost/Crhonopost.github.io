@@ -9,13 +9,12 @@ import Apropos from '@/components/AproposComponent.vue'
 import SkillSetComponent from './components/Skills/SkillSetComponent.vue'
 import { AnotationEnum, type Skill } from '@/types'
 import ProjectShorts from './components/Projects/ProjectShorts.vue'
-import { onMounted, onUnmounted, ref } from 'vue'
+import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
 import PerformancePopup from './components/PerformancePopup.vue'
 import ProjectSegmentation from './components/Projects/ProjectSegmentation.vue'
-import ProjectEbucilper from './components/Projects/ProjectEbucilper.vue'
 
 
 
@@ -46,7 +45,6 @@ const projectsComponents = [
     ProjectGames,
     ProjectWeb,
     ProjectSegmentation,
-    ProjectEbucilper,
 ]
 const pageCount = 4
 const projectListSlide = 1
@@ -82,12 +80,17 @@ function projectClicked(idx: number) {
 function restoreLocation() {
     const params = new URLSearchParams(window.location.search)
     const position = Number(params.get('s') ?? '0')
-    const project = Number(params.get('p') ?? '-1')
+    const requestedProject = Number(params.get('p') ?? '-1')
+    // The former Ebucilper page now opens its section on the games page.
+    const project = requestedProject === 6 ? 3 : requestedProject
     const validProject = Number.isInteger(project) && project >= 0 && project < projectsComponents.length
     selectedProject.value = validProject ? project : -1
     currentSlide.value = Number.isInteger(position) && position >= 0 && position < pageCount
         ? position
         : position === projectDetailSlide ? (validProject ? projectDetailSlide : projectListSlide) : 0
+    if (position === projectDetailSlide && requestedProject === 6) {
+        void nextTick(() => document.getElementById('ebucilper')?.scrollIntoView({ block: 'start' }))
+    }
 }
 
 onMounted(() => {

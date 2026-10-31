@@ -13,11 +13,13 @@ const { t } = useI18n()
         :context="t('projects.games.context')"
         :technologies="['Godot', 'C#', 'GDScript']"
         :links="[
-            { url: 'https://ohhnyx.itch.io/dicecraft', name: 'Game jam contribution' },
             {
                 url: 'https://github.com/Crhonopost/Behavior_tree_4.2',
                 name: 'Godot behavior tree plugin',
             },
+            { url: 'https://github.com/Crhonopost/Projet-jeu-serieux', name: 'Ebucilper · GitHub' },
+            { url: 'https://crhonopose.itch.io/ebucilper', name: 'Ebucilper · itch.io' },
+            { url: 'https://ohhnyx.itch.io/dicecraft', name: 'Dicecraft · itch.io' },
         ]"
     >
         <ProjectSection
@@ -29,18 +31,19 @@ const { t } = useI18n()
         />
 
         <ProjectSection
-            title="Dicecraft"
-            :desc="t('projects.games.dicecraft_desc')"
-            image-path="./projects/games/dice_throw_edited.png"
-            image-alt="You must protect the left while attacking the right by throwing your dice on the board."
+            id="ebucilper"
+            title="Ebucilper"
+            :desc="t('projects.ebucilper.context') + ' ' + t('projects.ebucilper.learnings')"
+            image-path="./projects/ebucilper/ebucilper_main.png"
+            image-alt="Ebucilper programming interface"
             :image-first="true"
         />
 
         <ProjectSection
-            :title="capitalizeFirst(t('projects.games.other_title'))"
-            :desc="t('projects.games.other_desc')"
-            image-path="./projects/games/glyphes.png"
-            image-alt="Spell creation game illustration"
+            title="Dicecraft"
+            :desc="t('projects.games.dicecraft_desc')"
+            image-path="./projects/games/dice_throw_edited.png"
+            image-alt="You must protect the left while attacking the right by throwing your dice on the board."
             :image-first="false"
         />
     </ProjectSummary>
