@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef, onMounted, onUnmounted, ref, type Ref } from 'vue'
+import { useTemplateRef, onMounted, ref, type Ref } from 'vue'
 
 import * as THREE from 'three'
 

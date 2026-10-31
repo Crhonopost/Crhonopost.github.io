@@ -121,11 +121,12 @@ onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
                 <Apropos class="item" />
                 <ExperiencesComponent />
                 <SkillSetComponent class="item" :skills="skills" />
-                <ProjectShorts class="item" @project-clicked="projectClicked" />
+                <ProjectShorts class="item" @project-clicked="projectClicked" @navigate-back="() => tryMoving(pageCount - 2)"/>
                 <component
                     v-if="currentSlide === pageCount && selectedProject >= 0"
                     :is="projectsComponents[selectedProject]"
                     class="item"
+                    @navigate-back="() => tryMoving(pageCount - 1)"
                 />
             </DepthScroll>
         </main>

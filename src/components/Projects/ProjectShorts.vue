@@ -6,8 +6,9 @@ import { useI18n } from 'vue-i18n'
 
 const { t } = useI18n()
 
-const projectClickedSignal = defineEmits<{
+const componentSignals = defineEmits<{
     (e: 'projectClicked', index: number): void
+    (e: 'navigateBack'): void
 }>()
 
 const projects = [
@@ -59,7 +60,17 @@ const projectContainer = ref<HTMLElement | null>(null)
 onMounted(() => {
     if (projectContainer?.value && isScrollable(projectContainer.value)) {
         projectContainer.value.addEventListener('wheel', (evt) => {
-            evt.stopPropagation()
+            if (evt.deltaY === 0) return;
+
+            evt.preventDefault();
+
+            const projList = projectContainer.value
+            if(projList){
+                if(projList.scrollLeft == 0 && evt.deltaY < 0)
+                    componentSignals("navigateBack")
+                else
+                    projList.scrollLeft += evt.deltaY;
+            }
         })
     }
 })
@@ -77,7 +88,7 @@ onMounted(() => {
                 :description="project.description()"
                 :technologies="project.technologies"
                 :illustration="project.illustration"
-                @click="projectClickedSignal('projectClicked', index)"
+                @click="componentSignals('projectClicked', index)"
             />
         </div>
     </div>

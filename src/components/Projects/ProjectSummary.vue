@@ -1,11 +1,14 @@
 <script lang="ts" setup>
-import { onMounted, onUnmounted, ref } from 'vue'
+import { onUnmounted, onMounted, ref } from 'vue'
 import TechnologieTagComponent from './TechnologieTagComponent.vue'
-import { isScrollable } from '@/util/util'
 import { useI18n } from 'vue-i18n'
 import { capitalizeFirst } from '@/util/util'
 
 const { t } = useI18n()
+
+const componentSignals = defineEmits<{
+    (e: 'navigateBack'): void
+}>()
 
 defineProps<{
     title: string
@@ -15,19 +18,28 @@ defineProps<{
 }>()
 
 const projectSummary = ref<HTMLElement | null>(null)
-onMounted(() => {
-    if (projectSummary.value && isScrollable(projectSummary.value)) {
-        projectSummary.value.addEventListener('wheel', (evt) => {
-            evt.stopPropagation()
-        })
-    }
-})
-
 
 const isMobile = ref(window.innerWidth < 1300)
 const update = () => (isMobile.value = window.innerWidth < 1300)
 window.addEventListener('resize', update)
-onUnmounted(() => window.removeEventListener('resize', update))
+onUnmounted(() => window.removeEventListener('resize', update)) 
+
+onMounted(() => {
+    if (projectSummary?.value) {
+        projectSummary.value.addEventListener('wheel', (evt) => {
+            if (evt.deltaY === 0) return;
+    
+            
+            const summary = projectSummary.value
+            if(summary){
+                if(summary.scrollTop == 0 && evt.deltaY < 0){
+                    evt.preventDefault();
+                    componentSignals("navigateBack")
+                }
+            }
+        })
+    }
+})
 
 </script>
 <template>
