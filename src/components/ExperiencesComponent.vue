@@ -4,8 +4,6 @@ import { useI18n } from 'vue-i18n'
 import StudiesCard from './Experience/StudiesCard.vue'
 
 const { t } = useI18n()
-
-import ToolTip from 'v-tooltip-lite'
 </script>
 
 <template>
@@ -19,15 +17,11 @@ import ToolTip from 'v-tooltip-lite'
             />
             <div class="separator_h"></div>
 
-            <ToolTip content="Réalisation d'Application, Développement et Validation">
-                <template #trigger>
-                    <StudiesCard
-                        date="2021 - 2024"
-                        location="IUT de Montpellier"
-                        description="BUT Informatique (parcours RACDV)"
-                    />
-                </template>
-            </ToolTip>
+            <StudiesCard
+                date="2021 - 2024"
+                location="IUT de Montpellier"
+                description="BUT Informatique - parcours: RACDV (Réalisation d'Application, Développement et Validation)"
+            />
 
             <div class="separator_h"></div>
             <StudiesCard
