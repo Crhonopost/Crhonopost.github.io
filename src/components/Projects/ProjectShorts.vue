@@ -9,6 +9,7 @@ const { t } = useI18n()
 const componentSignals = defineEmits<{
     (e: 'projectClicked', index: number): void
     (e: 'navigateBack'): void
+    (e: 'navigateFront'): void
 }>()
 
 const projects = [
@@ -66,8 +67,12 @@ onMounted(() => {
 
             const projList = projectContainer.value
             if(projList){
-                if(projList.scrollLeft == 0 && evt.deltaY < 0)
+                const atStart = 1
+                const atEnd = projList.scrollWidth - projList.clientWidth - 1
+                if(projList.scrollLeft <= atStart && evt.deltaY < 0)
                     componentSignals("navigateBack")
+                else if(projList.scrollLeft >= atEnd && evt.deltaY > 0)
+                    componentSignals("navigateFront")
                 else
                     projList.scrollLeft += evt.deltaY;
             }

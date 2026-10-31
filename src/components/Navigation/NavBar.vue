@@ -14,6 +14,7 @@ const props = defineProps<{
     canMoveBackward: boolean
     activePage: number
     pageCount: number
+    projectListPage: number
 }>()
 
 const { t } = useI18n()
@@ -21,7 +22,10 @@ const showProjectName = computed(() => props.activePage == props.pageCount)
 
 function move(direction: -1 | 1) {
     if (direction === 1 ? !props.canMoveForward : !props.canMoveBackward) return
-    movedSignal('moved', props.activePage + direction)
+    const destination = showProjectName.value && direction === -1
+        ? props.projectListPage
+        : props.activePage + direction
+    movedSignal('moved', destination)
 }
 
 let lastWheelTime = -Infinity

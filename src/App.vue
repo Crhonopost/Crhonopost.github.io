@@ -49,12 +49,14 @@ const projectsComponents = [
     ProjectEbucilper,
 ]
 const pageCount = 4
+const projectListSlide = 1
+const projectDetailSlide = pageCount
 const currentSlide = ref(0)
 const selectedProject = ref(-1)
 const sceneComponentRef = ref<InstanceType<typeof SceneComponent>>()
 
 function tryMoving(position: number, project: number | null = null): boolean {
-    const isProject = position === pageCount && project !== null &&
+    const isProject = position === projectDetailSlide && project !== null &&
         Number.isInteger(project) && project >= 0 && project < projectsComponents.length
     if (!Number.isInteger(position) || position < 0 ||
         (position >= pageCount && !isProject)) return false
@@ -74,7 +76,7 @@ function tryMoving(position: number, project: number | null = null): boolean {
 }
 
 function projectClicked(idx: number) {
-    tryMoving(pageCount, idx)
+    tryMoving(projectDetailSlide, idx)
 }
 
 function restoreLocation() {
@@ -85,7 +87,7 @@ function restoreLocation() {
     selectedProject.value = validProject ? project : -1
     currentSlide.value = Number.isInteger(position) && position >= 0 && position < pageCount
         ? position
-        : position === pageCount ? (validProject ? pageCount : pageCount - 1) : 0
+        : position === projectDetailSlide ? (validProject ? projectDetailSlide : projectListSlide) : 0
 }
 
 onMounted(() => {
@@ -109,6 +111,7 @@ onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
                 @moved="(position) => tryMoving(position)"
                 :active-page="currentSlide"
                 :page-count="pageCount"
+                :project-list-page="projectListSlide"
                 :can-move-backward="currentSlide > 0"
                 :can-move-forward="currentSlide < pageCount - 1"
             />
@@ -119,14 +122,14 @@ onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
             <SceneComponent ref="sceneComponentRef" />
             <DepthScroll :active-index="currentSlide" id="depth">
                 <Apropos class="item" />
-                <ExperiencesComponent />
+                <ProjectShorts class="item" @project-clicked="projectClicked" @navigate-back="() => tryMoving(projectListSlide - 1)" @navigate-front="() => tryMoving(projectListSlide + 1)"/>
                 <SkillSetComponent class="item" :skills="skills" />
-                <ProjectShorts class="item" @project-clicked="projectClicked" @navigate-back="() => tryMoving(pageCount - 2)"/>
+                <ExperiencesComponent />
                 <component
-                    v-if="currentSlide === pageCount && selectedProject >= 0"
+                    v-if="currentSlide === projectDetailSlide && selectedProject >= 0"
                     :is="projectsComponents[selectedProject]"
                     class="item"
-                    @navigate-back="() => tryMoving(pageCount - 1)"
+                    @navigate-back="() => tryMoving(projectListSlide)"
                 />
             </DepthScroll>
         </main>

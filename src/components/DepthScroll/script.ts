@@ -2,7 +2,7 @@ const jumpDistance = 1000
 
 export function getStyle(index: number, activeIndex: number) {
     const z = (index - activeIndex) * jumpDistance
-    const scale = 1 - z / (jumpDistance * 2)
+    const scale = Math.max(0.5, 1 - z / (jumpDistance * 2))
     const horizonFactor = 0.1
 
     let opacity = 1
