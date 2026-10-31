@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import { useTemplateRef, onMounted, ref, type Ref } from 'vue'
+import { useTemplateRef, onBeforeUnmount, onMounted, ref, type Ref } from 'vue'
 
 import * as THREE from 'three'
 
@@ -17,22 +17,31 @@ import {
     updateUniforms,
     baseProps,
 } from '../util/FurRendering'
-import { ColorPicker } from 'vue-accessible-color-picker'
 import { ShapeEnum, type FurProperties, type FurRender } from '@/types'
-import CustomButton from './CustomButton.vue'
 
 import { useI18n } from 'vue-i18n'
 import { capitalizeFirst } from '@/util/util'
 const { t } = useI18n()
 
 const canva = useTemplateRef('viewport')
-function getTextureButtonText(): string {
-    const state = furPropertiesRef.value.useColorTexture ? 'Disable' : 'Enable'
-    return state + ' color texture'
+function getHexColor(color: THREE.Vector3): string {
+    return '#' + [color.x, color.y, color.z]
+        .map((channel) => Math.round(THREE.MathUtils.clamp(channel, 0, 1) * 255).toString(16).padStart(2, '0'))
+        .join('')
+}
+
+function setGradientColor(index: number, event: Event) {
+    if (!(event.target instanceof HTMLInputElement)) return
+    const rgb = Number.parseInt(event.target.value.slice(1), 16)
+    furPropertiesRef.value.colors[index].color.set(
+        ((rgb >> 16) & 255) / 255,
+        ((rgb >> 8) & 255) / 255,
+        (rgb & 255) / 255,
+    )
 }
 
 const radius = ref(1)
-const frameRef = ref<HTMLElement>()
+let resizeObserver: ResizeObserver | undefined
 
 let scene: THREE.Scene | undefined
 let camera: THREE.PerspectiveCamera | undefined
@@ -112,15 +121,13 @@ function handlePointerMotion(event: PointerEvent) {
 const furPropertiesRef: Ref<FurProperties> = ref(baseProps())
 let furRender: FurRender
 
-window.onresize = function () {
-    if (!camera || !canva.value || !renderer || !frameRef.value) return
-    const width = frameRef.value.clientWidth
-    const height = frameRef.value.clientHeight
-    canva.value.width = width
-    canva.value.height = height
+function resizeViewport() {
+    if (!camera || !canva.value || !renderer) return
+    const width = Math.max(1, canva.value.clientWidth)
+    const height = Math.max(1, canva.value.clientHeight)
     camera.aspect = width / height
     camera.updateProjectionMatrix()
-    renderer.setSize(width, height)
+    renderer.setSize(width, height, false)
 }
 
 function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
@@ -132,7 +139,7 @@ function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
     scene = new THREE.Scene()
     camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000)
     renderer = new THREE.WebGLRenderer({ canvas: canva, context })
-    renderer.setSize(width, height)
+    renderer.setSize(width, height, false)
 
     camera.position.z = radius.value
     camera.position.x = leftOffset
@@ -228,223 +235,385 @@ onMounted(() => {
 
         initRender(canva.value, context)
         camera?.updateProjectionMatrix()
+        resizeObserver = new ResizeObserver(resizeViewport)
+        resizeObserver.observe(canva.value)
     } else {
         console.error('Canvas reference is not an HTMLCanvasElement')
     }
 })
 
-const showColorPicker = ref(false)
+onBeforeUnmount(() => resizeObserver?.disconnect())
+
 </script>
 
 <template>
-    <div id="frame" ref="frameRef">
+    <div id="frame">
         <h1>{{ capitalizeFirst(t('titles.fur_editor')) }}</h1>
         <div id="fur-editor">
-            <!-- <p>Distance from camera: {{ radius }}</p>
-            <input type="range" v-model="radius" min="0.1" max="5" step="0.01" @input="updateCamPos" /> -->
-            <div id="shape-editor" ref="shape-editor">
-                <p>Fur shape:</p>
-                <select v-model="selectedMesh" @change="changeMesh">
-                    <option>Fox</option>
-                    <!-- <option>Plane</option> -->
-                    <option>Sphere</option>
-                </select>
-                <p>Strand shape:</p>
-                <select
-                    v-model="selectedStrandShape"
-                    @change="() => changeShape(furRender, selectedStrandShape)"
-                >
-                    <option
-                        v-for="shape in Object.values(ShapeEnum)"
-                        :key="shape"
-                        :value="shape"
-                        :selected="shape === selectedStrandShape"
-                    >
-                        {{ shape }}
-                    </option>
-                </select>
-                <p>Scale: {{ furPropertiesRef.scale }}</p>
-                <input type="range" v-model="furPropertiesRef.scale" min="1" max="1000" step="1" />
-                <p>Thickness bottom: {{ furPropertiesRef.thicknessBot }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.thicknessBot"
-                    min="0.01"
-                    max="1"
-                    step="0.01"
-                />
-                <p>Thickness top: {{ furPropertiesRef.thicknessTop }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.thicknessTop"
-                    min="0.01"
-                    max="1"
-                    step="0.01"
-                />
-                <p>Threshold: {{ furPropertiesRef.threshold }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.threshold"
-                    min="0"
-                    max="1"
-                    step="0.01"
-                />
-                <p>Number of Instances: {{ furPropertiesRef.nbInstances }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.nbInstances"
-                    min="1"
-                    max="100"
-                    step="1"
-                    @change="() => updateFur(furRender)"
-                />
-                <p>Total Height: {{ furPropertiesRef.totalHeight }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.totalHeight"
-                    min="0.001"
-                    max="1"
-                    step="0.001"
-                    @change="() => updateFur(furRender)"
-                />
-                <!-- <p>Rotational x: {{ furPropertiesRef.rotationalForce }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.rotationalForce"
-                    min="-0.5"
-                    max="0.5"
-                    step="0.01"
-                /> -->
-                <p>Curvature: {{ furPropertiesRef.curvature }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.curvature"
-                    min="1"
-                    max="20"
-                    step="0.5"
-                />
-                <p>Roughness: {{ furPropertiesRef.displacementStrength }}</p>
-                <input
-                    type="range"
-                    v-model="furPropertiesRef.displacementStrength"
-                    min="0"
-                    max="0.5"
-                    step="0.01"
-                />
-            </div>
-            <canvas
-                ref="viewport"
-                :aria-label="capitalizeFirst(t('titles.fur_editor'))"
-                :class="{ rotating: activePointer !== null }"
-                @pointerdown="startRotation"
-                @pointermove="handlePointerMotion"
-                @pointerup="stopRotation"
-                @pointercancel="stopRotation"
-                @lostpointercapture="stopRotation"
-                @dragstart.prevent
-            ></canvas>
-            <div id="color-editor" ref="color-editor">
-                <CustomButton
-                    content="colorize"
-                    @click="() => (showColorPicker = !showColorPicker)"
-                    :disable="false"
-                ></CustomButton>
-                <div v-if="showColorPicker">
-                    <CustomButton
-                        :content="getTextureButtonText()"
-                        @click="
-                            furPropertiesRef.useColorTexture = !furPropertiesRef.useColorTexture
-                        "
-                        :disable="false"
-                    />
-                    <div v-if="furPropertiesRef.useColorTexture">
-                        <p>Color texture scale: {{ furPropertiesRef.colorTextureScale }}</p>
-                        <input
-                            type="range"
-                            v-model="furPropertiesRef.colorTextureScale"
-                            min="0.01"
-                            max="10"
-                            step="0.01"
-                        />
+            <div id="shape-editor">
+                <fieldset class="control-group">
+                    <legend>Controls</legend>
+                    <div class="control-grid">
+                        <label class="control" for="fur-mesh">
+                            <span>Model</span>
+                            <select id="fur-mesh" v-model="selectedMesh" @change="changeMesh">
+                                <option>Fox</option>
+                                <option>Sphere</option>
+                            </select>
+                        </label>
+                        <label class="control" for="fur-strand-shape">
+                            <span>Strand</span>
+                            <select id="fur-strand-shape" v-model="selectedStrandShape"
+                                @change="() => changeShape(furRender, selectedStrandShape)">
+                                <option v-for="shape in Object.values(ShapeEnum)" :key="shape" :value="shape">
+                                    {{ shape }}
+                                </option>
+                            </select>
+                        </label>
                     </div>
-                    <div v-else>
-                        <div v-for="(color, index) in furPropertiesRef.colors" :key="index">
-                            <p>{{ index > 0 ? 'End' : 'Base' }} Color</p>
-                            <ColorPicker
-                                v-if="showColorPicker"
-                                class="picker"
-                                default-format="rgb"
-                                @color-change="
-                                    (data) => {
-                                        if (!furPropertiesRef) return
 
-                                        const { rgb } = data.colors
-                                        color.color.x = rgb.r / 255
-                                        color.color.y = rgb.g / 255
-                                        color.color.z = rgb.b / 255
-                                    }
-                                "
-                            />
+                    <div class="control-grid">
+                        <label class="control full-width" for="fur-density">
+                            <span class="control-caption">Density <output>{{ furPropertiesRef.scale }}</output></span>
+                            <input id="fur-density" type="range" v-model.number="furPropertiesRef.scale"
+                                min="1" max="1000" step="1" />
+                        </label>
+                        <div class="control thickness-control" role="group" aria-labelledby="fur-thickness-label">
+                            <span id="fur-thickness-label">Thickness</span>
+                            <div class="thickness-values">
+                                <label for="fur-thickness-base">
+                                    <span class="thickness-key base-key"></span>
+                                    Base <output>{{ furPropertiesRef.thicknessBot.toFixed(2) }}</output>
+                                </label>
+                                <label for="fur-thickness-tip">
+                                    <span class="thickness-key tip-key"></span>
+                                    Tip <output>{{ furPropertiesRef.thicknessTop.toFixed(2) }}</output>
+                                </label>
+                            </div>
+                            <div class="dual-range" :style="{
+                                '--thickness-start': ((Math.min(furPropertiesRef.thicknessBot, furPropertiesRef.thicknessTop) - 0.01) / 0.99 * 100) + '%',
+                                '--thickness-end': ((Math.max(furPropertiesRef.thicknessBot, furPropertiesRef.thicknessTop) - 0.01) / 0.99 * 100) + '%',
+                            }">
+                                <input id="fur-thickness-base" class="thickness-base" type="range"
+                                    v-model.number="furPropertiesRef.thicknessBot" min="0.01" max="1" step="0.01" />
+                                <input id="fur-thickness-tip" class="thickness-tip" type="range"
+                                    v-model.number="furPropertiesRef.thicknessTop" min="0.01" max="1" step="0.01" />
+                            </div>
                         </div>
                     </div>
-                </div>
+
+                    <div class="control-grid">
+                        <label class="control" for="fur-curvature">
+                            <span class="control-caption">Curvature <output>{{ furPropertiesRef.curvature }}</output></span>
+                            <input id="fur-curvature" type="range" v-model.number="furPropertiesRef.curvature"
+                                min="1" max="20" step="0.5" />
+                        </label>
+                        <label class="control" for="fur-roughness">
+                            <span class="control-caption">Roughness <output>{{ furPropertiesRef.displacementStrength }}</output></span>
+                            <input id="fur-roughness" type="range" v-model.number="furPropertiesRef.displacementStrength"
+                                min="0" max="0.5" step="0.01" />
+                        </label>
+
+                        <label class="control" for="fur-length">
+                            <span class="control-caption">Length <output>{{ furPropertiesRef.totalHeight }}</output></span>
+                            <input id="fur-length" type="range" v-model.number="furPropertiesRef.totalHeight"
+                                min="0.001" max="1" step="0.001" @change="() => updateFur(furRender)" />
+                        </label>
+                        <label class="control" for="fur-layers">
+                            <span class="control-caption">Layers <output>{{ furPropertiesRef.nbInstances }}</output></span>
+                            <input id="fur-layers" type="range" v-model.number="furPropertiesRef.nbInstances"
+                                min="2" max="100" step="1" @change="() => updateFur(furRender)" />
+                        </label>
+                    </div>
+
+                    <div class="control-grid color-controls">
+                        <label class="control" :class="{ 'full-width': !furPropertiesRef.useColorTexture }" for="fur-color-mode">
+                            <span>Color</span>
+                            <select id="fur-color-mode" v-model="furPropertiesRef.useColorTexture">
+                                <option :value="true">Texture</option>
+                                <option :value="false">Gradient</option>
+                            </select>
+                        </label>
+                        <label v-if="furPropertiesRef.useColorTexture" class="control" for="fur-texture-scale">
+                            <span class="control-caption">Texture scale <output>{{ furPropertiesRef.colorTextureScale }}</output></span>
+                            <input id="fur-texture-scale" type="range" v-model.number="furPropertiesRef.colorTextureScale"
+                                min="0.01" max="10" step="0.01" />
+                        </label>
+                        <template v-else>
+                            <label v-for="(color, index) in furPropertiesRef.colors" :key="index"
+                                class="control" :for="'fur-color-' + index">
+                                <span class="control-caption">
+                                    {{ index > 0 ? 'Tip' : 'Base' }}
+                                    <output>{{ getHexColor(color.color) }}</output>
+                                </span>
+                                <input :id="'fur-color-' + index" type="color" :value="getHexColor(color.color)"
+                                    @input="setGradientColor(index, $event)" />
+                            </label>
+                        </template>
+                    </div>
+                </fieldset>
             </div>
+
+            <div class="fur-viewport">
+                <canvas
+                    ref="viewport"
+                    :aria-label="capitalizeFirst(t('titles.fur_editor'))"
+                    :class="{ rotating: activePointer !== null }"
+                    @pointerdown="startRotation"
+                    @pointermove="handlePointerMotion"
+                    @pointerup="stopRotation"
+                    @pointercancel="stopRotation"
+                    @lostpointercapture="stopRotation"
+                    @dragstart.prevent
+                ></canvas>
+            </div>
+
         </div>
     </div>
 </template>
 
 <style>
-@import url('vue-accessible-color-picker/styles');
-.picker {
-    border-radius: 15px;
-    background-color: rgba(255, 255, 255, 0.1);
-    height: fit-content;
-}
-.picker *:first-child {
-    border-top-left-radius: 15px;
-    border-top-right-radius: 15px;
-}
-.picker *:nth-child(2) {
-    border-bottom-left-radius: 15px;
-    border-bottom-right-radius: 15px;
-}
-.picker button {
-    display: none;
-}
-
-.picker > *:last-child {
-    display: none;
-}
-
 #fur-editor {
-    padding: 20px;
-    border-radius: 10px;
-    overflow-y: auto;
-    min-width: 300px;
+    --fur-control-background: rgba(31, 71, 59, 0.75);
+    --fur-control-border: rgba(255, 255, 255, 0.24);
+
+    display: grid;
+    grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
+    gap: 16px;
     width: 100%;
-    position: relative;
-    display: flex;
-    flex-direction: row;
-    justify-content: space-between;
+    min-width: 0;
+    padding: 16px;
+    accent-color: var(--primary-bg-color);
 }
-#color-editor {
-    pointer-events: auto;
-    width: fit-content;
-    z-index: 1;
+
+#frame {
+    width: 100%;
 }
+
 #shape-editor {
-    pointer-events: auto;
+    display: grid;
+    gap: 12px;
+    min-width: 0;
+}
+
+#fur-editor .control-group {
+    min-width: 0;
+    margin: 0;
+    padding: 12px;
+    border: 1px solid var(--fur-control-border);
+    border-radius: 14px;
+    background: var(--primary-bg-color-t);
+}
+
+#fur-editor legend {
+    padding: 0 6px;
+    font-size: 0.85rem;
+    font-weight: 600;
+}
+
+#fur-editor .control-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px 14px;
+    padding-bottom: 12px;
+}
+
+#fur-editor .control-grid:last-child {
+    padding-bottom: 0;
+}
+
+#fur-editor .control {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    font-size: 0.8rem;
+    line-height: 1.3;
+}
+
+#fur-editor .control-caption,
+#fur-editor .thickness-values,
+#fur-editor .thickness-values label {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 6px;
+}
+
+#fur-editor output {
+    font-variant-numeric: tabular-nums;
+    color: var(--primary-font-color);
+    font-weight: 600;
+}
+
+#fur-editor .full-width,
+#fur-editor .thickness-control {
+    grid-column: 1 / -1;
+}
+
+#fur-editor select {
+    appearance: none;
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 28px 6px 8px;
+    border: 1px solid var(--fur-control-border);
+    border-radius: 8px;
+    font: inherit;
+    color: var(--primary-font-color);
+    background-color: var(--fur-control-background);
+    background-image:
+        linear-gradient(45deg, transparent 50%, var(--primary-font-color) 50%),
+        linear-gradient(135deg, var(--primary-font-color) 50%, transparent 50%);
+    background-position: right 13px center, right 8px center;
+    background-size: 5px 5px;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+#fur-editor select:hover {
+    border-color: var(--primary-bg-color);
+}
+
+#fur-editor select option {
+    color: var(--primary-font-color);
+    background-color: rgb(31, 71, 59);
+}
+
+#fur-editor input[type='range']:not(.vacp-range-input) {
+    display: block;
+    width: 100%;
+    min-width: 0;
+    height: 20px;
+    margin: 0;
+    accent-color: var(--primary-bg-color);
+    cursor: pointer;
+}
+
+#fur-editor :is(select, input, button):focus-visible {
+    outline: 2px solid var(--primary-bg-color);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+#fur-editor .thickness-values {
+    font-size: 0.75rem;
+}
+
+#fur-editor .thickness-values label {
+    cursor: pointer;
+}
+
+#fur-editor .thickness-key {
+    width: 9px;
+    height: 9px;
+    border: 1px solid white;
+    border-radius: 50%;
+    background: var(--primary-bg-color);
+}
+
+#fur-editor .tip-key {
+    background: var(--terciary-bg-color);
+    border-radius: 2px;
+    transform: rotate(45deg);
+}
+
+#fur-editor .dual-range {
     position: relative;
-    z-index: 1;
+    height: 28px;
+}
+
+#fur-editor .dual-range::before {
+    content: '';
+    position: absolute;
+    inset: 11px 9px;
+    border-radius: 6px;
+    background: linear-gradient(to right,
+        rgba(255, 255, 255, 0.18) var(--thickness-start),
+        var(--primary-bg-color) var(--thickness-start),
+        var(--primary-bg-color) var(--thickness-end),
+        rgba(255, 255, 255, 0.18) var(--thickness-end));
+}
+
+#fur-editor .dual-range input {
+    position: absolute;
+    inset: 0;
+    height: 28px;
+    appearance: none;
+    -webkit-appearance: none;
+    background: transparent;
+    pointer-events: none;
+}
+
+#fur-editor .dual-range input:focus-visible {
+    z-index: 2;
+}
+
+#fur-editor .dual-range input::-webkit-slider-runnable-track {
+    height: 6px;
+    background: transparent;
+}
+
+#fur-editor .dual-range input::-moz-range-track {
+    height: 6px;
+    background: transparent;
+}
+
+#fur-editor .dual-range input::-moz-range-progress {
+    background: transparent;
+}
+
+#fur-editor .dual-range input::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    margin-top: -6px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: var(--primary-bg-color);
+    pointer-events: auto;
+    cursor: ew-resize;
+}
+
+#fur-editor .dual-range input::-moz-range-thumb {
+    box-sizing: border-box;
+    width: 18px;
+    height: 18px;
+    border: 2px solid white;
+    border-radius: 50%;
+    background: var(--primary-bg-color);
+    pointer-events: auto;
+    cursor: ew-resize;
+}
+
+#fur-editor .dual-range .thickness-tip::-webkit-slider-thumb {
+    border-radius: 4px;
+    background: var(--terciary-bg-color);
+    transform: rotate(45deg);
+}
+
+#fur-editor .dual-range .thickness-tip::-moz-range-thumb {
+    border-radius: 4px;
+    background: var(--terciary-bg-color);
+    transform: rotate(45deg);
+}
+
+#fur-editor .fur-viewport {
+    position: relative;
+    min-width: 0;
+    min-height: 420px;
+    overflow: hidden;
+    border: 1px solid var(--fur-control-border);
+    border-radius: 14px;
 }
 
 #fur-editor canvas {
-    pointer-events: auto;
+    position: absolute;
+    inset: 0;
     width: 100%;
     height: 100%;
-    top: 0;
-    left: 0;
-    z-index: 0;
+    display: block;
     cursor: grab;
     touch-action: none;
     user-select: none;
@@ -455,24 +624,48 @@ const showColorPicker = ref(false)
     cursor: grabbing;
 }
 
-#fur-editor {
-    position: relative;
-    z-index: 0;
-    height: fit-content;
-    /* your existing styles */
-}
-
-#frame {
-    position: relative;
+#fur-editor input[type='color'] {
     width: 100%;
-    height: fit-content;
-    pointer-events: none;
+    height: 32px;
+    padding: 3px;
+    border: 1px solid var(--fur-control-border);
+    border-radius: 8px;
+    background: var(--fur-control-background);
+    cursor: pointer;
 }
 
+#fur-editor input[type='color']::-webkit-color-swatch-wrapper {
+    padding: 0;
+}
 
-@media (max-width: 580px) {    
+#fur-editor input[type='color']::-webkit-color-swatch {
+    border: 0;
+    border-radius: 4px;
+}
+
+#fur-editor input[type='color']::-moz-color-swatch {
+    border: 0;
+    border-radius: 4px;
+}
+
+@media (max-width: 1000px) {
+    #fur-editor {
+        grid-template-columns: minmax(0, 1fr);
+    }
+
+    #fur-editor .fur-viewport {
+        grid-row: 1;
+        min-height: clamp(280px, 45vh, 420px);
+    }
+}
+
+@media (max-width: 580px) {
     #frame h1 {
         font-size: xx-large;
+    }
+
+    #fur-editor {
+        padding: 0;
     }
 }
 </style>
