@@ -2,52 +2,46 @@
 defineProps<{
     date: string
     location: string
-    description: string
+    title: string
+    description?: string
 }>()
 </script>
 
 <template>
-    <div class="studies-card">
-        <div>
-            <h3>{{ date }}</h3>
-            <h3>{{ location }}</h3>
-        </div>
-        <h2>{{ description }}</h2>
-    </div>
+    <article class="studies-card">
+        <p class="study-date">{{ date }}</p>
+        <h3>{{ title }}</h3>
+        <p class="study-location">{{ location }}</p>
+        <p v-if="description">{{ description }}</p>
+        <slot />
+    </article>
 </template>
 
 <style scoped>
 .studies-card {
     display: flex;
     flex-direction: column;
-    margin: 15px;
+    align-items: flex-start;
+    gap: 0.2rem;
+    min-width: 0;
 }
 
-.studies-card div {
-    display: flex;
-    flex-direction: row;
+.studies-card h3 {
+    font-size: 1.1rem;
+    font-weight: 600;
 }
 
-.studies-card > div > h3 {
-    margin-right: 15px;
-}
-.studies-card > div > h3:nth-child(2) {
-    font-weight: bold;
+.studies-card p {
+    font-size: 0.9rem;
+    text-align: left;
 }
 
-.studies-card > div > * {
-    align-content: center;
+.study-date {
+    font-variant-numeric: tabular-nums;
 }
 
-@media (max-width: 1400px) {
-    .studies-card {
-        margin: 5px;
-    }
-    .studies-card h3 {
-        margin: 0;
-    }
-    .studies-card h2 {
-        font-size: small;
-    }
+.study-date,
+.study-location {
+    opacity: 0.85;
 }
 </style>

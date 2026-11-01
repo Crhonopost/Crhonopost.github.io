@@ -20,14 +20,16 @@ const i18n = createI18n({
             hello: 'hello',
             viewMore: 'view more',
             dates: {
-                january: 'january',
-                april: 'april',
-                june: 'june',
+                january: 'January',
+                april: 'April',
+                june: 'June',
+                august: 'August',
             },
             titles: {
                 about: 'about',
+                background: 'background',
                 studies: 'studies',
-                professional: 'professional',
+                professional: 'professional experience',
                 skills: 'skills',
                 projects: 'projects',
                 links: 'links',
@@ -39,16 +41,50 @@ const i18n = createI18n({
                 fur_editor: 'fur editor',
             },
             experiences: {
+                studies: {
+                    master: 'Imagine master’s degree',
+                    but: 'BUT in Computer Science',
+                    track: 'RACDV track',
+                    track_description: 'Application development and validation.',
+                },
                 professional: {
-                    job_andragogy: 'web developer internship',
-                    job_kapix: 'web developer internship',
+                    job_xlim: {
+                        title: 'scientific software development internship',
+                        desc: 'I modernized a virtual gonioreflectometer, a simulation tool for studying light reflection on road surfaces.',
+                        contributions: [
+                            'Redesigned the C++ and Python architecture around Mitsuba 3.',
+                            'Created an interactive interface.',
+                            'Fixed and validated existing functionality.',
+                        ],
+                    },
+                    job_andragogy: {
+                        title: 'web development internship',
+                        desc: 'I developed several tools for Andrassistant, an application for creating educational resources.',
+                        contributions: [
+                            'Generated CSV files for learner enrollment.',
+                            'Customized SVG graphics and exported SCORM learning modules.',
+                            'Built a Chrome extension to assist with prompt writing.',
+                        ],
+                    },
+                    job_kapix: {
+                        title: 'web development apprenticeship',
+                        desc: 'I contributed to a no-code platform for building web applications.',
+                        contributions: [
+                            'Worked on automatic GraphQL API generation from PostgreSQL data models.',
+                            'Contributed to a TypeScript library used by this architecture.',
+                            'Contributed to frontend and backend development for several clients’ applications.',
+                        ],
+                    },
                 },
             },
             descriptions: {
                 skills: 'Here are some of the skills I have acquired over the years.',
             },
             contents: {
-                about: "I'm Nathan Souvignet, a fifth-year Computer Science student with a strong passion for computer graphics and video game development. I enjoy bringing new ideas to life, especially by creating tools and features that empower end users and developers to help them go further faster whether it's through rendering techniques, gameplay mechanics, or engine systems. My experience spans C++, OpenGL, Godot, and web technologies, and I’m always eager to learn and experiment.",
+                about: {
+                    profile: 'I’m Nathan Souvignet. I hold a master’s degree specializing in computer graphics, with a particular interest in geometric modeling and 3D rendering. My earlier studies in application development also gave me a broad foundation in algorithms and software design.',
+                    hobby: 'In my spare time, I develop my own game engine in C++ with OpenGL. Building its different systems helps me explore rendering techniques in depth and understand the architectural choices and performance constraints of a complex application.',
+                },
             },
             projects: {
                 shell: {
@@ -153,11 +189,13 @@ const i18n = createI18n({
                 january: 'janvier',
                 april: 'avril',
                 june: 'juin',
+                august: 'août',
             },
             titles: {
                 about: 'à propos',
-                studies: 'études',
-                professional: 'professionnel',
+                background: 'parcours',
+                studies: 'formation',
+                professional: 'expériences professionnelles',
                 skills: 'compétences',
                 projects: 'projets',
                 links: 'liens',
@@ -169,16 +207,50 @@ const i18n = createI18n({
                 fur_editor: 'éditeur de fourrure',
             },
             experiences: {
-                professional: {
-                    job_andragogy: 'stage de développeur web',
-                    job_kapix: 'alternance de développeur web',
+                studies: {
+                    master: 'Master Imagine',
+                    but: 'BUT Informatique',
+                    track: 'Parcours RACDV',
+                    track_description: 'Réalisation d’applications, développement et validation',
                 },
+                professional: {
+                    job_xlim: {
+                        title: 'stage de développement scientifique',
+                        desc: 'J’ai modernisé un gonioréflectomètre virtuel, un outil de simulation permettant d’étudier la réflexion de la lumière sur des surfaces routières.',
+                        contributions: [
+                            'Refonte de l’architecture en C++ et Python autour de Mitsuba 3.',
+                            'Création d’une interface interactive.',
+                            'Correction et validation des fonctionnalités existantes.',
+                        ],
+                    },
+                    job_andragogy: {
+                        title: 'stage de développement web',
+                        desc: 'J’ai développé plusieurs outils pour Andrassistant, une application de création de ressources pédagogiques.',
+                        contributions: [
+                            'Génération de fichiers CSV pour l’inscription d’apprenants.',
+                            'Personnalisation de visuels SVG et export de modules de formation au format SCORM.',
+                            'Création d’une extension Chrome facilitant la rédaction de prompts.',
+                        ],
+                    },
+                    job_kapix: {
+                        title: 'alternance en développement web',
+                        desc: 'J’ai contribué au développement d’une plateforme no-code permettant de créer des applications web.',
+                        contributions: [
+                            'Génération automatique d’API GraphQL à partir de modèles de données PostgreSQL.',
+                            'Contribution à une bibliothèque TypeScript utilisée par cette architecture.',
+                            'Développement d’applications pour plusieurs clients, sur le frontend et le backend.',
+                        ],
+                    },
+                }
             },
             descriptions: {
                 skills: "Quelques compétences que j'ai acquises au fil des années.",
             },
             contents: {
-                about: "Je m'appelle Nathan Souvignet, étudiant en cinquième année d\'informatique, passionné par le graphisme informatique et le développement de jeux vidéo. J'aime donner vie à de nouvelles idées, notamment en créant des outils et des fonctionnalités qui facilitent le travail des artistes et des développeurs que ce soit par des techniques de rendu innovantes, des mécaniques de jeu ou des systèmes de moteur. J’ai de l’expérience en C++, OpenGL, Godot et technologies web, et je suis toujours motivé à apprendre et à expérimenter.",
+                about: {
+                    profile: 'Je m’appelle Nathan Souvignet. Diplômé d’un master spécialisé en informatique graphique, je m’intéresse particulièrement à la modélisation géométrique et au rendu 3D. Ma formation initiale en développement d’applications m’a aussi apporté des bases généralistes en algorithmique et en conception logicielle.',
+                    hobby: 'Pendant mon temps libre, je développe mon propre moteur de jeu en C++ avec OpenGL. Construire ses différents systèmes me permet d’approfondir les techniques de rendu et de comprendre les choix d’architecture et les contraintes de performance d’une application complexe.',
+                },
             },
             projects: {
                 shell: {

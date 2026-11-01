@@ -8,9 +8,8 @@ const { t } = useI18n()
     <div id="apropos">
         <div class="glass" id="apropos-text">
             <h1>{{ capitalizeFirst(t('titles.about')) }}</h1>
-            <p>
-                {{ t('contents.about') }}
-            </p>
+            <p>{{ t('contents.about.profile') }}</p>
+            <p>{{ t('contents.about.hobby') }}</p>
         </div>
     </div>
 </template>
@@ -24,6 +23,16 @@ const { t } = useI18n()
 
 #apropos-text {
     width: 60%;
+    max-height: inherit;
+    overflow-y: auto;
+}
+
+#apropos-text p {
+    text-align: left;
+}
+
+#apropos-text p + p {
+    margin-top: 1rem;
 }
 
 @media (max-width: 1250px) {
