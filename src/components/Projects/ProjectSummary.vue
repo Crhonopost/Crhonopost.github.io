@@ -1,8 +1,9 @@
 <script lang="ts" setup>
-import { onUnmounted, onMounted, ref } from 'vue'
+import { onUnmounted, ref } from 'vue'
 import TechnologieTagComponent from './TechnologieTagComponent.vue'
 import { useI18n } from 'vue-i18n'
 import { capitalizeFirst } from '@/util/util'
+import ScrollSlide from '../DepthScroll/ScrollSlide.vue';
 
 const { t } = useI18n()
 
@@ -17,65 +18,50 @@ defineProps<{
     links: { url: string; name: string }[]
 }>()
 
-const projectSummary = ref<HTMLElement | null>(null)
-
 const isMobile = ref(window.innerWidth < 1300)
 const update = () => (isMobile.value = window.innerWidth < 1300)
 window.addEventListener('resize', update)
 onUnmounted(() => window.removeEventListener('resize', update)) 
 
-onMounted(() => {
-    if (projectSummary?.value) {
-        projectSummary.value.addEventListener('wheel', (evt) => {
-            if (evt.deltaY === 0) return;
-    
-            
-            const summary = projectSummary.value
-            if(summary){
-                if(summary.scrollTop == 0 && evt.deltaY < 0){
-                    evt.preventDefault();
-                    componentSignals("navigateBack")
-                }
-            }
-        })
-    }
-})
-
 </script>
 <template>
-    <div class="glass item project_whole column" ref="projectSummary">
-        <div :class="{'row': !isMobile, 'column': isMobile}" id="project-header">
-            <h1>{{ title }}</h1>
-            <div class="project_context">
-                <h2>{{ capitalizeFirst(t('titles.context')) }}</h2>
-                <p>{{ context }}</p>
-            </div>
-            <div class="end-align project_technologies" :class="{'row': isMobile, 'column': !isMobile}">
-                <div class="column">
-                    <h2>{{ capitalizeFirst(t('titles.technologies')) }}</h2>
-                    <div class="technologies_list column">
-                        <TechnologieTagComponent
-                            v-for="tech in technologies"
-                            :key="tech"
-                            :name="tech"
-                        />
+    <ScrollSlide
+        orientation="vertical"
+        @navigate-back="() => componentSignals('navigateBack')">
+        <div class="glass item project_whole column" ref="projectSummary">
+            <div :class="{'row': !isMobile, 'column': isMobile}" id="project-header">
+                <h1>{{ title }}</h1>
+                <div class="project_context">
+                    <h2>{{ capitalizeFirst(t('titles.context')) }}</h2>
+                    <p>{{ context }}</p>
+                </div>
+                <div class="end-align project_technologies" :class="{'row': isMobile, 'column': !isMobile}">
+                    <div class="column">
+                        <h2>{{ capitalizeFirst(t('titles.technologies')) }}</h2>
+                        <div class="technologies_list column">
+                            <TechnologieTagComponent
+                                v-for="tech in technologies"
+                                :key="tech"
+                                :name="tech"
+                            />
+                        </div>
+                    </div>
+                    <div class="project_links" v-if="links.length > 0">
+                        <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
+                        <ul>
+                            <li v-for="link in links" :key="link.url">
+                                <a :href="link.url">{{ link.name }}</a>
+                            </li>
+                        </ul>
                     </div>
                 </div>
-                <div class="project_links" v-if="links.length > 0">
-                    <h2>{{ capitalizeFirst(t('titles.links')) }}</h2>
-                    <ul>
-                        <li v-for="link in links" :key="link.url">
-                            <a :href="link.url">{{ link.name }}</a>
-                        </li>
-                    </ul>
-                </div>
+            </div>
+            <div class="separator_h"></div>
+            <div class="other">
+                <component v-for="(item, index) in $slots.default?.() ?? []" :key="index" :is="item" />
             </div>
         </div>
-        <div class="separator_h"></div>
-        <div class="other">
-            <component v-for="(item, index) in $slots.default?.() ?? []" :key="index" :is="item" />
-        </div>
-    </div>
+    </ScrollSlide>
 </template>
 
 <style>

@@ -125,9 +125,15 @@ onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
             <SceneComponent ref="sceneComponentRef" />
             <DepthScroll :active-index="currentSlide" id="depth">
                 <Apropos class="item" />
-                <ProjectShorts class="item" @project-clicked="projectClicked" @navigate-back="() => tryMoving(projectListSlide - 1)" @navigate-front="() => tryMoving(projectListSlide + 1)"/>
-                <SkillSetComponent class="item" :skills="skills" />
-                <ExperiencesComponent />
+                <ProjectShorts class="item"
+                    @project-clicked="projectClicked"
+                    @navigate-back="() => tryMoving(projectListSlide - 1)"
+                    @navigate-front="() => tryMoving(projectListSlide + 1)"/>
+                <SkillSetComponent class="item" :skills="skills"
+                    @navigate-back="() => tryMoving(projectListSlide - 1)"
+                    @navigate-front="() => tryMoving(projectListSlide + 1)"/>
+                <ExperiencesComponent class="item"
+                    @navigate-back="() => tryMoving(pageCount - 2)"/>
                 <component
                     v-if="currentSlide === projectDetailSlide && selectedProject >= 0"
                     :is="projectsComponents[selectedProject]"

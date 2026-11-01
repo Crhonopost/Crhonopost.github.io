@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { onMounted, ref } from 'vue'
 import ProjectShortComponent from './ProjectShortComponent.vue'
-import { capitalizeFirst, isScrollable } from '@/util/util'
+import { capitalizeFirst } from '@/util/util'
 import { useI18n } from 'vue-i18n'
+import ScrollSlide from '../DepthScroll/ScrollSlide.vue'
 
 const { t } = useI18n()
 
@@ -46,7 +46,7 @@ const projects = [
         title: () => capitalizeFirst(t('projects.games.title')),
         description: () => t('projects.games.quickDesc'),
         technologies: ['Godot', 'Gdscript', 'C#'],
-        illustration: './projects/ebucilper/illu.png',
+        illustration: './projects/games/what.gif',
     },
     {
         id: 4,
@@ -56,66 +56,50 @@ const projects = [
         illustration: './projects/web/satiscraftory.png',
     },
 ]
-const projectContainer = ref<HTMLElement | null>(null)
-
-onMounted(() => {
-    if (projectContainer?.value && isScrollable(projectContainer.value)) {
-        projectContainer.value.addEventListener('wheel', (evt) => {
-            if (evt.deltaY === 0) return;
-
-            evt.preventDefault();
-
-            const projList = projectContainer.value
-            if(projList){
-                const atStart = 1
-                const atEnd = projList.scrollWidth - projList.clientWidth - 1
-                if(projList.scrollLeft <= atStart && evt.deltaY < 0)
-                    componentSignals("navigateBack")
-                else if(projList.scrollLeft >= atEnd && evt.deltaY > 0)
-                    componentSignals("navigateFront")
-                else
-                    projList.scrollLeft += evt.deltaY;
-            }
-        })
-    }
-})
 </script>
 
 <template>
     <div id="page">
         <h1>{{ capitalizeFirst(t('titles.projects')) }}</h1>
-        <div class="projects-container" ref="projectContainer">
-            <ProjectShortComponent
-                v-for="project in projects"
-                :key="project.id"
-                class="glass clickable project"
-                :title="project.title()"
-                :description="project.description()"
-                :technologies="project.technologies"
-                :illustration="project.illustration"
-                @click="componentSignals('projectClicked', project.id)"
-            />
-        </div>
+        <ScrollSlide
+            orientation="horizontal"
+            class="projects-scroll"
+            :aria-label="capitalizeFirst(t('titles.projects'))"
+            @navigate-back="componentSignals('navigateBack')"
+            @navigate-front="componentSignals('navigateFront')"
+        >
+            <div class="projects-container">
+                <ProjectShortComponent
+                    v-for="project in projects"
+                    :key="project.id"
+                    class="glass clickable project"
+                    :title="project.title()"
+                    :description="project.description()"
+                    :technologies="project.technologies"
+                    :illustration="project.illustration"
+                    @click="componentSignals('projectClicked', project.id)"
+                />
+            </div>
+        </ScrollSlide>
     </div>
 </template>
 
 <style scoped>
 #page {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    min-height: 0;
     height: 100%;
 }
 
 #page h1 {
+    flex-shrink: 0;
     margin-left: 60px;
 }
 
-.projects-container {
-    display: flex;
-    flex-direction: row;
-    gap: 20px;
-    width: 100%;
-    overflow: auto;
-    padding: 0px 60px 0px 60px;
-
+.projects-scroll {
+    flex: 1;
     mask-image: linear-gradient(
         to right,
         transparent 0px,
@@ -123,7 +107,15 @@ onMounted(() => {
         white calc(100% - 80px),
         transparent 100%
     );
-    padding-bottom: 20px;
+}
+
+.projects-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+    width: max-content;
+    min-width: 100%;
+    padding: 0 60px 20px;
 }
 
 .project {
