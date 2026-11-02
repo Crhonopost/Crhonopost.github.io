@@ -58,7 +58,7 @@ defineProps<{
     height: 300px;
     object-fit: cover;
     object-position: left;
-    border-radius: 15px;
+    border-radius: var(--card-image-radius);
 }
 
 .right-offset {

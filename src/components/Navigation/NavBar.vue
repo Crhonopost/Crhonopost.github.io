@@ -81,7 +81,7 @@ onUnmounted(() => {
         <LangSelection v-if="!isMobile" />
         
         <nav id="progress" class="column" :aria-label="t('navigation.panels')">
-            <button class="panel-button glass" type="button" :disabled="!canMoveBackward" @click="move(-1)">
+            <button class="button button--panel panel-button" type="button" :disabled="!canMoveBackward" @click="move(-1)">
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_up</span>
                 <span>{{ t(activePage === pageCount ? 'navigation.back_to_projects' : 'navigation.previous') }}</span>
             </button>
@@ -92,7 +92,7 @@ onUnmounted(() => {
                     </div>
                 </div>
             </div>
-            <button class="panel-button glass" type="button" :disabled="!canMoveForward" @click="move(1)">
+            <button class="button button--panel panel-button" type="button" :disabled="!canMoveForward" @click="move(1)">
                 <span>{{ t('navigation.next') }}</span>
                 <span class="material-symbols-outlined" aria-hidden="true">arrow_drop_down</span>
             </button>
@@ -124,11 +124,11 @@ onUnmounted(() => {
 }
 
 .dot-full {
-    background-color: var(--primary-font-color);
+    background-color: var(--color-text);
 }
 
 .dot-empty {
-    background-color: var(--primary-bg-color);
+    background-color: var(--color-accent);
     opacity: 20%;
 }
 
@@ -139,16 +139,6 @@ onUnmounted(() => {
     padding: 8px;
     font: inherit;
     cursor: pointer;
-}
-
-.panel-button:disabled {
-    opacity: 0.4;
-    cursor: default;
-}
-
-.panel-button:focus-visible {
-    outline: 2px solid white;
-    outline-offset: 3px;
 }
 
 .panel-position {

@@ -56,7 +56,7 @@ function handleWheel(evt: WheelEvent){
 }
 
 .scroll-slide:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: -2px;
+    outline: var(--focus-width) solid currentColor;
+    outline-offset: calc(-1 * var(--focus-width));
 }
 </style>

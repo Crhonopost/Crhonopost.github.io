@@ -20,7 +20,7 @@ onUnmounted(() => document.removeEventListener('click', handleClickOutside))
 </script>
 
 <template>
-    <div ref="menu" class="glass column">
+    <div ref="menu" class="panel column">
         <a href="https://github.com/Crhonopost" target="_blank">Github</a>
         <a href="cv.pdf" target="_blank">CV</a>
         <a href="https://www.linkedin.com/in/nathan-souvignet-a10732230/" target="_blank">LinkedIn</a>

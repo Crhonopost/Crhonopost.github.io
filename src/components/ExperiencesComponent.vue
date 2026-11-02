@@ -41,7 +41,7 @@ function contributionsFor(job: string) {
 <template>
     <ScrollSlide
         id="experiences"
-        class="glass"
+        class="panel"
         orientation="vertical"
         aria-labelledby="background-title"
         @navigate-back="componentSignals('navigateBack')"
@@ -51,7 +51,7 @@ function contributionsFor(job: string) {
 
         <section aria-labelledby="studies-title">
             <h2 id="studies-title">{{ capitalizeFirst(t('titles.studies')) }}</h2>
-            <div class="studies">
+            <div class="studies divider">
                 <StudiesCard
                     date="2024–2026"
                     location="Faculté des sciences de Montpellier"
@@ -73,7 +73,7 @@ function contributionsFor(job: string) {
                 <details
                     v-for="job in jobs"
                     :key="job.key"
-                    class="experience"
+                    class="panel panel--inset experience"
                     name="professional-experience"
                     :open="job.key === 'job_xlim'"
                 >
@@ -136,7 +136,6 @@ function contributionsFor(job: string) {
     grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 1rem;
     padding-bottom: 1rem;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
 }
 
 #track {
@@ -150,13 +149,7 @@ function contributionsFor(job: string) {
 }
 
 .experience {
-    border: 1px solid rgba(255, 255, 255, 0.2);
-    border-radius: 12px;
-    background: rgba(0, 0, 0, 0.12);
-}
-
-.experience[open] {
-    border-color: rgba(255, 255, 255, 0.45);
+    padding: 0;
 }
 
 .experience > summary {
@@ -172,11 +165,6 @@ function contributionsFor(job: string) {
 
 .experience > summary::-webkit-details-marker {
     display: none;
-}
-
-summary:focus-visible {
-    outline: 2px solid currentColor;
-    outline-offset: 3px;
 }
 
 .experience-heading {

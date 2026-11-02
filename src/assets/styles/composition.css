@@ -1,0 +1,20 @@
+/* Existing shared layouts. More specific grids stay in their components. */
+.column {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.row {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.end-align {
+    align-items: end;
+}
+
+.clickable {
+    cursor: pointer;
+}

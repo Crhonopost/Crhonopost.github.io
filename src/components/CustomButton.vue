@@ -17,7 +17,7 @@ withDefaults(defineProps<{ content: SymbolName | string; disable: boolean }>(), 
 </script>
 
 <template>
-    <div class="button glass" :class="disable ? 'disable' : 'enable clickable'">
+    <div class="button button--round" :class="disable ? 'disable' : 'enable'">
         <span v-if="isSymbol(content)" class="material-symbols-outlined">
             {{ content }}
         </span>
@@ -26,26 +26,3 @@ withDefaults(defineProps<{ content: SymbolName | string; disable: boolean }>(), 
         </p>
     </div>
 </template>
-
-<style lang="css">
-.button {
-    border-radius: 30px;
-    padding: 10px;
-    margin: 5px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    transition: width 0.3s;
-
-    user-select: none;
-}
-
-.enable:hover {
-    background-color: var(--terciary-bg-color-t);
-    transition: background-color 0.3s;
-}
-
-.disable {
-    color: grey;
-}
-</style>

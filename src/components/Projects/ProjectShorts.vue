@@ -72,7 +72,7 @@ const projects = [
                 <ProjectShortComponent
                     v-for="project in projects"
                     :key="project.id"
-                    class="glass clickable project"
+                    class="panel clickable project"
                     :title="project.title()"
                     :description="project.description()"
                     :technologies="project.technologies"

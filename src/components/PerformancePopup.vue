@@ -106,10 +106,10 @@ const texts = computed(() => ({
     transform: translateX(-50%);
     width: 90%;
     max-width: 500px;
-    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
-    color: white;
-    border-radius: 12px;
-    box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+    background: var(--notice-background);
+    color: var(--color-text);
+    border-radius: var(--panel-inset-radius);
+    box-shadow: var(--notice-shadow);
     z-index: 10000;
     animation: slideDown 0.3s ease-out;
 }
@@ -153,31 +153,30 @@ const texts = computed(() => ({
 }
 
 .btn-optimize {
-    background: rgba(255, 255, 255, 0.2);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: white;
+    background: var(--notice-button-background);
+    color: var(--color-text);
     padding: 6px 12px;
-    border-radius: 6px;
+    border-radius: var(--button-radius);
     font-size: 12px;
     font-weight: 500;
     cursor: pointer;
     transition: all 0.2s ease;
-    backdrop-filter: blur(10px);
+    backdrop-filter: blur(var(--panel-blur));
 }
 
 .btn-optimize:hover {
-    background: rgba(255, 255, 255, 0.3);
+    background: var(--notice-button-hover-background);
     transform: translateY(-1px);
 }
 
 .btn-dismiss {
     background: none;
     border: none;
-    color: white;
+    color: var(--color-text);
     font-size: 18px;
     cursor: pointer;
     padding: 4px 8px;
-    border-radius: 4px;
+    border-radius: var(--button-radius);
     transition: background-color 0.2s ease;
     display: flex;
     align-items: center;
@@ -187,7 +186,7 @@ const texts = computed(() => ({
 }
 
 .btn-dismiss:hover {
-    background: rgba(255, 255, 255, 0.1);
+    background: var(--notice-dismiss-hover-background);
 }
 
 @keyframes slideDown {
@@ -237,10 +236,10 @@ const texts = computed(() => ({
 
 @keyframes pulse {
     0%, 100% {
-        box-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+        box-shadow: var(--notice-shadow);
     }
     50% {
-        box-shadow: 0 8px 32px rgba(255, 107, 107, 0.6);
+        box-shadow: var(--notice-shadow-emphasis);
     }
 }
 

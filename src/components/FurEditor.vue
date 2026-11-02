@@ -251,7 +251,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
         <h1>{{ capitalizeFirst(t('titles.fur_editor')) }}</h1>
         <div id="fur-editor">
             <div id="shape-editor">
-                <fieldset class="control-group">
+                <fieldset class="panel panel--inset control-group">
                     <legend>Controls</legend>
                     <div class="control-grid">
                         <label class="control" for="fur-mesh">
@@ -354,7 +354,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
                 </fieldset>
             </div>
 
-            <div class="fur-viewport">
+            <div class="panel panel--frame fur-viewport">
                 <canvas
                     ref="viewport"
                     :aria-label="capitalizeFirst(t('titles.fur_editor'))"
@@ -374,16 +374,13 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 
 <style>
 #fur-editor {
-    --fur-control-background: rgba(31, 71, 59, 0.75);
-    --fur-control-border: rgba(255, 255, 255, 0.24);
-
     display: grid;
     grid-template-columns: minmax(280px, 340px) minmax(0, 1fr);
     gap: 16px;
     width: 100%;
     min-width: 0;
     padding: 16px;
-    accent-color: var(--primary-bg-color);
+    accent-color: var(--color-accent);
 }
 
 #frame {
@@ -400,9 +397,6 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     min-width: 0;
     margin: 0;
     padding: 12px;
-    border: 1px solid var(--fur-control-border);
-    border-radius: 14px;
-    background: var(--primary-bg-color-t);
 }
 
 #fur-editor legend {
@@ -442,7 +436,7 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 
 #fur-editor output {
     font-variant-numeric: tabular-nums;
-    color: var(--primary-font-color);
+    color: var(--color-text);
     font-weight: 600;
 }
 
@@ -456,14 +450,14 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     width: 100%;
     min-height: 36px;
     padding: 6px 28px 6px 8px;
-    border: 1px solid var(--fur-control-border);
-    border-radius: 8px;
+    border: var(--control-border-width) solid var(--control-border-color);
+    border-radius: var(--control-radius);
     font: inherit;
-    color: var(--primary-font-color);
-    background-color: var(--fur-control-background);
+    color: var(--color-text);
+    background-color: var(--control-background);
     background-image:
-        linear-gradient(45deg, transparent 50%, var(--primary-font-color) 50%),
-        linear-gradient(135deg, var(--primary-font-color) 50%, transparent 50%);
+        linear-gradient(45deg, transparent 50%, var(--color-text) 50%),
+        linear-gradient(135deg, var(--color-text) 50%, transparent 50%);
     background-position: right 13px center, right 8px center;
     background-size: 5px 5px;
     background-repeat: no-repeat;
@@ -471,12 +465,12 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 }
 
 #fur-editor select:hover {
-    border-color: var(--primary-bg-color);
+    border-color: var(--color-accent);
 }
 
 #fur-editor select option {
-    color: var(--primary-font-color);
-    background-color: rgb(31, 71, 59);
+    color: var(--color-text);
+    background-color: var(--control-option-background);
 }
 
 #fur-editor input[type='range']:not(.vacp-range-input) {
@@ -485,14 +479,14 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     min-width: 0;
     height: 20px;
     margin: 0;
-    accent-color: var(--primary-bg-color);
+    accent-color: var(--color-accent);
     cursor: pointer;
 }
 
 #fur-editor :is(select, input, button):focus-visible {
-    outline: 2px solid var(--primary-bg-color);
-    outline-offset: 3px;
-    border-radius: 6px;
+    outline: var(--focus-width) solid var(--color-accent);
+    outline-offset: var(--focus-offset);
+    border-radius: var(--control-radius);
 }
 
 #fur-editor .thickness-values {
@@ -506,13 +500,13 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
 #fur-editor .thickness-key {
     width: 9px;
     height: 9px;
-    border: 1px solid white;
+    border: var(--control-border-width) solid var(--color-text);
     border-radius: 50%;
-    background: var(--primary-bg-color);
+    background: var(--color-accent);
 }
 
 #fur-editor .tip-key {
-    background: var(--terciary-bg-color);
+    background: var(--color-accent-deep);
     border-radius: 2px;
     transform: rotate(45deg);
 }
@@ -528,10 +522,10 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     inset: 11px 9px;
     border-radius: 6px;
     background: linear-gradient(to right,
-        rgba(255, 255, 255, 0.18) var(--thickness-start),
-        var(--primary-bg-color) var(--thickness-start),
-        var(--primary-bg-color) var(--thickness-end),
-        rgba(255, 255, 255, 0.18) var(--thickness-end));
+        var(--control-track-background) var(--thickness-start),
+        var(--color-accent) var(--thickness-start),
+        var(--color-accent) var(--thickness-end),
+        var(--control-track-background) var(--thickness-end));
 }
 
 #fur-editor .dual-range input {
@@ -569,9 +563,9 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     width: 18px;
     height: 18px;
     margin-top: -6px;
-    border: 2px solid white;
+    border: var(--control-thumb-border-width) solid var(--color-text);
     border-radius: 50%;
-    background: var(--primary-bg-color);
+    background: var(--color-accent);
     pointer-events: auto;
     cursor: ew-resize;
 }
@@ -580,22 +574,22 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     box-sizing: border-box;
     width: 18px;
     height: 18px;
-    border: 2px solid white;
+    border: var(--control-thumb-border-width) solid var(--color-text);
     border-radius: 50%;
-    background: var(--primary-bg-color);
+    background: var(--color-accent);
     pointer-events: auto;
     cursor: ew-resize;
 }
 
 #fur-editor .dual-range .thickness-tip::-webkit-slider-thumb {
     border-radius: 4px;
-    background: var(--terciary-bg-color);
+    background: var(--color-accent-deep);
     transform: rotate(45deg);
 }
 
 #fur-editor .dual-range .thickness-tip::-moz-range-thumb {
     border-radius: 4px;
-    background: var(--terciary-bg-color);
+    background: var(--color-accent-deep);
     transform: rotate(45deg);
 }
 
@@ -604,8 +598,6 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     min-width: 0;
     min-height: 420px;
     overflow: hidden;
-    border: 1px solid var(--fur-control-border);
-    border-radius: 14px;
 }
 
 #fur-editor canvas {
@@ -628,9 +620,9 @@ onBeforeUnmount(() => resizeObserver?.disconnect())
     width: 100%;
     height: 32px;
     padding: 3px;
-    border: 1px solid var(--fur-control-border);
-    border-radius: 8px;
-    background: var(--fur-control-background);
+    border: var(--control-border-width) solid var(--control-border-color);
+    border-radius: var(--control-radius);
+    background: var(--control-background);
     cursor: pointer;
 }
 

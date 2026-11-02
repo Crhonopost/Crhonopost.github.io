@@ -6,7 +6,7 @@ const { t } = useI18n()
 </script>
 <template>
     <div id="apropos">
-        <div class="glass" id="apropos-text">
+        <div class="panel" id="apropos-text">
             <h1>{{ capitalizeFirst(t('titles.about')) }}</h1>
             <p>{{ t('contents.about.profile') }}</p>
             <p>{{ t('contents.about.hobby') }}</p>

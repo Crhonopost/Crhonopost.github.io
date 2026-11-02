@@ -1,0 +1,108 @@
+/* Shared appearance. Layouts and component-specific spacing remain local. */
+.panel {
+    color: var(--color-text);
+    background: var(--panel-background);
+    border: var(--panel-border-width) solid var(--panel-border-color);
+    border-radius: var(--panel-radius);
+    padding: var(--panel-padding);
+    backdrop-filter: blur(var(--panel-blur));
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+}
+
+.panel--inset,
+.panel--frame {
+    border-radius: var(--panel-inset-radius);
+    backdrop-filter: none;
+    -webkit-backdrop-filter: none;
+}
+
+.panel--inset {
+    background: var(--panel-inset-background);
+}
+
+.panel--frame {
+    background: transparent;
+    padding: 0;
+}
+
+.panel[open] {
+    border-color: var(--panel-border-active-color);
+}
+
+.divider {
+    border: 0;
+    border-block-end: var(--divider-width) solid var(--divider-color);
+}
+
+.divider--vertical {
+    border-block-end: 0;
+    border-inline-start: var(--divider-width) solid var(--divider-color);
+}
+
+.button {
+    display: inline-flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.25rem 0.6rem;
+    border: var(--button-border-width) solid var(--button-border-color);
+    border-radius: var(--button-radius);
+    color: var(--color-text);
+    background: var(--button-background);
+    font: inherit;
+    text-decoration: none;
+    cursor: pointer;
+    user-select: none;
+    transition: background-color 0.3s;
+}
+
+.button--round {
+    display: flex;
+    margin: 5px;
+    padding: 10px;
+    border-radius: var(--button-round-radius);
+    backdrop-filter: blur(var(--panel-blur));
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+}
+
+.button--panel {
+    border-radius: var(--panel-radius);
+    backdrop-filter: blur(var(--panel-blur));
+    -webkit-backdrop-filter: blur(var(--panel-blur));
+}
+
+.button.disable {
+    color: var(--color-text-muted);
+    cursor: default;
+}
+
+.button:disabled {
+    opacity: 0.4;
+    cursor: default;
+}
+
+@media (hover: hover) {
+    .button:where(:not(:disabled, .disable)):hover {
+        background: var(--button-hover-background);
+    }
+}
+
+.button:focus-visible,
+summary:focus-visible {
+    outline: var(--focus-width) solid currentColor;
+    outline-offset: var(--focus-offset);
+}
+
+.tag {
+    width: fit-content;
+    height: 25px;
+    padding: 0 4px;
+    border-radius: var(--tag-radius);
+    color: var(--tag-color);
+    background: var(--tag-background);
+    font-size: smaller;
+    align-content: center;
+}
+
+.round {
+    border-radius: var(--media-radius);
+}

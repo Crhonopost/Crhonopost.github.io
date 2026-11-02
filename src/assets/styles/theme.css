@@ -1,0 +1,69 @@
+/* Shared visual settings. Component layouts stay in their .vue files. */
+:root {
+    /* Palette */
+    --color-accent: rgb(144, 198, 124);
+    --color-accent-secondary: rgb(103, 174, 110);
+    --color-accent-deep: rgb(50, 142, 110);
+    --color-text: white;
+    --color-text-muted: grey;
+    --page-background: white;
+    --link-hover-background: hsla(160, 100%, 37%, 0.2);
+
+    /* Main panels: introductions, project pages, cards and navigation. */
+    --panel-background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+    --panel-border-width: 1px;
+    --panel-border-color: rgba(255, 255, 255, 0.2);
+    --panel-border-active-color: rgba(255, 255, 255, 0.45);
+    --panel-radius: 16px;
+    --panel-padding: 20px;
+    --panel-blur: 6.3px;
+    --panel-inset-background: rgba(0, 0, 0, 0.12);
+    --panel-inset-radius: 12px;
+
+    /* Section separators, independent of panel outlines. */
+    --divider-width: 3px;
+    --divider-color: white;
+
+    /* Buttons, including project links and icon buttons. */
+    --button-background: var(--panel-background);
+    --button-hover-background: color-mix(in srgb, var(--color-accent-deep) 16%, transparent);
+    --button-border-width: var(--panel-border-width);
+    --button-border-color: var(--panel-border-color);
+    --button-radius: 6px;
+    --button-round-radius: 30px;
+
+    /* Technology tags and media. */
+    --tag-background: #34553d;
+    --tag-color: #64f58d;
+    --tag-radius: 5px;
+    --media-radius: 5px;
+    --card-image-radius: 15px;
+
+    /* Editor controls. Their geometry and data-driven values stay local. */
+    --control-background: rgba(31, 71, 59, 0.75);
+    --control-option-background: rgb(31, 71, 59);
+    --control-border-width: var(--panel-border-width);
+    --control-border-color: var(--panel-border-color);
+    --control-radius: 8px;
+    --control-track-background: rgba(255, 255, 255, 0.18);
+    --control-thumb-border-width: 2px;
+    --focus-width: 2px;
+    --focus-offset: 3px;
+
+    /* Performance notice. */
+    --notice-background: linear-gradient(135deg, #ff6b6b 0%, #ee5a24 100%);
+    --notice-shadow: 0 8px 32px rgba(255, 107, 107, 0.3);
+    --notice-shadow-emphasis: 0 8px 32px rgba(255, 107, 107, 0.6);
+    --notice-button-background: rgba(255, 255, 255, 0.2);
+    --notice-button-hover-background: rgba(255, 255, 255, 0.3);
+    --notice-dismiss-hover-background: rgba(255, 255, 255, 0.1);
+
+    --font-body: Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto,
+        Oxygen, Ubuntu, Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --page-background: #181818;
+    }
+}

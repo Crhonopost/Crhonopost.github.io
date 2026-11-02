@@ -6,7 +6,7 @@ defineProps<Skill>()
 </script>
 
 <template>
-    <div class="glass skill">
+    <div class="panel skill">
         <img :src="icon" :alt="name" :title="name" class="skill-icon" />
     </div>
 </template>
