@@ -25,7 +25,7 @@ const projects = [
         title: () => capitalizeFirst(t('projects.engine.title')),
         description: () => t('projects.engine.quickDesc'),
         technologies: ['OpenGL', 'C++'],
-        illustration: './projects/gameengine/illu_game.png',
+        illustration: './projects/gameengine/new_editor.png',
     },
     {
         id: 2,

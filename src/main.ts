@@ -106,26 +106,118 @@ const i18n = createI18n({
                         'This project was an opportunity to discover different approaches to modeling (from noise, using particles) as well as rendering (using impostors to visualize particles, ray marching of a volume). I also had the opportunity to experiment with the geometry shader and compute shaders to minimize CPU-GPU communication in order to render particles efficiently. ',
                 },
                 engine: {
-                    title: 'game engine',
-                    quickDesc: 'Developing game engines',
+                    title: 'Galaxy Engine',
+                    quickDesc: 'A personal game engine for exploring 3D rendering and software architecture.',
                     context:
-                        "During the second semester of my first year of master's degree in Imagine at the Faculty of Sciences, I worked on a game engine project. Being passionate about video game creation, it was an excellent experience. Limited by the submission date, there is still much to add.",
-                    learnings:
-                        'My goal was to build a general purpose game engine. Through this project, I implemented an Entity-Component System, PBR rendering, a lightweight editor for debugging, and an early physics system handling collisions (AABB, OBB, spheres, planes, rays, and rigid bodies collision reactions). It was my first large-scale C++ project — a challenging but extremely rewarding experience. ',
-                    img_desc_0: 'Some of the work done on the camera',
-                    img_desc_1: 'Second example of camera',
-                    next_steps:
-                        "The first version taught me enough to start over. The upcoming V2 focuses on a stronger code architecture and takes inspiration from Godot's design, emphasizing inheritance and composition over a pure ECS approach.",
-                    features_list_title: 'Some of the features I want to implement',
-                        features_list: [
-                        'Independent renderer exposing a clear API (done)',
-                        'Better resource and scene serialization management (done)',
-                        'Improved logging and debugging tools (done)',
-                        'Global illumination with light probes',
-                        'Physics rework',
-                        'Scripting support',
-                    ],
+                        'After developing my first game engine as part of a university team, I started Galaxy Engine as an entirely personal project.',
+                    overview_title: 'Overview',
+                    overview_desc:
+                        'I develop Galaxy Engine in my spare time to explore 3D rendering and better understand the architecture of a complex application. Building the scene, resource and rendering systems myself helps me explore their constraints and how they interact. This project has also led me to use tools such as spdlog to monitor the engine’s execution and RenderDoc to inspect graphics operations while debugging.',
+                    overview_render:
+                        'The engine supports {pbr}, {transparency} and {shadows} for spotlights. {culling} excludes objects outside the view frustum before they are submitted for rendering.',
+                    rendering_terms: {
+                        pbr: 'PBR rendering',
+                        transparency: 'transparency',
+                        shadows: 'shadow mapping',
+                        culling: 'frustum culling',
+                    },
+                    editor_alt:
+                        'Galaxy Engine editor showing the scene hierarchy, viewport and transform panel.',
+                    editor_caption:
+                        'The current editor, built with Dear ImGui: scene hierarchy, viewport and object properties.',
+                    architecture_title: 'Engine architecture',
+                    architecture_desc:
+                        'I designed the engine core as a reusable library that can be integrated into different applications. The editor builds on this same foundation, adding the tools needed to manipulate scenes.',
+                    renderer_desc:
+                        'The renderer is divided into two parts: a frontend that prepares rendering operations and a backend responsible for OpenGL calls. This separation isolates the graphics API details and leaves room for experimenting with other APIs, such as Vulkan.',
+                    resources_desc:
+                        'Scenes can be saved and reloaded, and meshes are imported using Assimp. Resources are loaded asynchronously to keep the application responsive: data is loaded in the background and prepared for rendering once it becomes available.',
+                    graph_title: 'Renderer architecture',
+                    renderer_sections: {
+                        previous: 'Original approach',
+                        redesign: 'Redesign',
+                        current: 'Current implementation',
+                    },
+                    capture_comparison: {
+                        title: 'Render pass captures',
+                        description: 'Select two stages to compare captures of the same scene.',
+                        view_a: 'View A',
+                        view_b: 'View B',
+                        displayed_view: 'Displayed view',
+                        missing: 'Capture to be added',
+                        unavailable: 'Capture unavailable',
+                        open_image: 'Open {stage} at full size',
+                        image_alt: '{stage} — Galaxy Engine render pass capture.',
+                        stages: {
+                            shadows: 'Shadow maps',
+                            albedo: 'G-buffer · Albedo',
+                            normals: 'G-buffer · Normals',
+                            materials: 'G-buffer · Materials',
+                            depth: 'Depth',
+                            lighting: 'Lighting',
+                            final: 'Final image',
+                        },
+                    },
+                    renderer_commands_desc:
+                        'Initially, the frontend communicated with the backend through commands such as setUniform or attachTexture. My goal was to abstract OpenGL while leaving room for asynchronous rendering in the future. In practice, these commands largely reproduced OpenGL’s state machine. During debugging, it became difficult to understand the context of each operation and track state changes. By trying to offer fine-grained control, I was ultimately leaving responsibilities to the calling code that the engine could have handled itself.',
+                    renderer_passes_desc:
+                        'I therefore moved away from these commands in favor of render passes that group their shader program, target framebuffer and parameters. The frontend/backend separation remains: the backend still performs the graphics API calls, but organizing them around identifiable passes makes rendering easier to understand and debug.',
+                    renderer_interface_desc:
+                        'This redesign also simplified how the renderer is used. Operations that previously required explicit commands, such as setting the viewport, clearing the framebuffer or binding textures, are now handled automatically by the backend when executing render passes.',
+                    renderer_views_desc:
+                        'Defining a view now only requires a camera with its position, direction and visibility mask. Each object also has a mask and is included when it shares at least one bit with the camera’s mask. This lets me reuse the same rendering pipeline for debug views in the editor, such as visualizing a cubemap without displaying the rest of the scene.',
+                    graph_desc:
+                        'To organize the passes, I implemented a simplified render graph. Each pass declares the textures it consumes and produces. The graph uses these dependencies to determine their execution order.',
+                    graph_goal:
+                        'The frontend remains responsible for certain drawing sequences. For example, to handle transparency, it draws opaque objects before transparent ones while reusing the same shader program and render target. The pipeline is also still defined statically. Eventually, I would like to build it dynamically so that only the required passes are executed, particularly for cinematics or transitions involving specific graphical effects.',
+                    pipeline: {
+                        pbr_title: 'Geometry and materials',
+                        textured_title: 'Textured objects',
+                        shadows_title: 'Shadow maps',
+                        shadows_desc:
+                            'Scene depth rendered from the perspective of shadow-casting spotlights.',
+                        opaque_title: 'Opaque geometry',
+                        opaque_desc:
+                            'Albedo, normals, material parameters and depth written to the G-buffer.',
+                        transparent_title: 'Then transparency',
+                        transparent_desc:
+                            'Alpha blending into the G-buffer, before lighting calculations.',
+                        lighting_title: 'Direct lighting',
+                        lighting_desc:
+                            'PBR lighting calculated using the G-buffer, lights and shadow maps.',
+                        composition_title: 'Skybox composition',
+                        composition_desc:
+                            'Combining the lit image and skybox in the final render target using depth information.',
+                        textures_title: 'Opaque objects',
+                        textures_desc:
+                            'Objects using 2D textures or cubemaps, rendered without PBR lighting into the final target.',
+                        texture_alpha_title: 'Then transparency',
+                        texture_alpha_desc:
+                            'Transparent textured objects blended into the same target.',
+                        extensions_title: 'Possible extensions',
+                        extensions_desc:
+                            'Additional passes could be added, such as antialiasing, ambient occlusion or volumetric rendering. They could be enabled according to the requirements of each view or effect.',
+                        caption:
+                            'Simplified representation of the current rendering pipeline for a single scene view.',
+                        transparency_note:
+                            'PBR transparency remains a limitation of this version: surface attributes are blended into the G-buffer before lighting calculations.',
+                    },
+                    progress_title: 'Global illumination',
+                    progress_desc:
+                        'I am currently working on global illumination. Probes can already capture the scene across the six faces of a cubemap. The next step is to precompute and use this information to produce indirect lighting.',
+                    prototype_title: 'Star Engine',
+                    prototype_desc:
+                        'Before Galaxy Engine, I contributed to Star Engine, a game engine developed as part of a university team. I worked on the ECS, editor, animation and collision systems, while another team member developed the PBR shader. This first project made me realize the importance of clearly separating the responsibilities of different systems, which influenced the design of Galaxy Engine.',
+                    prototype_alt:
+                        'Star Engine, a university group prototype showing a scene and its wireframe collision volumes.',
+                    prototype_caption:
+                        'Star Engine — collision volume visualization from the initial prototype.',
+                    camera_caption_0:
+                        'Star Engine — camera system experiment.',
+                    camera_caption_1:
+                        'Star Engine — another view of the camera system.',
                 },
+
                 games: {
                     title: 'game dev',
                     quickDesc: 'Games and tools built with Godot',
@@ -271,27 +363,119 @@ const i18n = createI18n({
                     volume_desc:
                         "Ce projet a été l'occasion de découvrir différentes approches de modélisation (à partir de bruit, ou à l'aide de particules), ainsi que de rendu (utilisation d'imposteurs pour visualiser les particules, et ray marching de volume). J'ai également pu expérimenter avec le geometry shader et les compute shaders afin de réduire la communication entre le CPU et le GPU, et ainsi rendre les particules de manière plus efficace.",
                 },
+
                 engine: {
-                    title: 'moteur de jeu',
-                    quickDesc: 'Développement de moteurs de jeu',
+                    title: 'Galaxy Engine',
+                    quickDesc: 'Un moteur de jeu personnel pour explorer le rendu 3D et l’architecture logicielle.',
                     context:
-                        "Durant le second semestre de mon master, j'ai eu l'occasion de développer un moteur de jeu. Ayant toujours été passionné par la création de jeux vidéos, ça a été une super expérience. Cependant, en raison de la contrainte de temps imposée par le projet, beaucoup de concessions ont dû être faites.",
-                    learnings:
-                        "Mon objectif était de concevoir un moteur de jeu polyvalent et réutilisable pour différents types de jeux. J'ai donc tenté d'implémenter des composants similaires à ceux que j'avais utilisés dans le moteur Godot, au sein de mon Entity Component System (ECS). En plus de l'ECS, le projet comprenait un rendu basé sur la physique (PBR), un éditeur de scène léger pour faciliter le débogage, ainsi qu'un système de simulation physique et de gestion des collisions simple. Ce fut mon premier grand projet en C++, une expérience très enrichissante.",
-                    img_desc_0: 'Illustration du fonctionnement du système de caméra',
-                    img_desc_1: 'Deuxième exemple de caméra',
-                    next_steps:
-                        "Ma première tentative m'a tellement appris que j'ai dû recommencer de zéro. La prochaine version du moteur de jeu possède une structure de code claire et facilement codable en s'inspirant de temps à autres de l'architecture de Godot. Dans cette version, pas d'ECS mais une approche plus traditionnelle axée autour de l'héritage ainsi que la composition.",
-                    features_list_title: 'Quelques fonctionnalités que je compte implémenter',
-                    features_list: [
-                        'Un renderer indépendant exposant une API (fait)',
-                        "Meilleur système de gestion des ressources ainsi qu'une solution de sauvegarde et de chargement des scenes fonctionnelle (fait)",
-                        'Amélioration des outils de logging et de debug (fait)',
-                        "Illumination globale à l'aide de sondes",
-                        'Nouvelle simulation physique',
-                        'Support des scripts',
-                    ],
+                        'Après un premier moteur développé en équipe à l’université, j’ai lancé Galaxy Engine, un projet entièrement personnel.',
+                    overview_title: 'Présentation',
+                    overview_desc:
+                        'Je développe Galaxy Engine sur mon temps libre pour approfondir le rendu 3D et mieux comprendre l’architecture d’une application complexe. Concevoir moi-même les systèmes de scène, de ressources et de rendu me permet d’explorer leurs contraintes et leurs interactions. Ce projet m’a aussi amené à utiliser des outils comme spdlog pour suivre l’exécution du moteur et RenderDoc pour inspecter les opérations graphiques lors du débogage.',
+                    overview_render:
+                        'Le moteur prend en charge le {pbr}, les {transparency} et les ombres par {shadows} pour les projecteurs. Le {culling} permet d’écarter les objets hors du volume de vue avant leur envoi au rendu.',
+                    rendering_terms: {
+                        pbr: 'rendu PBR',
+                        transparency: 'transparences',
+                        shadows: 'shadow mapping',
+                        culling: 'frustum culling',
+                    },
+                    editor_alt: 'Éditeur Galaxy Engine avec arborescence de scène, viewport et panneau de transformation.',
+                    editor_caption:
+                        'L’éditeur actuel, réalisé avec Dear ImGui : arborescence de scène, viewport et propriétés des objets.',
+                    architecture_title: 'Architecture du moteur',
+                    architecture_desc:
+                        'J’ai conçu le cœur du moteur comme une bibliothèque réutilisable dans différentes applications. L’éditeur repose sur cette même base et y ajoute les outils nécessaires à la manipulation des scènes.',
+                    renderer_desc:
+                        'Le renderer est divisé en deux parties : un frontend qui prépare le rendu et un backend chargé des appels à OpenGL. Cette séparation isole les détails de l’API graphique et me laisse la possibilité d’expérimenter d’autres API, comme Vulkan.',
+                    resources_desc:
+                        'Les scènes peuvent être sauvegardées et rechargées, et les maillages sont importés avec Assimp. Le chargement des ressources est asynchrone afin de préserver la fluidité de l’application : les données sont chargées en arrière-plan, puis préparées pour le rendu lorsqu’elles deviennent disponibles.',
+                    graph_title: 'Architecture du renderer',
+                    renderer_sections: {
+                        previous: 'L’ancienne approche',
+                        redesign: 'La refonte',
+                        current: 'Le fonctionnement actuel',
+                    },
+                    capture_comparison: {
+                        title: 'Captures des passes',
+                        description: 'Sélectionnez deux étapes pour comparer les captures d’une même scène.',
+                        view_a: 'Vue A',
+                        view_b: 'Vue B',
+                        displayed_view: 'Vue affichée',
+                        missing: 'Capture à ajouter',
+                        unavailable: 'Capture indisponible',
+                        open_image: 'Ouvrir {stage} en taille réelle',
+                        image_alt: '{stage} — capture d’une passe de rendu de Galaxy Engine.',
+                        stages: {
+                            shadows: 'Shadow maps',
+                            albedo: 'G-buffer · Albédo',
+                            normals: 'G-buffer · Normales',
+                            materials: 'G-buffer · Matériaux',
+                            depth: 'Profondeur',
+                            lighting: 'Éclairage',
+                            final: 'Image finale',
+                        },
+                    },
+                    renderer_commands_desc:
+                        'Initialement, le frontend communiquait avec le backend au moyen de commandes comme setUniform ou attachTexture. Je cherchais à abstraire OpenGL tout en préparant la possibilité d’exécuter le rendu de manière asynchrone. En pratique, ces commandes reproduisaient surtout la machine à états d’OpenGL. Lors du débogage, il devenait difficile de retrouver le contexte de chaque opération et de suivre les changements d’état. En voulant offrir un contrôle très fin, je reportais finalement sur le code appelant des responsabilités que le moteur aurait pu prendre en charge.',
+                    renderer_passes_desc:
+                        'J’ai donc abandonné ces commandes au profit de passes de rendu regroupant leur programme graphique, leur framebuffer cible et leurs paramètres. La séparation frontend/backend est conservée : le backend effectue toujours les appels à l’API graphique, mais leur organisation autour de passes identifiables rend le rendu plus facile à comprendre et à déboguer.',
+                    renderer_interface_desc:
+                        'Cette refonte a aussi simplifié l’utilisation du renderer. Des opérations auparavant explicites, comme la configuration du viewport, l’effacement du framebuffer ou la liaison des textures, sont désormais prises en charge automatiquement par le backend lors de l’exécution des passes.',
+                    renderer_views_desc:
+                        'Pour définir une vue, il suffit de fournir une caméra avec sa position, sa direction et son masque de visibilité. Chaque objet possède également un masque : il est pris en compte lorsque celui-ci partage au moins un bit avec celui de la caméra. Je peux ainsi utiliser le même pipeline pour afficher une vue de débogage dans l’éditeur, par exemple pour visualiser une cubemap, sans afficher le reste de la scène.',
+                    graph_desc:
+                        'Pour organiser les passes, j’ai mis en place un graphe de rendu simplifié. Chaque passe déclare les textures qu’elle utilise et celles qu’elle produit. Le graphe exploite ces dépendances pour déterminer leur ordre d’exécution.',
+                    graph_goal:
+                        'Le frontend conserve la responsabilité de certaines séquences de dessin. Par exemple, pour gérer la transparence, il dessine les objets opaques avant les objets transparents en réutilisant le même programme graphique et la même cible de rendu. Le pipeline reste également défini de manière statique. À terme, j’aimerais pouvoir le construire dynamiquement pour n’exécuter que les passes nécessaires, notamment lors de cinématiques ou de transitions utilisant des effets graphiques spécifiques.',
+                    pipeline: {
+                        pbr_title: 'Géométrie et matériaux',
+                        textured_title: 'Objets texturés',
+                        shadows_title: 'Shadow maps',
+                        shadows_desc:
+                            'Profondeur de la scène depuis les projecteurs qui produisent des ombres.',
+                        opaque_title: 'Géométrie opaque',
+                        opaque_desc:
+                            'Albédo, normales, paramètres des matériaux et profondeur écrits dans le G-buffer.',
+                        transparent_title: 'Puis les transparences',
+                        transparent_desc:
+                            'Alpha blending dans le G-buffer, avant le calcul de l’éclairage.',
+                        lighting_title: 'Éclairage direct',
+                        lighting_desc:
+                            'Calcul de l’éclairage PBR à partir du G-buffer, des lumières et des shadow maps.',
+                        composition_title: 'Composition avec la skybox',
+                        composition_desc:
+                            'Combinaison de l’image éclairée et de la skybox dans la cible finale, à partir des informations de profondeur.',
+                        textures_title: 'Objets opaques',
+                        textures_desc:
+                            'Objets utilisant des textures 2D ou des cubemaps, dessinés sans éclairage PBR dans la cible finale.',
+                        texture_alpha_title: 'Puis les transparences',
+                        texture_alpha_desc:
+                            'Objets texturés transparents mélangés dans cette même cible.',
+                        extensions_title: 'Extensions possibles',
+                        extensions_desc:
+                            'D’autres passes pourraient être ajoutées : antialiasing, occlusion ambiante, rendu volumétrique… Elles pourraient être activées selon les besoins de chaque vue ou effet.',
+                        caption:
+                            'Représentation simplifiée du pipeline actuel pour une vue de la scène.',
+                        transparency_note:
+                            'Le traitement des transparences PBR reste une limite de cette version : leurs attributs sont mélangés dans le G-buffer avant le calcul de l’éclairage.',
+                    },
+                    progress_title: 'Illumination globale',
+                    progress_desc:
+                        'Je travaille actuellement sur l’illumination globale. Les sondes peuvent déjà capturer la scène sur les six faces d’une cubemap. La prochaine étape consiste à précalculer et exploiter ces informations pour produire un éclairage indirect.',
+                    prototype_title: 'Star Engine',
+                    prototype_desc:
+                        'Avant Galaxy Engine, j’ai participé au développement de Star Engine, un moteur réalisé en groupe à l’université. J’ai notamment travaillé sur l’ECS, l’éditeur, les animations et les collisions, tandis qu’un autre membre de l’équipe développait le shader PBR. Ce premier projet m’a fait prendre conscience de l’importance de bien séparer les responsabilités des différents systèmes, ce qui a guidé la conception de Galaxy Engine.',
+                    prototype_alt:
+                        'Star Engine, prototype universitaire réalisé en groupe, montrant une scène et ses volumes de collision en fil de fer.',
+                    prototype_caption:
+                        'Star Engine — visualisation des volumes de collision du premier prototype.',
+                    camera_caption_0:
+                        'Star Engine — expérimentation sur le système de caméra.',
+                    camera_caption_1:
+                        'Star Engine — autre vue du système de caméra.',
                 },
+
                 games: {
                     title: 'jeux',
                     quickDesc: 'Jeux et outils développés avec Godot',
