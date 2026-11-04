@@ -10,13 +10,14 @@ import {
 } from '@/util/FurRendering'
 import { ShapeEnum, type FurProperties, type FurRender } from '@/types'
 import { getRay } from '@/util/GodRay'
+import { startVisibleAnimationLoop } from '@/util/visibleAnimationLoop'
 
 export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | null>>) {
     let scene: THREE.Scene | undefined
     let camera: THREE.PerspectiveCamera | undefined
     let renderer: THREE.WebGLRenderer | undefined
     const delta = ref(0)
-    let lastTime = performance.now()
+    let stopAnimation: (() => void) | undefined
 
     const furs: FurRender[] = []
     const grassRef = ref<FurProperties>(baseProps())
@@ -36,9 +37,8 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         return from + diff * t
     }
 
-    function animate() {
-        delta.value = (performance.now() - lastTime) / 1000
-        lastTime = performance.now()
+    function animate(frameDelta: number) {
+        delta.value = frameDelta
 
         grassRef.value.uvOffset.y += currentSpeed.y * delta.value
         if (grassRef.value.uvOffset.y < 0) grassRef.value.uvOffset.y += 1
@@ -66,7 +66,7 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         renderer = new THREE.WebGLRenderer({ canvas: canva, context })
         renderer.setSize(canva.width, canva.height)
 
-        renderer.setAnimationLoop(animate)
+        stopAnimation = startVisibleAnimationLoop(renderer, animate)
 
         renderer.setClearColor(new THREE.Color(31 / 255, 71 / 255, 59 / 255)) //0.196, 0.557, 0.431))
 
@@ -102,8 +102,10 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         loadTexture(furRender, leopardColor, 'colorTexture')
     }
 
-    function clearScene(){
-        scene?.clear()
+    function dispose() {
+        stopAnimation?.()
+        stopAnimation = undefined
+        renderer?.dispose()
     }
 
     function moved(delta: number, direction: THREE.Vector2) {
@@ -120,5 +122,5 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         renderer?.setSize(width, height)
     }
 
-    return { canva, delta, camera, movePlaine, initRender, initScene, clearScene, resize }
+    return { canva, delta, camera, movePlaine, initRender, initScene, dispose, resize }
 }

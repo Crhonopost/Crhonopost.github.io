@@ -21,6 +21,7 @@ import { ShapeEnum, type FurProperties, type FurRender } from '@/types'
 
 import { useI18n } from 'vue-i18n'
 import { capitalizeFirst } from '@/util/util'
+import { startVisibleAnimationLoop } from '@/util/visibleAnimationLoop'
 const { t } = useI18n()
 
 const canva = useTemplateRef('viewport')
@@ -47,7 +48,7 @@ let scene: THREE.Scene | undefined
 let camera: THREE.PerspectiveCamera | undefined
 let renderer: THREE.WebGLRenderer | undefined
 const delta = ref(0)
-let lastTime = performance.now()
+let stopAnimation: (() => void) | undefined
 
 const rotation = ref({ x: 0, y: 0, z: 0 })
 
@@ -169,9 +170,8 @@ function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
     furPropertiesRef.value.thicknessBot = 1
     furPropertiesRef.value.scale = 245
 
-    function animate() {
-        delta.value = (performance.now() - lastTime) / 1000
-        lastTime = performance.now()
+    function animate(frameDelta: number) {
+        delta.value = frameDelta
 
         if (furRender && furPropertiesRef) {
             lerpedDiff.value = furRender.furPhysic.update(delta.value, rotationDiff.value)
@@ -182,7 +182,7 @@ function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
         }
         if (scene && camera) renderer?.render(scene, camera)
     }
-    renderer.setAnimationLoop(animate)
+    stopAnimation = startVisibleAnimationLoop(renderer, animate)
     updateObjRotation()
 }
 
@@ -242,7 +242,11 @@ onMounted(() => {
     }
 })
 
-onBeforeUnmount(() => resizeObserver?.disconnect())
+onBeforeUnmount(() => {
+    resizeObserver?.disconnect()
+    stopAnimation?.()
+    renderer?.dispose()
+})
 
 </script>
 

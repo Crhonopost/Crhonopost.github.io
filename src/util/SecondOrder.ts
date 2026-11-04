@@ -20,20 +20,27 @@ export class SecondOrderDynamics {
         this.k2 = 1 / (twoPIf * twoPIf)
         this.k3 = (r * z) / twoPIf
 
-        this.xp = x0
-        this.y = x0
+        this.xp = x0.clone()
+        this.y = x0.clone()
         this.yd = new THREE.Vector2(0, 0)
     }
 
     update(t: number, x: THREE.Vector2, xd?: THREE.Vector2): THREE.Vector2 {
+        if (!Number.isFinite(t) || t <= 0) return this.y
+
         if (!xd) {
             xd = divS(sub(x, this.xp), t)
-            this.xp = x
+            this.xp = x.clone()
         }
-        this.y = add(this.y, timesS(this.yd, t))
 
-        const bracket = sub(sub(add(timesS(xd, this.k3), x), this.y), timesS(this.yd, this.k1))
-        this.yd = add(divS(timesS(bracket, t), this.k2), this.yd)
+        // Integrate long visible frames in small steps to keep the spring stable.
+        const steps = Math.ceil(t / (1 / 60))
+        const step = t / steps
+        for (let i = 0; i < steps; i++) {
+            this.y = add(this.y, timesS(this.yd, step))
+            const bracket = sub(sub(add(timesS(xd, this.k3), x), this.y), timesS(this.yd, this.k1))
+            this.yd = add(divS(timesS(bracket, step), this.k2), this.yd)
+        }
 
         if (Number.isNaN(this.yd.x) || Number.isNaN(this.yd.y)) this.yd = new THREE.Vector2(0, 0)
         return this.y

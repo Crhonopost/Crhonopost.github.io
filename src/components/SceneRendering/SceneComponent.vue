@@ -1,23 +1,20 @@
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { onBeforeUnmount, onMounted, ref } from 'vue'
 import { initComponent } from './script'
 
 const canva = ref<HTMLCanvasElement | null>(null)
 
-const { movePlaine, initRender, initScene, clearScene, resize } = initComponent(canva)
+const { movePlaine, initRender, initScene, dispose, resize } = initComponent(canva)
 
-function optimize(){
-    clearScene()
-    initScene(15, 0.7)
+function resizeViewport() {
+    if (canva.value) {
+        canva.value.width = window.innerWidth
+        canva.value.height = window.innerHeight
+        resize(window.innerWidth, window.innerHeight)
+    }
 }
 onMounted(() => {
-    window.addEventListener('resize', () => {
-        if (canva.value) {
-            canva.value.width = window.innerWidth
-            canva.value.height = window.innerHeight
-            resize(window.innerWidth, window.innerHeight)
-        }
-    })
+    window.addEventListener('resize', resizeViewport)
 
     if (canva.value instanceof HTMLCanvasElement) {
         canva.value.width = window.innerWidth
@@ -36,9 +33,13 @@ onMounted(() => {
     }
 })
 
+onBeforeUnmount(() => {
+    window.removeEventListener('resize', resizeViewport)
+    dispose()
+})
+
 defineExpose({
     movePlaine,
-    optimize
 })
 </script>
 <template>
