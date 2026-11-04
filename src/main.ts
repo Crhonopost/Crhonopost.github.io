@@ -260,12 +260,6 @@ const i18n = createI18n({
                     segmentation_after: 'Image after segmentation using {algorithm}',
                 }
             },
-            performances: {
-                title: 'Performance issues (avg: {fps} FPS)',
-                optimize: 'optimize',
-                proposition: 'Switch to performance mode?',
-                note: 'Some browsers may provide better performance.'
-            }
         },
         fr: {
             navigation: {
@@ -517,12 +511,6 @@ const i18n = createI18n({
                     segmentation_after: 'Image après segmentation avec {algorithm}',
                 },
             },
-            performances: {
-                title: 'Problèmes de performances (moy: {fps} FPS)',
-                optimize: 'optimiser',
-                proposition: 'Passer en mode performance?',
-                note: "D'autres navigateurs peuvent obtenir de meilleurs performances."
-            }
         },
     },
 })

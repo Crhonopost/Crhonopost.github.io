@@ -13,7 +13,6 @@ import { nextTick, onMounted, onUnmounted, ref } from 'vue'
 import ProjectGames from './components/Projects/ProjectGames.vue'
 import ExperiencesComponent from './components/ExperiencesComponent.vue'
 import ProjectWeb from './components/Projects/ProjectWeb.vue'
-import PerformancePopup from './components/PerformancePopup.vue'
 import ProjectSegmentation from './components/Projects/ProjectSegmentation.vue'
 
 
@@ -121,7 +120,6 @@ onUnmounted(() => window.removeEventListener('popstate', restoreLocation))
         </header>
 
         <main>
-            <PerformancePopup @lower-resolution="sceneComponentRef?.optimize"/>
             <SceneComponent ref="sceneComponentRef" />
             <DepthScroll :active-index="currentSlide" id="depth">
                 <Apropos class="item" />
