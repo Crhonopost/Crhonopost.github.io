@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n'
 import { capitalizeFirst } from '@/util/util'
 import QuickLinks from './QuickLinks.vue';
 import LangSelection from './LangSelection.vue';
+import PrivacyNotice from './PrivacyNotice.vue'
 const movedSignal = defineEmits<{
     (e: 'moved', idx: number): void
 }>()
@@ -99,6 +100,7 @@ onUnmounted(() => {
         </nav>
 
         <LangSelection v-if="isMobile" />
+        <PrivacyNotice />
     </div>
 </template>
 
@@ -167,8 +169,9 @@ onUnmounted(() => {
         width: 100%;
         display: flex;
         flex-direction: row;
+        flex-wrap: wrap;
         align-items: end;
-        padding: 10px;
+        padding: 10px 10px max(10px, env(safe-area-inset-bottom));
     }
 
     #progress {
