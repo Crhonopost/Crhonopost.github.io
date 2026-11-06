@@ -15,6 +15,7 @@ const componentSignals = defineEmits<{
 const projects = [
     {
         id: 0,
+        analyticsId: 'shell-texturing',
         title: () => 'Shell texturing',
         description: () => t('projects.shell.quickDesc'),
         technologies: ['WebGL', 'Typescript', 'Three.js'],
@@ -22,6 +23,7 @@ const projects = [
     },
     {
         id: 1,
+        analyticsId: 'galaxy-engine',
         title: () => capitalizeFirst(t('projects.engine.title')),
         description: () => t('projects.engine.quickDesc'),
         technologies: ['OpenGL', 'C++'],
@@ -29,6 +31,7 @@ const projects = [
     },
     {
         id: 2,
+        analyticsId: 'rendering',
         title: () => capitalizeFirst(t('projects.rendering.title')),
         description: () => t('projects.rendering.quickDesc'),
         technologies: ['OpenGL', 'C++'],
@@ -36,6 +39,7 @@ const projects = [
     },
     {
         id: 5,
+        analyticsId: 'segmentation',
         title: () => capitalizeFirst(t('projects.segmentation.title')),
         description: () => t('projects.segmentation.quickDesc'),
         technologies: ['C++', 'ImGUI'],
@@ -43,6 +47,7 @@ const projects = [
     },
     {
         id: 3,
+        analyticsId: 'games',
         title: () => capitalizeFirst(t('projects.games.title')),
         description: () => t('projects.games.quickDesc'),
         technologies: ['Godot', 'Gdscript', 'C#'],
@@ -50,6 +55,7 @@ const projects = [
     },
     {
         id: 4,
+        analyticsId: 'web',
         title: () => capitalizeFirst(t('projects.web.title')),
         description: () => t('projects.web.quickDesc'),
         technologies: ['Vue.js', 'Node.js', 'PHP', 'SQL'],
@@ -77,6 +83,8 @@ const projects = [
                     :description="project.description()"
                     :technologies="project.technologies"
                     :illustration="project.illustration"
+                    data-umami-event="project-open"
+                    :data-umami-event-project="project.analyticsId"
                     @click="componentSignals('projectClicked', project.id)"
                 />
             </div>

@@ -42,7 +42,9 @@ defineProps<{
                         <span class="project-meta-label">{{ capitalizeFirst(t('titles.links')) }}</span>
                         <ul class="project-links">
                             <li v-for="link in links" :key="link.url">
-                                <a class="button" :href="link.url">{{ link.name }}</a>
+                                <a class="button" :href="link.url"
+                                    data-umami-event="project-link-click"
+                                    :data-umami-event-destination="link.url">{{ link.name }}</a>
                             </li>
                         </ul>
                     </nav>
