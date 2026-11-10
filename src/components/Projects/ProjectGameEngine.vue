@@ -48,12 +48,10 @@ const { t } = useI18n()
                 <section class="renderer-part">
                     <h3>{{ t('projects.engine.renderer_sections.previous') }}</h3>
                     <p>{{ t('projects.engine.renderer_commands_desc') }}</p>
-                    <EngineCommandQueue />
                 </section>
                 <section class="renderer-part">
                     <h3>{{ t('projects.engine.renderer_sections.redesign') }}</h3>
-                    <p>{{ t('projects.engine.renderer_passes_desc') }}</p>
-                    <p>{{ t('projects.engine.graph_desc') }}</p>
+                    <p>{{ t('projects.engine.renderer_passes_desc') + t('projects.engine.graph_desc') }}</p>
                     <EngineRenderGraph />
                 </section>
                 <section class="renderer-part">

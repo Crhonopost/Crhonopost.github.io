@@ -112,7 +112,7 @@ const i18n = createI18n({
                         'After developing my first game engine as part of a university team, I started Galaxy Engine as an entirely personal project.',
                     overview_title: 'Overview',
                     overview_desc:
-                        'I develop Galaxy Engine in my spare time to explore 3D rendering and better understand the architecture of a complex application. Building the scene, resource and rendering systems myself helps me explore their constraints and how they interact. This project has also led me to use tools such as spdlog to monitor the engine’s execution and RenderDoc to inspect graphics operations while debugging.',
+                        'I develop Galaxy Engine in my spare time to explore 3D rendering and better understand the architecture of a complex application. Building the scene, resource and rendering systems myself helps me explore their constraints and how they interact.',
                     overview_render:
                         'The engine supports {pbr}, {transparency} and {shadows} for spotlights. {culling} excludes objects outside the view frustum before they are submitted for rendering.',
                     rendering_terms: {
@@ -157,7 +157,7 @@ const i18n = createI18n({
                         },
                     },
                     renderer_commands_desc:
-                        'The frontend initially sent elementary commands to the backend to abstract OpenGL and prepare for asynchronous rendering. This queue largely reproduced OpenGL’s state machine, with rendering context scattered across commands.',
+                        'Initially, the frontend sent commands such as setUniform or attachTexture to the backend. This approach was intended to abstract OpenGL and eventually enable asynchronous rendering. In practice, however, it mostly replicated OpenGL\'s state machine: commands were difficult to place in context during debugging, and the calling code had to manage too many low-level graphics details.',
                     renderer_passes_desc:
                         'Render passes now describe their shader program, target framebuffer and resource accesses. The backend still performs the OpenGL calls, with an identifiable rendering context for each pass.',
                     command_diagram: {
@@ -440,7 +440,7 @@ const i18n = createI18n({
                         'Après un premier moteur développé en équipe à l’université, j’ai lancé Galaxy Engine, un projet entièrement personnel.',
                     overview_title: 'Présentation',
                     overview_desc:
-                        'Je développe Galaxy Engine sur mon temps libre pour approfondir le rendu 3D et mieux comprendre l’architecture d’une application complexe. Concevoir moi-même les systèmes de scène, de ressources et de rendu me permet d’explorer leurs contraintes et leurs interactions. Ce projet m’a aussi amené à utiliser des outils comme spdlog pour suivre l’exécution du moteur et RenderDoc pour inspecter les opérations graphiques lors du débogage.',
+                        'Je développe Galaxy Engine sur mon temps libre pour approfondir le rendu 3D et mieux comprendre l’architecture d’une application complexe. Concevoir moi-même les systèmes de scène, de ressources et de rendu me permet d’explorer leurs contraintes et leurs interactions.',
                     overview_render:
                         'Le moteur prend en charge le {pbr}, les {transparency} et les ombres par {shadows} pour les projecteurs. Le {culling} permet d’écarter les objets hors du volume de vue avant leur envoi au rendu.',
                     rendering_terms: {
@@ -484,7 +484,7 @@ const i18n = createI18n({
                         },
                     },
                     renderer_commands_desc:
-                        'Le frontend envoyait initialement des commandes élémentaires au backend pour abstraire OpenGL et préparer un rendu asynchrone. Cette file reproduisait surtout sa machine à états, avec un contexte de rendu dispersé entre les commandes.',
+                        'Initialement, le frontend transmettait au backend des commandes comme setUniform ou attachTexture. Cette approche devait abstraire OpenGL et permettre, à terme, une exécution asynchrone du rendu. En pratique, elle reproduisait surtout la machine à états d\'OpenGL : les commandes étaient difficiles à replacer dans leur contexte lors du débogage, et le code appelant devait gérer trop de détails graphiques.',
                     renderer_passes_desc:
                         'Les passes décrivent désormais leur programme graphique, leur framebuffer cible et leurs accès aux ressources. Le backend conserve les appels OpenGL, cependant, il interprète une exécution du graphe de rendu ce qui simplifie la gestion de l\'état du rendu et facilite le débogage.',
                     command_diagram: {
