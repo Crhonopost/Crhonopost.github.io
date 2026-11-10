@@ -16,11 +16,11 @@ export interface EnginePassCapture {
 // with their public URL, e.g. '/projects/gameengine/passes/shadow-maps.png'.
 // Keep null until the corresponding capture is available.
 export const enginePassCaptures: EnginePassCapture[] = [
-    { key: 'shadows', src: null },
-    { key: 'albedo', src: null },
-    { key: 'normals', src: null },
-    { key: 'materials', src: null },
-    { key: 'depth', src: null },
-    { key: 'lighting', src: null },
-    { key: 'final', src: null },
+    { key: 'shadows', src: "projects/gameengine/passes/shadow.png" },
+    { key: 'albedo', src: "projects/gameengine/passes/albedo.png" },
+    { key: 'normals', src: "projects/gameengine/passes/normal.png" },
+    { key: 'materials', src: "projects/gameengine/passes/material.png" },
+    { key: 'depth', src: "projects/gameengine/passes/depth.png" },
+    { key: 'lighting', src: "projects/gameengine/passes/lighting.png" },
+    { key: 'final', src: "projects/gameengine/passes/final.png" },
 ]
