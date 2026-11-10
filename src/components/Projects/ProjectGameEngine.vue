@@ -3,6 +3,8 @@ import { useI18n } from 'vue-i18n'
 import ProjectSummary from './ProjectSummary.vue'
 import EngineRenderPipeline from './EngineRenderPipeline.vue'
 import EnginePassComparison from './EnginePassComparison.vue'
+import EngineCommandQueue from './EngineCommandQueue.vue'
+import EngineRenderGraph from './EngineRenderGraph.vue'
 
 const { t } = useI18n()
 </script>
@@ -43,21 +45,19 @@ const { t } = useI18n()
 
             <section class="engine-section engine-rendering">
                 <h2>{{ t('projects.engine.graph_title') }}</h2>
-                <section class="renderer-part divider divider--vertical">
+                <section class="renderer-part">
                     <h3>{{ t('projects.engine.renderer_sections.previous') }}</h3>
                     <p>{{ t('projects.engine.renderer_commands_desc') }}</p>
+                    <EngineCommandQueue />
                 </section>
-                <section class="renderer-part divider divider--vertical">
+                <section class="renderer-part">
                     <h3>{{ t('projects.engine.renderer_sections.redesign') }}</h3>
                     <p>{{ t('projects.engine.renderer_passes_desc') }}</p>
-                    <div class="renderer-benefits">
-                        <p>{{ t('projects.engine.renderer_interface_desc') }}</p>
-                        <p>{{ t('projects.engine.renderer_views_desc') }}</p>
-                    </div>
-                </section>
-                <section class="renderer-part divider divider--vertical">
-                    <h3>{{ t('projects.engine.renderer_sections.current') }}</h3>
                     <p>{{ t('projects.engine.graph_desc') }}</p>
+                    <EngineRenderGraph />
+                </section>
+                <section class="renderer-part">
+                    <h3>{{ t('projects.engine.renderer_sections.current') }}</h3>
                     <EngineRenderPipeline />
                     <EnginePassComparison />
                     <p>{{ t('projects.engine.graph_goal') }}</p>
@@ -121,12 +121,6 @@ const { t } = useI18n()
 
 .engine-rendering .renderer-part > h3 {
     margin-top: 0;
-}
-
-.renderer-benefits {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 1rem 1.5rem;
 }
 
 .engine-introduction {
@@ -244,10 +238,6 @@ const { t } = useI18n()
 @media (max-width: 700px) {
     .renderer-part {
         padding-left: 0.8rem;
-    }
-
-    .renderer-benefits {
-        grid-template-columns: minmax(0, 1fr);
     }
 
     .engine-gallery {

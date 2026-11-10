@@ -5,10 +5,13 @@ import { enginePassCaptures, type EnginePassCapture, type EnginePassCaptureKey }
 
 const { t } = useI18n()
 const comparisonId = useId()
-const selected = ref<[EnginePassCaptureKey, EnginePassCaptureKey]>(['lighting', 'final'])
+const selected = ref<[EnginePassCaptureKey]>(['lighting'])
 const mobileView = ref(0)
 const failedSources = reactive(new Set<string>())
-const views = computed(() => selected.value.map(key => enginePassCaptures.find(capture => capture.key === key)!))
+const views = computed(
+    () => selected.value.map(
+        key => enginePassCaptures.find(
+            capture => capture.key === key)!))
 
 function markFailed(capture: EnginePassCapture) {
     if (capture.src) failedSources.add(capture.src)
@@ -19,21 +22,7 @@ function markFailed(capture: EnginePassCapture) {
     <div class="pass-comparison" role="group" :aria-labelledby="`${comparisonId}-title`">
         <div class="comparison-heading">
             <h4 :id="`${comparisonId}-title`">{{ t('projects.engine.capture_comparison.title') }}</h4>
-            <p>{{ t('projects.engine.capture_comparison.description') }}</p>
-        </div>
-
-        <div class="comparison-switcher" role="group" :aria-label="t('projects.engine.capture_comparison.displayed_view')">
-            <button
-                v-for="(_, index) in views"
-                :key="index"
-                type="button"
-                class="button"
-                :aria-pressed="mobileView === index"
-                :aria-controls="`${comparisonId}-view-${index}`"
-                @click="mobileView = index"
-            >
-                {{ t(`projects.engine.capture_comparison.${index === 0 ? 'view_a' : 'view_b'}`) }}
-            </button>
+            <!-- <p>{{ t('projects.engine.capture_comparison.description') }}</p> -->
         </div>
 
         <div class="comparison-views">
@@ -44,9 +33,6 @@ function markFailed(capture: EnginePassCapture) {
                 class="comparison-pane"
                 :class="{ 'is-active': mobileView === index }"
             >
-                <label :for="`${comparisonId}-select-${index}`">
-                    {{ t(`projects.engine.capture_comparison.${index === 0 ? 'view_a' : 'view_b'}`) }}
-                </label>
                 <select :id="`${comparisonId}-select-${index}`" v-model="selected[index]" class="comparison-select">
                     <option v-for="option in enginePassCaptures" :key="option.key" :value="option.key">
                         {{ t(`projects.engine.capture_comparison.stages.${option.key}`) }}
