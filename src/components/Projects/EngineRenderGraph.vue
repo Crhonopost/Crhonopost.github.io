@@ -163,7 +163,7 @@ const graphId = useId()
     padding: 0.75rem;
     border: var(--panel-border-width) solid var(--graph-accent);
     border-radius: 6px;
-    background: color-mix(in srgb, var(--color-accent) 6%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 6%, var(--panel-inset-background));
     font-size: 0.85rem;
     overflow-wrap: anywhere;
 }

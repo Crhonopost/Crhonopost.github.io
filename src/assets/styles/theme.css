@@ -10,14 +10,15 @@
     --link-hover-background: hsla(160, 100%, 37%, 0.2);
 
     /* Main panels: introductions, project pages, cards and navigation. */
-    --panel-background: color-mix(in srgb, var(--color-accent) 16%, transparent);
+    --panel-background: rgb(25 43 35 / 92%);
+    --panel-solid-background: rgb(25 43 35);
     --panel-border-width: 1px;
     --panel-border-color: rgba(255, 255, 255, 0.2);
     --panel-border-active-color: rgba(255, 255, 255, 0.45);
     --panel-radius: 16px;
     --panel-padding: 20px;
     --panel-blur: 6.3px;
-    --panel-inset-background: rgba(0, 0, 0, 0.12);
+    --panel-inset-background: rgb(18 34 28);
     --panel-inset-radius: 12px;
 
     /* Section separators, independent of panel outlines. */
@@ -26,7 +27,7 @@
 
     /* Buttons, including project links and icon buttons. */
     --button-background: var(--panel-background);
-    --button-hover-background: color-mix(in srgb, var(--color-accent-deep) 16%, transparent);
+    --button-hover-background: rgb(32 61 47 / 96%);
     --button-border-width: var(--panel-border-width);
     --button-border-color: var(--panel-border-color);
     --button-radius: 6px;

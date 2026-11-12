@@ -152,7 +152,7 @@ const edges = [
 }
 
 .legend-pass {
-    background: color-mix(in srgb, var(--color-accent) 8%, transparent);
+    background: color-mix(in srgb, var(--color-accent) 8%, var(--panel-inset-background));
 }
 
 .legend-resource {
@@ -184,13 +184,13 @@ const edges = [
 }
 
 .graph-lane {
-    fill: transparent;
+    fill: var(--panel-inset-background);
     stroke: var(--panel-border-color);
     vector-effect: non-scaling-stroke;
 }
 
 .graph-lane--preparation {
-    fill: color-mix(in srgb, var(--color-accent) 3%, transparent);
+    fill: color-mix(in srgb, var(--color-accent) 3%, var(--panel-inset-background));
     stroke-dasharray: 6 5;
 }
 

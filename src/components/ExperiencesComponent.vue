@@ -41,7 +41,7 @@ function contributionsFor(job: string) {
 <template>
     <ScrollSlide
         id="experiences"
-        class="panel"
+        class="panel panel--solid"
         orientation="vertical"
         aria-labelledby="background-title"
         @navigate-back="componentSignals('navigateBack')"

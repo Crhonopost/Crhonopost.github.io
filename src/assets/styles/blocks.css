@@ -1,19 +1,20 @@
 /* Shared appearance. Layouts and component-specific spacing remain local. */
 .panel {
     color: var(--color-text);
+    /* Set transparency on the background, never on the panel and its children. */
     background: var(--panel-background);
     border: var(--panel-border-width) solid var(--panel-border-color);
     border-radius: var(--panel-radius);
     padding: var(--panel-padding);
-    backdrop-filter: blur(var(--panel-blur));
-    -webkit-backdrop-filter: blur(var(--panel-blur));
+}
+
+.panel--solid {
+    background: var(--panel-solid-background);
 }
 
 .panel--inset,
 .panel--frame {
     border-radius: var(--panel-inset-radius);
-    backdrop-filter: none;
-    -webkit-backdrop-filter: none;
 }
 
 .panel--inset {
@@ -60,14 +61,10 @@
     margin: 5px;
     padding: 10px;
     border-radius: var(--button-round-radius);
-    backdrop-filter: blur(var(--panel-blur));
-    -webkit-backdrop-filter: blur(var(--panel-blur));
 }
 
 .button--panel {
     border-radius: var(--panel-radius);
-    backdrop-filter: blur(var(--panel-blur));
-    -webkit-backdrop-filter: blur(var(--panel-blur));
 }
 
 .button.disable {

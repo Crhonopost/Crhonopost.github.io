@@ -5,7 +5,7 @@ import { enginePassCaptures, type EnginePassCapture, type EnginePassCaptureKey }
 
 const { t } = useI18n()
 const comparisonId = useId()
-const selected = ref<[EnginePassCaptureKey]>(['lighting'])
+const selected = ref<[EnginePassCaptureKey]>(['final'])
 const mobileView = ref(0)
 const failedSources = reactive(new Set<string>())
 const views = computed(

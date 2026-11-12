@@ -11,7 +11,7 @@ export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | nul
         iMouse: { value: new THREE.Vector4() },
         uSmoothing: { value: 0.1 },
         uDepthLayerCount: { value: 3.0 },
-        uThreshold: { value: 0.5 },
+        uThreshold: { value: 1.5 },
         uMaxDistance: { value: 1000 },
         uOrbit: { value: 700 },
         uFov: { value: 60 },
