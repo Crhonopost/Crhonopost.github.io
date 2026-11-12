@@ -25,7 +25,7 @@ struct Sphere {
 };
 
 #define SPHERE_COUNT 20
-#define MAX_STEPS 100
+#define MAX_STEPS 28
 
 Sphere spheres[SPHERE_COUNT] = Sphere[](
     Sphere(vec3(   0.0,   0.0,   0.0), 35.0),
@@ -167,8 +167,7 @@ void mainImage(out vec4 color, in vec2 fragCoord) {
         vec3 position = rayOrigin + depth * rayDirection;
         float distance = sampleSDF(position, smoothing);
         if (distance < max(uThreshold, 0.001)) {
-            // vec3 normal = estimateNormal(position, smoothing);
-            vec3 normal = vec3(0,1,0);
+            vec3 normal = estimateNormal(position, smoothing);
             color = vec4(distanceColor(depth, normal), 1.0);
             return;
         }
