@@ -1,126 +1,116 @@
 import * as THREE from 'three'
-import { ref, type ShallowRef } from 'vue'
-import leopardColor from '@/assets/patterns/leopard/color.jpg'
-import {
-    baseProps,
-    changeShape,
-    generateFurR,
-    loadTexture,
-    updateUniforms,
-} from '@/util/FurRendering'
-import { ShapeEnum, type FurProperties, type FurRender } from '@/types'
-import { getRay } from '@/util/GodRay'
+import type { ShallowRef } from 'vue'
+import vertexShader from '@/assets/shaders/lavaLamp/vertex.glsl?raw'
+import fragmentShader from '@/assets/shaders/lavaLamp/fragment.glsl?raw'
 import { startVisibleAnimationLoop } from '@/util/visibleAnimationLoop'
 
 export function initComponent(canva: Readonly<ShallowRef<HTMLCanvasElement | null>>) {
-    let scene: THREE.Scene | undefined
-    let camera: THREE.PerspectiveCamera | undefined
+    const uniforms = {
+        iTime: { value: 300 },
+        iResolution: { value: new THREE.Vector3(1, 1, 1) },
+        iMouse: { value: new THREE.Vector4() },
+        uSmoothing: { value: 0.1 },
+        uDepthLayerCount: { value: 3.0 },
+        uThreshold: { value: 0.5 },
+        uMaxDistance: { value: 1000 },
+        uOrbit: { value: 700 },
+        uFov: { value: 60 },
+        uTravel: { value: 0 },
+        uColorA: { value: new THREE.Color(60 / 255, 107 / 255, 87 / 255) },
+        uColorB: { value: new THREE.Color(49 / 255, 89 / 255, 105 / 255) },
+        uColorC: { value: new THREE.Color(62 / 255, 70 / 255, 101 / 255) },
+        uColorNear: { value: 300 },
+        uColorFar: { value: 1100 },
+        uFogNear: { value: 350 },
+        uFogFar: { value: 500 },
+        uBackgroundColor: { value: new THREE.Vector3(12 / 255, 23 / 255, 28 / 255) },
+    }
+
+    const scene = new THREE.Scene()
+    const camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1)
+    const geometry = new THREE.PlaneGeometry(2, 2)
+    const material = new THREE.ShaderMaterial({
+        glslVersion: THREE.GLSL3,
+        vertexShader,
+        fragmentShader,
+        uniforms,
+        depthTest: false,
+        depthWrite: false,
+    })
+    const quad = new THREE.Mesh(geometry, material)
+    quad.frustumCulled = false
+    scene.add(quad)
+
+    const pointer = new THREE.Vector2(0.5, 0.5)
+    const drawingBufferSize = new THREE.Vector2()
     let renderer: THREE.WebGLRenderer | undefined
-    const delta = ref(0)
     let stopAnimation: (() => void) | undefined
+    let travelSpeed = 0
 
-    const furs: FurRender[] = []
-    const grassRef = ref<FurProperties>(baseProps())
-    const rotationInfo = new THREE.Vector2()
-    const godRayMats: THREE.ShaderMaterial[] = []
-
-    const currentSpeed = new THREE.Vector2(0, 0)
     function movePlaine(direction: 'front' | 'back') {
-        const dir = new THREE.Vector2(0, direction == 'front' ? 1 : -1)
-        currentSpeed.add(dir.multiplyScalar(1))
-
-        rotationInfo.setX(direction == 'front' ? 0.1 : -0.1)
+        travelSpeed += direction === 'front' ? 500 : -500
     }
 
-    function lerp(from: number, to: number, t: number) {
-        const diff = to - from
-        return from + diff * t
+    function animate(delta: number) {
+        uniforms.iTime.value += delta
+        const decay = Math.exp(-5 * delta)
+        uniforms.uTravel.value += (travelSpeed * (1 - decay)) / 5
+        travelSpeed *= decay
+        renderer?.render(scene, camera)
     }
 
-    function animate(frameDelta: number) {
-        delta.value = frameDelta
+    function updateMouse(event: PointerEvent) {
+        const bounds = canva.value?.getBoundingClientRect()
+        if (!bounds || bounds.width === 0 || bounds.height === 0) return
 
-        grassRef.value.uvOffset.y += currentSpeed.y * delta.value
-        if (grassRef.value.uvOffset.y < 0) grassRef.value.uvOffset.y += 1
-        else if (grassRef.value.uvOffset.y > 1) grassRef.value.uvOffset.y -= 1
-        currentSpeed.y = lerp(currentSpeed.y, 0, delta.value * 10)
-
-        moved(delta.value, rotationInfo)
-        rotationInfo.setX(0)
-        rotationInfo.setY(0)
-
-        furs.forEach((fur) => {
-            updateUniforms(fur)
-        })
-
-        godRayMats.forEach((ray) => {
-            ray.uniforms.delta.value += delta.value * 0.01
-        })
-
-        if (scene && camera) renderer?.render(scene, camera)
-    }
-
-    function initRender(canva: HTMLCanvasElement, context: WebGL2RenderingContext) {
-        scene = new THREE.Scene()
-        camera = new THREE.PerspectiveCamera(75, canva.width / canva.height, 0.1, 1000)
-        renderer = new THREE.WebGLRenderer({ canvas: canva, context })
-        renderer.setSize(canva.width, canva.height)
-
-        stopAnimation = startVisibleAnimationLoop(renderer, animate)
-
-        renderer.setClearColor(new THREE.Color(31 / 255, 71 / 255, 59 / 255)) //0.196, 0.557, 0.431))
-
-        camera?.translateZ(1)
-
-        // canva.addEventListener('mousemove', handleMouseMotion)
-    }
-
-    function initScene(layerCount: number, totalHeight: number) {
-        grassRef.value.scale = 400
-        grassRef.value.threshold = 0.1
-        grassRef.value.displacementStrength = 0.01
-        grassRef.value.thicknessBot = 1
-        grassRef.value.thicknessTop = 0.8
-        grassRef.value.totalHeight = totalHeight
-        grassRef.value.nbInstances = layerCount
-        grassRef.value.colors[0].color = new THREE.Vector3(0.078, 0.22, 0.173)
-        grassRef.value.colors[1].color = new THREE.Vector3(0.325, 0.569, 0.235)
-        grassRef.value.applyFog = true
-
-        const grassGeo = new THREE.PlaneGeometry(10, 10)
-            .rotateX(THREE.MathUtils.degToRad(-90))
-            .translate(0, -0.5, 0.5)
-        const furRender = generateFurR(
-            grassGeo,
-            grassRef.value,
-            renderer?.getClearColor(new THREE.Color()),
+        pointer.set(
+            THREE.MathUtils.clamp((event.clientX - bounds.left) / bounds.width, 0, 1),
+            THREE.MathUtils.clamp(1 - (event.clientY - bounds.top) / bounds.height, 0, 1),
         )
-        changeShape(furRender, ShapeEnum.ROUND)
-        updateUniforms(furRender)
-        scene?.add(furRender.fur)
-        furs.push(furRender)
-        loadTexture(furRender, leopardColor, 'colorTexture')
+        const mouse = uniforms.iMouse.value
+        const resolution = uniforms.iResolution.value
+        mouse.x = pointer.x * resolution.x
+        mouse.y = pointer.y * resolution.y
+        if (event.type === 'pointerdown') {
+            mouse.z = mouse.x
+            mouse.w = mouse.y
+        } else if (event.type === 'pointerup' || event.type === 'pointercancel') {
+            mouse.z = -Math.abs(mouse.z)
+            mouse.w = -Math.abs(mouse.w)
+        }
+    }
+
+    function resize(width: number, height: number) {
+        if (!renderer) return
+        renderer.setSize(Math.max(1, width), Math.max(1, height), false)
+        renderer.getDrawingBufferSize(drawingBufferSize)
+        uniforms.iResolution.value.set(drawingBufferSize.x, drawingBufferSize.y, 1)
+        uniforms.iMouse.value.x = pointer.x * drawingBufferSize.x
+        uniforms.iMouse.value.y = pointer.y * drawingBufferSize.y
+    }
+
+    function initRender(canvas: HTMLCanvasElement, context: WebGL2RenderingContext) {
+        renderer = new THREE.WebGLRenderer({
+            canvas,
+            context,
+            antialias: false,
+            depth: false,
+            stencil: false,
+        })
+        resize(window.innerWidth, window.innerHeight)
+        renderer.render(scene, camera)
+        stopAnimation = startVisibleAnimationLoop(renderer, animate)
     }
 
     function dispose() {
         stopAnimation?.()
         stopAnimation = undefined
+        geometry.dispose()
+        material.dispose()
+        scene.clear()
         renderer?.dispose()
+        renderer = undefined
     }
 
-    function moved(delta: number, direction: THREE.Vector2) {
-        furs.forEach((fur) => {
-            fur.properties.rotationalForce = fur.furPhysic.update(delta, direction)
-        })
-    }
-
-    function resize(width: number, height: number) {
-        if (!camera) return
-        camera.aspect = width / height
-        camera.updateProjectionMatrix()
-
-        renderer?.setSize(width, height)
-    }
-
-    return { canva, delta, camera, movePlaine, initRender, initScene, dispose, resize }
+    return { uniforms, movePlaine, updateMouse, initRender, dispose, resize }
 }
