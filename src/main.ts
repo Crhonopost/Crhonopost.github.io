@@ -353,7 +353,7 @@ const i18n = createI18n({
                 august: 'août',
             },
             titles: {
-                about: 'à propos',
+                about: 'salut',
                 background: 'parcours',
                 studies: 'formation',
                 professional: 'expériences professionnelles',
